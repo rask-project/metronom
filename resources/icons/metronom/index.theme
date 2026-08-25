@@ -1,0 +1,9 @@
+[Icon Theme]
+Name=Metronom
+Comment=Metronom Icons
+
+Directories=svg
+
+[svg]
+Size=24
+Type=Scalable
