@@ -8,8 +8,10 @@ list(APPEND ICONS_SRC
     metronom/svg/thirty-second-note.svg
     metronom/svg/pause.svg
     metronom/svg/play.svg
+    metronom/svg/arrow-down-double.svg
     metronom/svg/arrow-down.svg
     metronom/svg/arrow-up.svg
+    metronom/svg/arrow-up-double.svg
 )
 
 qt_add_resources(${TARGET_NAME} "icons"

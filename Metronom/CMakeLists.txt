@@ -6,7 +6,9 @@ qt_add_qml_module(metronom_qml
         Metronome.h
         Metronome.cpp
     QML_FILES
+        AudioDeviceSelector.qml
         BpmControl.qml
+        Metronom.qml
         NoteValueSelector.qml
         Transport.qml
 )

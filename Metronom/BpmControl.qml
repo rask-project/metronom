@@ -2,46 +2,80 @@ import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls
 
-RowLayout {
+ColumnLayout {
     id: root
 
-    property Metronome metronome
+    required property Metronome metronome
+    readonly property bool enableDecrease: metronome.bpm > metronome.tempoMarkings[0]
+    readonly property bool enableIncrease: metronome.bpm < metronome.tempoMarkings[metronome.tempoMarkings.length - 1]
 
-    spacing: 12
-
-    RoundButton {
-        Layout.preferredWidth: 44
-        Layout.preferredHeight: 44
-
-        icon.name: "arrow-down"
-        onClicked: metronome.decreaseBpm()
-    }
-
-    ColumnLayout {
+    RowLayout {
         Layout.fillWidth: true
         Layout.alignment: Qt.AlignHCenter
 
-        spacing: 0
+        RoundButton {
+            enabled: root.enableDecrease
+
+            Layout.preferredWidth: 44
+            Layout.preferredHeight: 44
+
+            flat: true
+            icon.name: "arrow-down-double"
+            onClicked: metronome.previousTempoMarking()
+        }
+
+        RoundButton {
+            enabled: root.enableDecrease
+            Layout.preferredWidth: 44
+            Layout.preferredHeight: 44
+
+            icon.name: "arrow-down"
+            onClicked: metronome.decreaseBpm()
+        }
 
         Label {
+            Layout.preferredWidth: 150
+
             text: metronome.bpm
             font.pointSize: 48
             horizontalAlignment: Text.AlignHCenter
         }
 
-        Label {
-            Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
-            text: qsTr("BPM")
-            font.pointSize: 16
-            opacity: 0.6
+        RoundButton {
+            enabled: root.enableIncrease
+
+            Layout.preferredWidth: 44
+            Layout.preferredHeight: 44
+
+            icon.name: "arrow-up"
+            onClicked: metronome.increaseBpm()
+        }
+
+        RoundButton {
+            enabled: root.enableIncrease
+
+            Layout.preferredWidth: 44
+            Layout.preferredHeight: 44
+
+            flat: true
+            icon.name: "arrow-up-double"
+            onClicked: metronome.nextTempoMarking()
         }
     }
 
-    RoundButton {
-        Layout.preferredWidth: 44
-        Layout.preferredHeight: 44
+    Label {
+        Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
 
-        icon.name: "arrow-up"
-        onClicked: metronome.increaseBpm()
+        text: qsTr("BPM")
+        font.pointSize: 16
+        opacity: 0.6
+    }
+
+    Label {
+        Layout.alignment: Qt.AlignHCenter
+
+        text: metronome.tempoMarking
+        font.pointSize: 10
+        opacity: 0.6
     }
 }
