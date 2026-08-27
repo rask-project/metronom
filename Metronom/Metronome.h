@@ -18,6 +18,8 @@ class Metronome : public QObject
     QML_ELEMENT
 
     Q_PROPERTY(int bpm READ bpm WRITE setBpm NOTIFY bpmChanged)
+    Q_PROPERTY(int minBpm READ minBpm CONSTANT)
+    Q_PROPERTY(int maxBpm READ maxBpm CONSTANT)
     Q_PROPERTY(NoteValue noteValue READ noteValue WRITE setNoteValue NOTIFY noteValueChanged)
     Q_PROPERTY(bool running READ running NOTIFY runningChanged)
     Q_PROPERTY(int currentBeat READ currentBeat NOTIFY currentBeatChanged)
@@ -25,7 +27,8 @@ class Metronome : public QObject
     Q_PROPERTY(QList<int> tempoMarkings READ tempoMarkings CONSTANT)
     Q_PROPERTY(QString tempoMarking READ tempoMarking NOTIFY bpmChanged)
     Q_PROPERTY(QList<QString> audioDeviceNames READ audioDeviceNames CONSTANT)
-    Q_PROPERTY(int currentAudioDevice READ currentAudioDevice WRITE setCurrentAudioDevice NOTIFY currentAudioDeviceChanged)
+    Q_PROPERTY(int currentAudioDevice READ currentAudioDevice WRITE setCurrentAudioDevice NOTIFY
+                   currentAudioDeviceChanged)
 
 public:
     enum NoteValue : quint8 {
@@ -41,6 +44,8 @@ public:
 
     int bpm() const;
     void setBpm(int bpm);
+    int minBpm() const;
+    int maxBpm() const;
 
     NoteValue noteValue() const;
     void setNoteValue(NoteValue noteValue);
@@ -73,22 +78,18 @@ private:
     int subdivision() const;
     double tickIntervalSeconds() const;
     void resetScheduler();
-    template <typename T>
-    void fillSamplesT(T *data, int count);
-    template <typename T>
-    void writeClickT(T *data, int frameCount, int offset, const std::vector<float> &click);
-    static std::vector<float> renderClick(double freq, double durationSeconds, double decaySeconds, double amplitude,
-                                          int sampleRate);
+    template <typename T> void fillSamplesT(T *data, int count);
+    template <typename T> void writeClickT(T *data, int frameCount, int offset, const std::vector<float> &click);
+    static std::vector<float>
+    renderClick(double freq, double durationSeconds, double decaySeconds, double amplitude, int sampleRate);
     QAudioDevice deviceAt(int index) const;
     int defaultDeviceIndex() const;
     void rebuildAudio();
 
-    static constexpr int MinBpm = 20;
-    static constexpr int MaxBpm = 300;
-    static constexpr int SampleRate = 44100;
-    static constexpr int BeatsPerBar = 4;
-    static constexpr std::array<int, 9> TempoMarkings{40, 60, 66, 76, 108, 120, 168, 184, 208};
-    static constexpr std::array<const char *, 9> TempoMarkingNames{
+    static constexpr int sampleRate = 44100;
+    static constexpr int beatsPerBar = 4;
+    static constexpr std::array<int, 9> tempoMarkingsValues{40, 60, 66, 76, 108, 120, 168, 184, 208};
+    static constexpr std::array<const char *, 9> tempoMarkingNames{
         "Largo",
         "Larghetto",
         "Adagio",
@@ -103,7 +104,7 @@ private:
     QList<QAudioDevice> m_devices;
     int m_currentDevice = 0;
     QAudioFormat m_format;
-    int m_sampleRate = SampleRate;
+    int m_sampleRate = sampleRate;
     int m_channelCount = 2;
     std::vector<float> m_strongClick;
     std::vector<float> m_weakClick;

@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.16)
 
-project(Metronom VERSION 0.1 LANGUAGES CXX)
+project(Metronom VERSION 1.0.0 LANGUAGES CXX)
 
 set(TARGET_NAME metronom)
 
@@ -24,6 +24,9 @@ qt_add_qml_module(${TARGET_NAME}
     IMPORTS TARGET metronom_qml
 )
 
+set_source_files_properties(Main.qml
+    PROPERTIES QT_QML_GENERATE_ANDROID_JAVA_CLASS TRUE)
+
 qt_import_qml_plugins(${TARGET_NAME})
 
 add_subdirectory(resources/icons)
@@ -37,6 +40,9 @@ set_target_properties(${TARGET_NAME} PROPERTIES
     MACOSX_BUNDLE_SHORT_VERSION_STRING ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}
     MACOSX_BUNDLE TRUE
     WIN32_EXECUTABLE TRUE
+    QT_ANDROID_PACKAGE_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/android"
+    QT_ANDROID_APP_ICON "@mipmap/ic_launcher"
+    QT_ANDROID_APP_NAME "Rask Metronom"
 )
 
 target_link_libraries(${TARGET_NAME}

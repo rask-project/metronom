@@ -23,6 +23,8 @@ constexpr double kStrongDecaySeconds = 0.0025;
 constexpr double kWeakDecaySeconds = 0.002;
 constexpr double kStrongAmplitude = 0.9;
 constexpr double kWeakAmplitude = 0.55;
+constexpr int kMinBpm = 40;
+constexpr int kMaxBpm = 300;
 
 template <typename T> float toNormalized(T value)
 {
@@ -85,7 +87,8 @@ Metronome::renderClick(double freq, double durationSeconds, double decaySeconds,
 
 Metronome::Metronome(QObject *parent)
     : QObject(parent)
-    , m_devices(QMediaDevices::audioOutputs()), m_currentDevice(defaultDeviceIndex())
+    , m_devices(QMediaDevices::audioOutputs())
+    , m_currentDevice(defaultDeviceIndex())
 {
 
     rebuildAudio();
@@ -120,7 +123,8 @@ void Metronome::rebuildAudio()
     m_format = chooseFormat(device);
     m_sampleRate = m_format.sampleRate();
     m_channelCount = m_format.channelCount();
-    m_strongClick = renderClick(kStrongFreq, kStrongDurationSeconds, kStrongDecaySeconds, kStrongAmplitude, m_sampleRate);
+    m_strongClick =
+        renderClick(kStrongFreq, kStrongDurationSeconds, kStrongDecaySeconds, kStrongAmplitude, m_sampleRate);
     m_weakClick = renderClick(kWeakFreq, kWeakDurationSeconds, kWeakDecaySeconds, kWeakAmplitude, m_sampleRate);
     m_tickIntervalSamples = tickIntervalSeconds() * m_sampleRate;
     m_sink = std::make_unique<QAudioSink>(device, m_format);
@@ -168,7 +172,7 @@ int Metronome::bpm() const
 
 void Metronome::setBpm(int bpm)
 {
-    const int clamped = std::clamp(bpm, MinBpm, MaxBpm);
+    const int clamped = std::clamp(bpm, kMinBpm, kMaxBpm);
     if (clamped == m_bpm) {
         return;
     }
@@ -176,6 +180,16 @@ void Metronome::setBpm(int bpm)
     m_bpm = clamped;
     m_tickIntervalSamples = tickIntervalSeconds() * m_sampleRate;
     emit bpmChanged();
+}
+
+int Metronome::minBpm() const
+{
+    return kMinBpm;
+}
+
+int Metronome::maxBpm() const
+{
+    return kMaxBpm;
 }
 
 Metronome::NoteValue Metronome::noteValue() const
@@ -205,7 +219,7 @@ int Metronome::currentBeat() const
 
 int Metronome::beatsPerMeasure() const
 {
-    return BeatsPerBar * subdivision();
+    return beatsPerBar * subdivision();
 }
 
 template <typename T> void Metronome::writeClickT(T *data, int frameCount, int offset, const std::vector<float> &click)
@@ -304,33 +318,33 @@ void Metronome::decreaseBpm()
 
 QList<int> Metronome::tempoMarkings() const
 {
-    return QList<int>(std::begin(TempoMarkings), std::end(TempoMarkings));
+    return QList<int>(std::begin(tempoMarkingsValues), std::end(tempoMarkingsValues));
 }
 
 void Metronome::nextTempoMarking()
 {
-    const auto it = std::ranges::upper_bound(TempoMarkings, m_bpm);
-    if (it != std::ranges::end(TempoMarkings)) {
+    const auto it = std::ranges::upper_bound(tempoMarkingsValues, m_bpm);
+    if (it != std::ranges::end(tempoMarkingsValues)) {
         setBpm(*it);
     }
 }
 
 void Metronome::previousTempoMarking()
 {
-    const auto it = std::ranges::lower_bound(TempoMarkings, m_bpm);
-    if (it != std::ranges::begin(TempoMarkings)) {
+    const auto it = std::ranges::lower_bound(tempoMarkingsValues, m_bpm);
+    if (it != std::ranges::begin(tempoMarkingsValues)) {
         setBpm(*std::prev(it));
     }
 }
 
 QString Metronome::tempoMarking() const
 {
-    static_assert(std::size(TempoMarkings) == TempoMarkingNames.size());
+    static_assert(std::size(tempoMarkingsValues) == tempoMarkingNames.size());
 
-    const auto begin = std::ranges::begin(TempoMarkings);
-    const auto it = std::ranges::upper_bound(TempoMarkings, m_bpm);
+    const auto begin = std::ranges::begin(tempoMarkingsValues);
+    const auto it = std::ranges::upper_bound(tempoMarkingsValues, m_bpm);
     const int index = (it == begin) ? 0 : static_cast<int>(it - begin) - 1;
-    return QString::fromUtf8(TempoMarkingNames[index]);
+    return QString::fromUtf8(tempoMarkingNames[index]);
 }
 
 int Metronome::subdivision() const

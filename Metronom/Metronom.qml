@@ -6,15 +6,8 @@ import QtQuick.Effects
 
 Item {
     id: _qt_node0
-    implicitWidth: 124
-    implicitHeight: 124
-    required property Metronome metronome
 
-    component AnimationsInfo: QtObject {
-        property bool paused: false
-        property int loops: 1
-        signal restart
-    }
+    required property Metronome metronome
 
     property AnimationsInfo animations: AnimationsInfo {}
     transform: [
@@ -23,6 +16,15 @@ Item {
             yScale: height / 481.6
         }
     ]
+
+    component AnimationsInfo: QtObject {
+        property bool paused: false
+        property int loops: 1
+        signal restart
+    }
+
+    implicitWidth: 124
+    implicitHeight: 124
 
     objectName: "Layer_1"
     transformOrigin: Item.TopLeft
