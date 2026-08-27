@@ -134,4 +134,9 @@ ApplicationWindow {
             }
         ]
     }
+
+    Shortcut {
+        sequences: [StandardKey.Close, StandardKey.Quit]
+        onActivated: Qt.quit()
+    }
 }
