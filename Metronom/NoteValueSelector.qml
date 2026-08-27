@@ -9,31 +9,77 @@ Row {
 
     spacing: 16
 
-    RoundButton {
-        icon.name: "quarter-note"
+    NoteValueButton {
+        metronome: root.metronome
+        iconName: "quarter-note"
+        label: qsTr("Quarter")
 
-        highlighted: metronome.noteValue === Metronome.Quarter
-        onClicked: metronome.noteValue = Metronome.Quarter
+        highlighted: root.metronome.noteValue === Metronome.Quarter
+        onClicked: root.metronome.noteValue = Metronome.Quarter
     }
 
-    RoundButton {
-        icon.name: "eighth-note"
+    NoteValueButton {
+        metronome: root.metronome
+        iconName: "eighth-note"
+        label: qsTr("Eighth")
 
-        highlighted: metronome.noteValue === Metronome.Eighth
-        onClicked: metronome.noteValue = Metronome.Eighth
+        highlighted: root.metronome.noteValue === Metronome.Eighth
+        onClicked: root.metronome.noteValue = Metronome.Eighth
     }
 
-    RoundButton {
-        icon.name: "sixteenth-note"
+    NoteValueButton {
+        metronome: root.metronome
+        iconName: "sixteenth-note"
+        label: qsTr("Sixteenth")
 
-        highlighted: metronome.noteValue === Metronome.Sixteenth
-        onClicked: metronome.noteValue = Metronome.Sixteenth
+        highlighted: root.metronome.noteValue === Metronome.Sixteenth
+        onClicked: root.metronome.noteValue = Metronome.Sixteenth
     }
 
-    RoundButton {
-        icon.name: "thirty-second-note"
+    NoteValueButton {
+        metronome: root.metronome
+        iconName: "thirty-second-note"
+        label: qsTr("Thirty Second")
 
-        highlighted: metronome.noteValue === Metronome.ThirtySecond
-        onClicked: metronome.noteValue = Metronome.ThirtySecond
+        highlighted: root.metronome.noteValue === Metronome.ThirtySecond
+        onClicked: root.metronome.noteValue = Metronome.ThirtySecond
+    }
+
+    component NoteValueButton: Column {
+        id: control
+
+        required property Metronome metronome
+        required property string iconName
+        required property string label
+        required property bool highlighted
+
+        signal clicked
+
+        width: 72
+        spacing: 5
+
+        Button {
+            id: noteButton
+
+            icon.name: control.iconName
+
+            anchors.horizontalCenter: parent.horizontalCenter
+
+            flat: true
+            highlighted: control.highlighted
+            onClicked: control.clicked()
+        }
+
+        Label {
+            id: noteLabel
+
+            width: parent.width
+            text: control.label
+            color: control.highlighted ? Material.accent : Material.foreground
+
+            font.weight: Font.Light
+            wrapMode: Text.WordWrap
+            horizontalAlignment: Text.AlignHCenter
+        }
     }
 }
