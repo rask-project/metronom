@@ -210,10 +210,11 @@ void ScreenLockInhibitor::setX11Inhibited(bool inhibited)
     for (const char *name : {"_NET_WM_INHIBIT_CLIENT", "_NET_WM_INHIBIT_SCREEN"}) {
         const xcb_intern_atom_cookie_t cookie =
             xcb_intern_atom(connection, 0, static_cast<uint8_t>(std::strlen(name)), name);
-        xcb_intern_atom_reply_t *reply = xcb_intern_atom_reply(connection, cookie, nullptr);
+        std::unique_ptr<xcb_intern_atom_reply_t, decltype(&free)> reply(
+            xcb_intern_atom_reply(connection, cookie, nullptr),
+            &free);
         if (reply != nullptr) {
             xcb_change_property(connection, XCB_PROP_MODE_REPLACE, xid, reply->atom, XCB_ATOM_CARDINAL, 32, 1, &value);
-            free(reply);
         }
     }
     xcb_flush(connection);
@@ -236,7 +237,8 @@ void ScreenLockInhibitor::setWaylandInhibited(bool inhibited)
     wl_display_flush(m_waylandDisplay.get());
 }
 
-static uint32_t callInhibit(const char *service, const char *path, const char *interface, const char *method)
+namespace {
+uint32_t callInhibit(const char *service, const char *path, const char *interface, const char *method)
 {
     const QDBusConnection connection = QDBusConnection::sessionBus();
     if (!connection.isConnected()) {
@@ -244,11 +246,11 @@ static uint32_t callInhibit(const char *service, const char *path, const char *i
     }
     QDBusMessage message = QDBusMessage::createMethodCall(service, path, interface, method);
     message.setArguments({"Metronom", "Metronome is playing"});
-    QDBusReply<uint32_t> reply = connection.call(message, QDBus::Block, 2000);
+    const QDBusReply<uint32_t> reply = connection.call(message, QDBus::Block, 2000);
     return reply.isValid() ? reply.value() : 0;
 }
 
-static void callUninhibit(const char *service, const char *path, const char *interface, const char *method, uint32_t cookie)
+void callUninhibit(const char *service, const char *path, const char *interface, const char *method, uint32_t cookie)
 {
     const QDBusConnection connection = QDBusConnection::sessionBus();
     if (!connection.isConnected() || cookie == 0) {
@@ -258,6 +260,7 @@ static void callUninhibit(const char *service, const char *path, const char *int
     message.setArguments({cookie});
     connection.call(message, QDBus::Block, 2000);
 }
+} // namespace
 
 void ScreenLockInhibitor::setDbusInhibited(bool inhibited)
 {

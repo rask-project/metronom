@@ -7,6 +7,7 @@
 #include <QMediaDevices>
 #include <QSpan>
 #include <algorithm>
+#include <array>
 #include <cmath>
 #include <cstdint>
 #include <iterator>
@@ -45,9 +46,9 @@ template <typename T> T fromNormalized(float value)
 
 QAudioFormat chooseFormat(const QAudioDevice &device)
 {
-    static constexpr int sampleRates[] = {44100, 48000, 44000, 32000, 22050, 16000, 8000};
-    static constexpr int channelCounts[] = {2, 1};
-    static constexpr QAudioFormat::SampleFormat sampleFormats[] = {QAudioFormat::Int16, QAudioFormat::Float};
+    static constexpr std::array<int, 7> sampleRates{44100, 48000, 44000, 32000, 22050, 16000, 8000};
+    static constexpr std::array<int, 2> channelCounts{2, 1};
+    static constexpr std::array<QAudioFormat::SampleFormat, 2> sampleFormats{QAudioFormat::Int16, QAudioFormat::Float};
 
     for (const int rate : sampleRates) {
         for (const int channels : channelCounts) {
@@ -68,6 +69,7 @@ QAudioFormat chooseFormat(const QAudioDevice &device)
 } // namespace
 
 std::vector<float>
+// NOLINTNEXTLINE(bugprone-easily-swappable-parameters)
 Metronome::renderClick(double freq, double durationSeconds, double decaySeconds, double amplitude, int sampleRate)
 {
     const int samples = static_cast<int>(sampleRate * durationSeconds);
@@ -222,6 +224,7 @@ int Metronome::beatsPerMeasure() const
     return beatsPerBar * subdivision();
 }
 
+// NOLINTNEXTLINE(bugprone-easily-swappable-parameters)
 template <typename T> void Metronome::writeClickT(T *data, int frameCount, int offset, const std::vector<float> &click)
 {
     for (std::size_t i = 0; i < click.size(); ++i) {
