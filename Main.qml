@@ -7,18 +7,20 @@ import Metronom
 ApplicationWindow {
     id: window
 
-    minimumWidth: 380
-    minimumHeight: 600
-    maximumWidth: 800
-    maximumHeight: 600
-
-    visible: true
     title: qsTr("Rask Metronom")
 
     readonly property bool isLandscape: width > height && width >= layout.anchors.leftMargin + layout.anchors.rightMargin + bpmControl.implicitWidth + Math.max(noteValueSelector.implicitWidth, transport.implicitWidth)
 
     Material.theme: Material.Dark
     Material.background: "#000000"
+
+    onVisibleChanged: {
+        if (visible) {
+            return;
+        }
+
+        Qt.callLater(Qt.quit);
+    }
 
     Metronome {
         id: metronome
@@ -39,6 +41,10 @@ ApplicationWindow {
         }
 
         window.flags |= Qt.WindowMaximizeButtonHint;
+        window.minimumWidth = 380;
+        window.minimumHeight = 600;
+        window.maximumWidth = 800;
+        window.maximumHeight = 600;
     }
 
     GridLayout {

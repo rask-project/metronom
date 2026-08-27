@@ -7,7 +7,7 @@ import QtQuick.Effects
 Item {
     id: _qt_node0
 
-    required property Metronome metronome
+    required property var metronome
 
     property AnimationsInfo animations: AnimationsInfo {}
     transform: [

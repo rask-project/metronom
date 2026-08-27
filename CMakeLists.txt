@@ -22,6 +22,7 @@ qt_add_qml_module(${TARGET_NAME}
     URI App
     QML_FILES
         Main.qml
+        Splash.qml
     IMPORTS TARGET metronom_qml
 )
 

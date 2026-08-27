@@ -32,6 +32,7 @@ template <typename T> float toNormalized(T value)
     if constexpr (std::is_same_v<T, float>) {
         return value;
     }
+
     return static_cast<float>(value) / 32768.0f;
 }
 
@@ -40,6 +41,7 @@ template <typename T> T fromNormalized(float value)
     if constexpr (std::is_same_v<T, float>) {
         return qBound(-1.0f, value, 1.0f);
     }
+
     const int clamped = qBound(-32768, static_cast<int>(std::lround(value * 32767.0f)), 32767);
     return static_cast<qint16>(clamped);
 }
@@ -57,6 +59,7 @@ QAudioFormat chooseFormat(const QAudioDevice &device)
                 format.setSampleRate(rate);
                 format.setChannelCount(channels);
                 format.setSampleFormat(sampleFormat);
+
                 if (device.isFormatSupported(format)) {
                     return format;
                 }
@@ -75,6 +78,7 @@ Metronome::renderClick(double freq, double durationSeconds, double decaySeconds,
     const int samples = static_cast<int>(sampleRate * durationSeconds);
     std::vector<float> click(samples);
     uint32_t seed = 1;
+
     for (int i = 0; i < samples; ++i) {
         const double t = static_cast<double>(i) / sampleRate;
         const double envelope = std::exp(-t / decaySeconds);
@@ -84,6 +88,7 @@ Metronome::renderClick(double freq, double durationSeconds, double decaySeconds,
         const double sample = (0.6 * tone) + (0.4 * noise);
         click[i] = static_cast<float>(sample * envelope * amplitude);
     }
+
     return click;
 }
 
@@ -92,7 +97,6 @@ Metronome::Metronome(QObject *parent)
     , m_devices(QMediaDevices::audioOutputs())
     , m_currentDevice(defaultDeviceIndex())
 {
-
     rebuildAudio();
 }
 
@@ -152,16 +156,21 @@ void Metronome::setCurrentAudioDevice(int index)
     if (index < 0 || index >= m_devices.size()) {
         return;
     }
+
     if (index == m_currentDevice) {
         return;
     }
+
     const bool wasRunning = m_running;
     if (wasRunning) {
         stop();
     }
+
     m_currentDevice = index;
     rebuildAudio();
+
     emit currentAudioDeviceChanged();
+
     if (wasRunning) {
         start();
     }
@@ -204,6 +213,7 @@ void Metronome::setNoteValue(NoteValue noteValue)
     if (noteValue == m_noteValue) {
         return;
     }
+
     m_noteValue = noteValue;
     m_tickIntervalSamples = tickIntervalSeconds() * m_sampleRate;
     emit noteValueChanged();
@@ -233,6 +243,7 @@ template <typename T> void Metronome::writeClickT(T *data, int frameCount, int o
             m_pendingTail.assign(click.begin() + static_cast<std::ptrdiff_t>(i), click.end());
             return;
         }
+
         for (int c = 0; c < m_channelCount; ++c) {
             const int index = (pos * m_channelCount) + c;
             data[index] = fromNormalized<T>(toNormalized<T>(data[index]) + click[i]);
@@ -250,6 +261,7 @@ template <typename T> void Metronome::fillSamplesT(T *data, int count)
             data[(i * m_channelCount) + c] = fromNormalized<T>(m_pendingTail[i]);
         }
     }
+
     m_pendingTail.clear();
 
     const double bufferStart = static_cast<double>(m_framesWritten);
@@ -262,11 +274,13 @@ template <typename T> void Metronome::fillSamplesT(T *data, int count)
             const bool strong = (m_beatIndex % measure) == 0;
             writeClickT<T>(data, frameCount, offset, strong ? m_strongClick : m_weakClick);
         }
+
         const int beat = m_beatIndex % measure;
         if (beat != m_currentBeat) {
             m_currentBeat = beat;
             emit currentBeatChanged();
         }
+
         m_nextTickSample += m_tickIntervalSamples;
         m_beatIndex++;
     }
@@ -299,6 +313,7 @@ void Metronome::start()
             fillSamplesT<float>(samples.data(), static_cast<int>(samples.size()));
         });
     }
+
     emit runningChanged();
     emit currentBeatChanged();
 }
