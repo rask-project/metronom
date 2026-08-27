@@ -276,13 +276,17 @@ void Metronome::start()
     if (m_running) {
         return;
     }
+
     if (m_format.sampleFormat() != QAudioFormat::Int16 && m_format.sampleFormat() != QAudioFormat::Float) {
         qWarning() << "Unsupported audio sample format";
         return;
     }
+
     resetScheduler();
     m_running = true;
+    m_screenLock.setInhibited(true);
     m_currentBeat = 0;
+
     if (m_format.sampleFormat() == QAudioFormat::Int16) {
         m_sink->start([this](QSpan<qint16> samples) {
             fillSamplesT<qint16>(samples.data(), static_cast<int>(samples.size()));
@@ -301,7 +305,10 @@ void Metronome::stop()
     if (!m_running) {
         return;
     }
+
     m_running = false;
+    m_screenLock.setInhibited(false);
+
     m_sink->stop();
     emit runningChanged();
 }

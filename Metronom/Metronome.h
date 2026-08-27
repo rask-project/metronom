@@ -1,5 +1,7 @@
 #pragma once
 
+#include "ScreenLockInhibitor.h"
+
 #include <QAudioDevice>
 #include <QAudioFormat>
 #include <QList>
@@ -113,6 +115,7 @@ private:
     double m_nextTickSample = 0.0;
     double m_tickIntervalSamples = 0.0;
     qint64 m_framesWritten = 0;
+    ScreenLockInhibitor m_screenLock;
     int m_bpm = 120;
     int m_currentBeat = 0;
     int m_beatIndex = 0;

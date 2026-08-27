@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.16)
 
-project(Metronom VERSION 1.0.0 LANGUAGES CXX)
+project(Metronom VERSION 1.0.0 LANGUAGES C CXX)
 
 set(TARGET_NAME metronom)
 
@@ -8,6 +8,7 @@ set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(Qt6 6.10 REQUIRED COMPONENTS Quick Multimedia QmlIntegration)
+find_package(Qt6 6.10 COMPONENTS DBus)
 
 qt_standard_project_setup(REQUIRES 6.10)
 
