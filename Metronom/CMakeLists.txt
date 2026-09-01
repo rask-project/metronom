@@ -7,9 +7,12 @@ qt_add_qml_module(metronom_qml
         Metronome.cpp
         ScreenLockInhibitor.h
         ScreenLockInhibitor.cpp
+        LanguageManager.h
+        LanguageManager.cpp
     QML_FILES
         AudioDeviceSelector.qml
         BpmControl.qml
+        LanguageSelector.qml
         Metronom.qml
         NoteValueSelector.qml
         Transport.qml

@@ -2,6 +2,7 @@
 #include <QIcon>
 #include <QLocale>
 #include <QQmlApplicationEngine>
+#include <QSettings>
 #include <QTranslator>
 
 int main(int argc, char *argv[])
@@ -12,20 +13,19 @@ int main(int argc, char *argv[])
     QCoreApplication::setApplicationVersion(QStringLiteral("1.0.0"));
 
     QGuiApplication app(argc, argv);
-    const QLocale systemLocale = QLocale::system();
-    QLocale::setDefault(systemLocale);
-
     QGuiApplication::setWindowIcon(QIcon(":/resources/logo.png"));
 
+    const QString chosenLanguage = QSettings().value("language").toString();
+    const QLocale locale = chosenLanguage.isEmpty() ? QLocale::system() : QLocale(chosenLanguage);
+    QLocale::setDefault(locale);
+
     QTranslator translator;
-    if (translator.load(
-            systemLocale,
-            QStringLiteral("metronom"),
-            QString(),
-            QStringLiteral("/i18n"),
-            QStringLiteral(".qm")
-        )) {
+    const QString qmPath = QStringLiteral(":/i18n/metronom_") + locale.name() + QStringLiteral(".qm");
+    if (translator.load(qmPath)) {
         app.installTranslator(&translator);
+        qInfo().noquote() << "Translation loaded:" << locale.name();
+    } else {
+        qWarning().noquote() << "No translation for locale:" << locale.name();
     }
 
     QQmlApplicationEngine engine;

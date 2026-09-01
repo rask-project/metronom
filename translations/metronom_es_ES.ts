@@ -18,11 +18,34 @@
     </message>
 </context>
 <context>
+    <name>LanguageSelector</name>
+    <message>
+        <location filename="../Metronom/LanguageSelector.qml" line="13"/>
+        <source>Language</source>
+        <translation>Idioma</translation>
+    </message>
+    <message>
+        <location filename="../Metronom/LanguageSelector.qml" line="30"/>
+        <source>To change the language, you need to restart the application.</source>
+        <translation>Para cambiar el idioma, es necesario reiniciar la aplicación.</translation>
+    </message>
+</context>
+<context>
     <name>Main</name>
     <message>
         <location filename="../Main.qml" line="10"/>
         <source>Rask Metronom</source>
         <translation>Rask Metronom</translation>
+    </message>
+    <message>
+        <location filename="../Main.qml" line="186"/>
+        <source>Settings</source>
+        <translation>Ajustes</translation>
+    </message>
+    <message>
+        <location filename="../Main.qml" line="194"/>
+        <source>Save the BPM and note value</source>
+        <translation>Guardar el BPM y la división rítmica</translation>
     </message>
 </context>
 <context>

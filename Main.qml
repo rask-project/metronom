@@ -38,14 +38,15 @@ ApplicationWindow {
 
         property bool autoSave: true
         property int bpm: 120
+        property int noteValue: 0
 
         Component.onCompleted: {
-            console.debug(this, autoSave, bpm);
             if (!appSettings.autoSave) {
                 return;
             }
 
             metronome.bpm = appSettings.bpm;
+            metronome.noteValue = appSettings.noteValue;
         }
     }
 
@@ -80,6 +81,7 @@ ApplicationWindow {
         }
 
         appSettings.bpm = metronome.bpm;
+        appSettings.noteValue = metronome.noteValue;
     }
 
     GridLayout {
@@ -176,7 +178,7 @@ ApplicationWindow {
     Dialog {
         id: settingsDialog
 
-        width: window.width > 400 ? 400 : window.width * 0.85
+        width: window.width > 450 ? 450 : window.width * 0.95
         topPadding: 48
         padding: 32
 
@@ -192,10 +194,19 @@ ApplicationWindow {
             SwitchDelegate {
                 Layout.fillWidth: true
 
-                text: qsTr("Save the BPM")
+                text: qsTr("Save the BPM and note value")
 
                 checked: appSettings.autoSave
                 onCheckedChanged: appSettings.autoSave = checked
+            }
+
+            LanguageSelector {
+                Layout.fillWidth: true
+                Layout.alignment: Qt.AlignHCenter
+
+                manager: LanguageManager {
+                    id: languageManager
+                }
             }
 
             AudioDeviceSelector {
@@ -208,12 +219,16 @@ ApplicationWindow {
         }
 
         header: Label {
-            text: settingsDialog.title
             visible: parent?.parent === Overlay.overlay && settingsDialog.title
-            elide: Label.ElideRight
+
+            text: settingsDialog.title
+
             font.bold: true
             font.pixelSize: 18
             padding: 12
+
+            elide: Label.ElideRight
+            verticalAlignment: Label.AlignVCenter
         }
 
         background: Background {
