@@ -46,7 +46,7 @@ Window {
             }
 
             Label {
-                text: "Rask Metronom"
+                text: qsTr("Rask Metronom")
                 font.pixelSize: 24
                 font.bold: true
 

@@ -11,6 +11,7 @@ qt_add_qml_module(metronom_qml
         LanguageManager.cpp
     QML_FILES
         AudioDeviceSelector.qml
+        AutoIncrementControl.qml
         BpmControl.qml
         LanguageSelector.qml
         Metronom.qml

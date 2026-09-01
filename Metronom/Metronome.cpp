@@ -5,6 +5,7 @@
 #include <QAudioSink>
 #include <QDebug>
 #include <QMediaDevices>
+#include <QSettings>
 #include <QSpan>
 #include <algorithm>
 #include <array>
@@ -97,6 +98,10 @@ Metronome::Metronome(QObject *parent)
     , m_devices(QMediaDevices::audioOutputs())
     , m_currentDevice(defaultDeviceIndex())
 {
+    m_autoIncrement = QSettings().value("autoIncrement", false).toBool();
+    m_autoIncrementInterval = QSettings().value("autoIncrementInterval", 60).toInt();
+    m_autoIncrementTimer.setSingleShot(false);
+    connect(&m_autoIncrementTimer, &QTimer::timeout, this, &Metronome::nextTempoMarking);
     rebuildAudio();
 }
 
@@ -316,6 +321,7 @@ void Metronome::start()
 
     emit runningChanged();
     emit currentBeatChanged();
+    updateAutoIncrementTimer();
 }
 
 void Metronome::stop()
@@ -329,6 +335,7 @@ void Metronome::stop()
 
     m_sink->stop();
     emit runningChanged();
+    updateAutoIncrementTimer();
 }
 
 void Metronome::increaseBpm()
@@ -359,6 +366,49 @@ void Metronome::previousTempoMarking()
     const auto it = std::ranges::lower_bound(tempoMarkingsValues, m_bpm);
     if (it != std::ranges::begin(tempoMarkingsValues)) {
         setBpm(*std::prev(it));
+    }
+}
+
+bool Metronome::autoIncrement() const
+{
+    return m_autoIncrement;
+}
+
+void Metronome::setAutoIncrement(bool enabled)
+{
+    if (m_autoIncrement == enabled) {
+        return;
+    }
+
+    m_autoIncrement = enabled;
+    QSettings().setValue("autoIncrement", enabled);
+    emit autoIncrementChanged();
+    updateAutoIncrementTimer();
+}
+
+int Metronome::autoIncrementInterval() const
+{
+    return m_autoIncrementInterval;
+}
+
+void Metronome::setAutoIncrementInterval(int seconds)
+{
+    if (m_autoIncrementInterval == seconds) {
+        return;
+    }
+
+    m_autoIncrementInterval = seconds;
+    QSettings().setValue("autoIncrementInterval", seconds);
+    emit autoIncrementIntervalChanged();
+    updateAutoIncrementTimer();
+}
+
+void Metronome::updateAutoIncrementTimer()
+{
+    if (m_running && m_autoIncrement) {
+        m_autoIncrementTimer.start(m_autoIncrementInterval * 1000);
+    } else {
+        m_autoIncrementTimer.stop();
     }
 }
 

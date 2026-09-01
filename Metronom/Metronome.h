@@ -7,6 +7,7 @@
 #include <QList>
 #include <QObject>
 #include <QString>
+#include <QTimer>
 #include <QtQmlIntegration/qqmlintegration.h>
 #include <array>
 #include <memory>
@@ -31,6 +32,9 @@ class Metronome : public QObject
     Q_PROPERTY(QList<QString> audioDeviceNames READ audioDeviceNames CONSTANT)
     Q_PROPERTY(int currentAudioDevice READ currentAudioDevice WRITE setCurrentAudioDevice NOTIFY
                    currentAudioDeviceChanged)
+    Q_PROPERTY(bool autoIncrement READ autoIncrement WRITE setAutoIncrement NOTIFY autoIncrementChanged)
+    Q_PROPERTY(int autoIncrementInterval READ autoIncrementInterval WRITE setAutoIncrementInterval NOTIFY
+                   autoIncrementIntervalChanged)
 
 public:
     enum NoteValue : quint8 {
@@ -62,6 +66,11 @@ public:
     int currentAudioDevice() const;
     void setCurrentAudioDevice(int index);
 
+    bool autoIncrement() const;
+    void setAutoIncrement(bool enabled);
+    int autoIncrementInterval() const;
+    void setAutoIncrementInterval(int seconds);
+
     Q_INVOKABLE void start();
     Q_INVOKABLE void stop();
     Q_INVOKABLE void increaseBpm();
@@ -75,6 +84,8 @@ signals:
     void runningChanged();
     void currentBeatChanged();
     void currentAudioDeviceChanged();
+    void autoIncrementChanged();
+    void autoIncrementIntervalChanged();
 
 private:
     int subdivision() const;
@@ -87,6 +98,7 @@ private:
     QAudioDevice deviceAt(int index) const;
     int defaultDeviceIndex() const;
     void rebuildAudio();
+    void updateAutoIncrementTimer();
 
     static constexpr int sampleRate = 44100;
     static constexpr int beatsPerBar = 4;
@@ -116,9 +128,12 @@ private:
     double m_tickIntervalSamples = 0.0;
     qint64 m_framesWritten = 0;
     ScreenLockInhibitor m_screenLock;
+    QTimer m_autoIncrementTimer;
     int m_bpm = 120;
     int m_currentBeat = 0;
     int m_beatIndex = 0;
+    int m_autoIncrementInterval = 60;
     NoteValue m_noteValue = Quarter;
     bool m_running = false;
+    bool m_autoIncrement = false;
 };

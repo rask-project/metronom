@@ -200,6 +200,12 @@ ApplicationWindow {
                 onCheckedChanged: appSettings.autoSave = checked
             }
 
+            AutoIncrementControl {
+                Layout.fillWidth: true
+                Layout.alignment: Qt.AlignHCenter
+                metronome: metronome
+            }
+
             LanguageSelector {
                 Layout.fillWidth: true
                 Layout.alignment: Qt.AlignHCenter

@@ -10,6 +10,19 @@
     </message>
 </context>
 <context>
+    <name>AutoIncrementControl</name>
+    <message>
+        <location filename="../Metronom/AutoIncrementControl.qml" line="18"/>
+        <source>Auto-increment BPM</source>
+        <translation>Augmentation automatique du BPM</translation>
+    </message>
+    <message>
+        <location filename="../Metronom/AutoIncrementControl.qml" line="30"/>
+        <source>Interval</source>
+        <translation>Intervalle</translation>
+    </message>
+</context>
+<context>
     <name>BpmControl</name>
     <message>
         <location filename="../Metronom/BpmControl.qml" line="65"/>
