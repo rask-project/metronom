@@ -7,7 +7,7 @@ set(TARGET_NAME metronom)
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(Qt6 6.10 REQUIRED COMPONENTS Quick Multimedia QmlIntegration)
+find_package(Qt6 6.10 REQUIRED COMPONENTS Quick Multimedia QmlIntegration LinguistTools)
 find_package(Qt6 6.10 COMPONENTS DBus)
 
 qt_standard_project_setup(REQUIRES 6.10)
@@ -23,7 +23,18 @@ qt_add_qml_module(${TARGET_NAME}
     QML_FILES
         Main.qml
         Splash.qml
+        Controls/Background.qml
+        Controls/Header.qml
     IMPORTS TARGET metronom_qml
+)
+
+set_source_files_properties(resources/qtquickcontrols2.conf PROPERTIES QT_RESOURCE_ALIAS qtquickcontrols2.conf)
+
+qt_add_resources(${TARGET_NAME} "resources"
+    PREFIX "/"
+    FILES
+        resources/qtquickcontrols2.conf
+        resources/logo.png
 )
 
 set_source_files_properties(Main.qml
@@ -52,6 +63,13 @@ target_link_libraries(${TARGET_NAME}
         Qt6::Quick
         Qt6::Multimedia
         metronom_qml
+)
+
+qt_add_translations(${TARGET_NAME}
+    TS_FILES
+        translations/metronom_pt_BR.ts
+        translations/metronom_es_ES.ts
+        translations/metronom_fr_FR.ts
 )
 
 install(TARGETS ${TARGET_NAME}

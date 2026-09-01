@@ -1,8 +1,10 @@
 import QtQuick
+import QtCore
 import QtQuick.Layouts
-import QtQuick.Controls.Material
+import QtQuick.Controls
 
 import Metronom
+import "Controls"
 
 ApplicationWindow {
     id: window
@@ -11,8 +13,7 @@ ApplicationWindow {
 
     readonly property bool isLandscape: width > height && width >= layout.anchors.leftMargin + layout.anchors.rightMargin + bpmControl.implicitWidth + Math.max(noteValueSelector.implicitWidth, transport.implicitWidth)
 
-    Material.theme: Material.Dark
-    Material.background: "#000000"
+    background: Background {}
 
     onVisibleChanged: {
         if (visible) {
@@ -20,6 +21,32 @@ ApplicationWindow {
         }
 
         Qt.callLater(Qt.quit);
+    }
+
+    header: Header {
+        title: window.title
+
+        settingsButton: ToolButton {
+            icon.name: "settings"
+
+            onClicked: settingsDialog.open()
+        }
+    }
+
+    Settings {
+        id: appSettings
+
+        property bool autoSave: true
+        property int bpm: 120
+
+        Component.onCompleted: {
+            console.debug(this, autoSave, bpm);
+            if (!appSettings.autoSave) {
+                return;
+            }
+
+            metronome.bpm = appSettings.bpm;
+        }
     }
 
     Metronome {
@@ -45,6 +72,14 @@ ApplicationWindow {
         window.minimumHeight = 600;
         window.maximumWidth = 800;
         window.maximumHeight = 600;
+    }
+
+    Component.onDestruction: {
+        if (!appSettings.autoSave) {
+            return;
+        }
+
+        appSettings.bpm = metronome.bpm;
     }
 
     GridLayout {
@@ -100,14 +135,6 @@ ApplicationWindow {
             metronome: metronome
         }
 
-        AudioDeviceSelector {
-            id: audioDeviceSelector
-
-            Layout.fillWidth: true
-            Layout.alignment: Qt.AlignHCenter
-            metronome: metronome
-        }
-
         states: [
             State {
                 name: "landscape"
@@ -144,5 +171,53 @@ ApplicationWindow {
     Shortcut {
         sequences: [StandardKey.Close, StandardKey.Quit]
         onActivated: Qt.quit()
+    }
+
+    Dialog {
+        id: settingsDialog
+
+        width: window.width > 400 ? 400 : window.width * 0.85
+        topPadding: 48
+        padding: 32
+
+        anchors.centerIn: parent
+        modal: true
+        focus: true
+
+        title: qsTr("Settings")
+
+        contentItem: ColumnLayout {
+            spacing: 16
+
+            SwitchDelegate {
+                Layout.fillWidth: true
+
+                text: qsTr("Save the BPM")
+
+                checked: appSettings.autoSave
+                onCheckedChanged: appSettings.autoSave = checked
+            }
+
+            AudioDeviceSelector {
+                id: audioDeviceSelector
+
+                Layout.fillWidth: true
+                Layout.alignment: Qt.AlignHCenter
+                metronome: metronome
+            }
+        }
+
+        header: Label {
+            text: settingsDialog.title
+            visible: parent?.parent === Overlay.overlay && settingsDialog.title
+            elide: Label.ElideRight
+            font.bold: true
+            font.pixelSize: 18
+            padding: 12
+        }
+
+        background: Background {
+            Material.roundedScale: Material.LargeScale
+        }
     }
 }

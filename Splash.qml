@@ -1,5 +1,8 @@
 import QtQuick
+import QtQuick.Controls
 import Metronom
+
+import "Controls"
 
 Window {
     id: splash
@@ -25,18 +28,30 @@ Window {
         property bool running: false
     }
 
-    Rectangle {
+    Background {
         id: content
 
         anchors.fill: parent
         radius: 16
-        color: "#000000"
 
-        Metronom {
+        Column {
             anchors.centerIn: parent
-            width: Math.min(splash.width, splash.height) * 0.7
-            height: width
-            metronome: metronome
+            spacing: 16
+
+            Metronom {
+                width: 98
+                height: width
+                anchors.horizontalCenter: parent.horizontalCenter
+                metronome: metronome
+            }
+
+            Label {
+                text: "Rask Metronom"
+                font.pixelSize: 24
+                font.bold: true
+
+                anchors.horizontalCenter: parent.horizontalCenter
+            }
         }
     }
 
@@ -54,7 +69,7 @@ Window {
     }
 
     Timer {
-        interval: 4000
+        interval: 3000
         running: splash.visible
         repeat: false
 
