@@ -61,6 +61,7 @@ Row {
         Button {
             id: noteButton
 
+            height: 48
             icon.name: control.iconName
 
             anchors.horizontalCenter: parent.horizontalCenter
