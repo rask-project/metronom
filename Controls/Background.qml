@@ -4,7 +4,7 @@ import QtQuick.Controls.Material
 Rectangle {
     id: control
 
-    readonly property color gradientStop1: Qt.darker(Material.accent, 20)
+    readonly property color gradientStop1: Qt.darker(Material.accent, 15)
     readonly property color gradientStop2: Qt.darker(Material.accent, 30)
 
     color: control.gradientStop2

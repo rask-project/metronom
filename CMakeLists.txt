@@ -25,6 +25,7 @@ qt_add_qml_module(${TARGET_NAME}
         Splash.qml
         Controls/Background.qml
         Controls/Header.qml
+        Controls/SettingsDialog.qml
     IMPORTS TARGET metronom_qml
 )
 
@@ -70,6 +71,7 @@ qt_add_translations(${TARGET_NAME}
         translations/metronom_pt_BR.ts
         translations/metronom_es_ES.ts
         translations/metronom_fr_FR.ts
+        translations/metronom_it_IT.ts
 )
 
 install(TARGETS ${TARGET_NAME}

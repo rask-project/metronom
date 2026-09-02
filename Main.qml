@@ -1,7 +1,9 @@
 import QtQuick
 import QtCore
-import QtQuick.Layouts
 import QtQuick.Controls
+import QtQuick.Templates as T
+import QtQuick.Layouts
+import QtQuick.Effects
 
 import Metronom
 import "Controls"
@@ -9,11 +11,10 @@ import "Controls"
 ApplicationWindow {
     id: window
 
-    title: qsTr("Rask Metronom")
+    title: "Rask Metronom"
 
     readonly property bool isLandscape: width > height && width >= layout.anchors.leftMargin + layout.anchors.rightMargin + bpmControl.implicitWidth + Math.max(noteValueSelector.implicitWidth, transport.implicitWidth)
-
-    background: Background {}
+    readonly property Item blurSourceItem: backgroundPage
 
     onVisibleChanged: {
         if (visible) {
@@ -21,16 +22,6 @@ ApplicationWindow {
         }
 
         Qt.callLater(Qt.quit);
-    }
-
-    header: Header {
-        title: window.title
-
-        settingsButton: ToolButton {
-            icon.name: "settings"
-
-            onClicked: settingsDialog.open()
-        }
     }
 
     Settings {
@@ -84,90 +75,102 @@ ApplicationWindow {
         appSettings.noteValue = metronome.noteValue;
     }
 
-    GridLayout {
-        id: layout
+    Page {
+        id: backgroundPage
 
         anchors.fill: parent
-        anchors.leftMargin: 16
-        anchors.topMargin: 16
-        anchors.rightMargin: 16
-        anchors.bottomMargin: 16
+        background: Background {}
 
-        columns: window.isLandscape ? 2 : 1
-        uniformCellHeights: false
+        header: Header {
+            title: window.title
 
-        NoteValueSelector {
-            id: noteValueSelector
+            settingsButton: ToolButton {
+                icon.name: "settings"
 
-            Layout.minimumWidth: implicitWidth
-            Layout.alignment: Qt.AlignHCenter
-            metronome: metronome
+                onClicked: settingsDialog.open()
+            }
         }
 
-        BpmControl {
-            id: bpmControl
+        GridLayout {
+            id: layout
 
-            Layout.fillWidth: true
-            Layout.minimumHeight: 250
-            Layout.rowSpan: window.isLandscape ? 4 : 1
-            Layout.alignment: Qt.AlignHCenter
-            metronome: metronome
-        }
+            anchors.fill: parent
+            anchors.leftMargin: 16
+            anchors.topMargin: 16
+            anchors.rightMargin: 16
+            anchors.bottomMargin: 16
 
-        Item {
-            Layout.fillWidth: true
-            Layout.fillHeight: true
+            columns: window.isLandscape ? 2 : 1
+            uniformCellHeights: false
 
-            Metronom {
-                id: metronom
+            NoteValueSelector {
+                id: noteValueSelector
 
-                height: parent.height * 0.7
-                width: height
-                anchors.centerIn: parent
-
+                Layout.minimumWidth: implicitWidth
+                Layout.alignment: Qt.AlignHCenter
                 metronome: metronome
             }
-        }
 
-        Transport {
-            id: transport
+            BpmControl {
+                id: bpmControl
 
-            Layout.minimumWidth: implicitWidth
-            Layout.alignment: Qt.AlignHCenter
-            metronome: metronome
-        }
+                Layout.fillWidth: true
+                Layout.minimumHeight: 250
+                Layout.rowSpan: window.isLandscape ? 4 : 1
+                Layout.alignment: Qt.AlignHCenter
+                metronome: metronome
+            }
 
-        states: [
-            State {
-                name: "landscape"
-                when: window.isLandscape
+            Item {
+                Layout.fillWidth: true
+                Layout.fillHeight: true
 
-                PropertyChanges {
-                    target: bpmControl
-                    Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
-                }
+                Metronom {
+                    id: metronom
 
-                PropertyChanges {
-                    target: noteValueSelector
-                    Layout.alignment: Qt.AlignHCenter | Qt.AlignBottom
-                }
+                    height: parent.height * 0.7
+                    width: height
+                    anchors.centerIn: parent
 
-                PropertyChanges {
-                    target: metronom
-                    Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
-                }
-
-                PropertyChanges {
-                    target: transport
-                    Layout.alignment: Qt.AlignHCenter | Qt.AlignTop
-                }
-
-                PropertyChanges {
-                    target: audioDeviceSelector
-                    Layout.alignment: Qt.AlignHCenter | Qt.AlignBottom
+                    metronome: metronome
                 }
             }
-        ]
+
+            Transport {
+                id: transport
+
+                Layout.minimumWidth: implicitWidth
+                Layout.alignment: Qt.AlignHCenter
+                metronome: metronome
+            }
+
+            states: [
+                State {
+                    name: "landscape"
+                    when: window.isLandscape
+
+                    PropertyChanges {
+                        target: bpmControl
+                        Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+                    }
+
+                    PropertyChanges {
+                        target: noteValueSelector
+                        Layout.alignment: Qt.AlignHCenter | Qt.AlignBottom
+                    }
+
+                    PropertyChanges {
+                        target: metronom
+                        Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+                    }
+
+                    PropertyChanges {
+                        target: transport
+                        Layout.alignment: Qt.AlignHCenter | Qt.AlignTop
+                    }
+                }
+            ]
+        }
     }
 
     Shortcut {
@@ -175,70 +178,15 @@ ApplicationWindow {
         onActivated: Qt.quit()
     }
 
-    Dialog {
+    SettingsDialog {
         id: settingsDialog
 
         width: window.width > 450 ? 450 : window.width * 0.95
-        topPadding: 48
-        padding: 32
 
         anchors.centerIn: parent
-        modal: true
-        focus: true
+        parent: Overlay.overlay
 
-        title: qsTr("Settings")
-
-        contentItem: ColumnLayout {
-            spacing: 16
-
-            SwitchDelegate {
-                Layout.fillWidth: true
-
-                text: qsTr("Save the BPM and note value")
-
-                checked: appSettings.autoSave
-                onCheckedChanged: appSettings.autoSave = checked
-            }
-
-            AutoIncrementControl {
-                Layout.fillWidth: true
-                Layout.alignment: Qt.AlignHCenter
-                metronome: metronome
-            }
-
-            LanguageSelector {
-                Layout.fillWidth: true
-                Layout.alignment: Qt.AlignHCenter
-
-                manager: LanguageManager {
-                    id: languageManager
-                }
-            }
-
-            AudioDeviceSelector {
-                id: audioDeviceSelector
-
-                Layout.fillWidth: true
-                Layout.alignment: Qt.AlignHCenter
-                metronome: metronome
-            }
-        }
-
-        header: Label {
-            visible: parent?.parent === Overlay.overlay && settingsDialog.title
-
-            text: settingsDialog.title
-
-            font.bold: true
-            font.pixelSize: 18
-            padding: 12
-
-            elide: Label.ElideRight
-            verticalAlignment: Label.AlignVCenter
-        }
-
-        background: Background {
-            Material.roundedScale: Material.LargeScale
-        }
+        settings: appSettings
+        metronome: metronome
     }
 }

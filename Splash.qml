@@ -9,7 +9,7 @@ Window {
 
     visible: true
     color: "transparent"
-    title: qsTr("Rask Metronom")
+    title: "Rask Metronom"
 
     modality: Qt.ApplicationModal
     flags: Qt.SplashScreen | Qt.FramelessWindowHint
@@ -46,7 +46,7 @@ Window {
             }
 
             Label {
-                text: qsTr("Rask Metronom")
+                text: "Rask Metronom"
                 font.pixelSize: 24
                 font.bold: true
 

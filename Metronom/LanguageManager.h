@@ -32,8 +32,8 @@ signals:
 private:
     static QString systemCode();
 
-    static constexpr std::array<const char *, 4> codes{"en", "pt_BR", "es_ES", "fr_FR"};
-    static constexpr std::array<const char *, 4> names{"English", "Português (Brasil)", "Español", "Français"};
+    static constexpr std::array<const char *, 5> codes{"en", "pt_BR", "es_ES", "fr_FR", "it_IT"};
+    static constexpr std::array<const char *, 5> names{"English", "Português (Brasil)", "Español", "Français", "Italiano"};
     static constexpr const char *settingsKey = "language";
 
     QString m_applied;

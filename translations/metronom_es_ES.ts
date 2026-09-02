@@ -44,19 +44,14 @@
     </message>
 </context>
 <context>
-    <name>Main</name>
+    <name>SettingsDialog</name>
     <message>
-        <location filename="../Main.qml" line="10"/>
-        <source>Rask Metronom</source>
-        <translation>Rask Metronom</translation>
-    </message>
-    <message>
-        <location filename="../Main.qml" line="186"/>
+        <location filename="../Controls/SettingsDialog.qml" line="23"/>
         <source>Settings</source>
         <translation>Ajustes</translation>
     </message>
     <message>
-        <location filename="../Main.qml" line="194"/>
+        <location filename="../Controls/SettingsDialog.qml" line="44"/>
         <source>Save the BPM and note value</source>
         <translation>Guardar el BPM y la división rítmica</translation>
     </message>
@@ -82,14 +77,6 @@
         <location filename="../Metronom/NoteValueSelector.qml" line="42"/>
         <source>Thirty Second</source>
         <translation>Fusa</translation>
-    </message>
-</context>
-<context>
-    <name>Splash</name>
-    <message>
-        <location filename="../Splash.qml" line="9"/>
-        <source>Rask Metronom</source>
-        <translation>Rask Metronom</translation>
     </message>
 </context>
 </TS>

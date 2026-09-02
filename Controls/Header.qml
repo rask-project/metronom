@@ -18,7 +18,8 @@ T.ToolBar {
 
     background: Rectangle {
         implicitHeight: 48
-        color: /*Qt.platform.os === "android" ? "transparent" :*/ control.palette.button
+        // color: "transparent" //Qt.platform.os === "android" ? "transparent" : control.palette.button
+        color: Qt.darker(Material.accent, 20)
     }
 
     RowLayout {

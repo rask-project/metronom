@@ -51,6 +51,8 @@ QString LanguageManager::systemCode()
         return QStringLiteral("es_ES");
     case QLocale::French:
         return QStringLiteral("fr_FR");
+    case QLocale::Italian:
+        return QStringLiteral("it_IT");
     default:
         return QStringLiteral("en");
     }
