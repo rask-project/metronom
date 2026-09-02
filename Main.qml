@@ -24,12 +24,15 @@ Window {
         Qt.callLater(Qt.quit);
     }
 
+    Material.theme: appSettings.theme
+
     Settings {
         id: appSettings
 
         property bool autoSave: true
         property int bpm: 120
         property int noteValue: 0
+        property int theme: Material.System
 
         Component.onCompleted: {
             if (!appSettings.autoSave) {
@@ -43,6 +46,10 @@ Window {
 
     Metronome {
         id: metronome
+    }
+
+    StatusBarController {
+        lightStatusBar: appSettings.theme === Material.Light
     }
 
     Connections {

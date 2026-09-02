@@ -22,8 +22,10 @@ ColumnLayout {
 
     RowLayout {
         Layout.fillWidth: true
-        Layout.leftMargin: 16
-        Layout.topMargin: 4
+        Layout.leftMargin: 32
+        Layout.rightMargin: 32
+        Layout.topMargin: 6
+
         visible: metronome.autoIncrement
 
         Label {

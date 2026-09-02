@@ -4,8 +4,9 @@ import QtQuick.Controls.Material
 Rectangle {
     id: control
 
-    readonly property color gradientStop1: Qt.darker(Material.accent, 15)
-    readonly property color gradientStop2: Qt.darker(Material.accent, 30)
+    readonly property bool isDark: Material.theme === Material.Dark
+    readonly property color gradientStop1: control.isDark ? Qt.darker(Material.accent, 15) : Qt.lighter(Material.accent, 2.00)
+    readonly property color gradientStop2: control.isDark ? Qt.darker(Material.accent, 30) : Qt.lighter(Material.accent, 1.95)
 
     color: control.gradientStop2
     radius: Material.roundedScale

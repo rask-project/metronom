@@ -14,8 +14,9 @@ Dialog {
     required property Settings settings
     required property Metronome metronome
 
-    padding: 32
+    padding: 0
     topPadding: 6
+    bottomPadding: 32
 
     modal: true
     focus: true
@@ -41,6 +42,15 @@ Dialog {
         SwitchDelegate {
             Layout.fillWidth: true
 
+            text: qsTr("Dark mode")
+
+            checked: Material.theme === Material.Dark
+            onCheckedChanged: control.settings.theme = checked ? Material.Dark : Material.Light
+        }
+
+        SwitchDelegate {
+            Layout.fillWidth: true
+
             text: qsTr("Save the BPM and note value")
 
             checked: control.settings.autoSave
@@ -50,12 +60,15 @@ Dialog {
         AutoIncrementControl {
             Layout.fillWidth: true
             Layout.alignment: Qt.AlignHCenter
+
             metronome: control.metronome
         }
 
         LanguageSelector {
             Layout.fillWidth: true
             Layout.alignment: Qt.AlignHCenter
+            Layout.leftMargin: 16
+            Layout.rightMargin: 16
 
             manager: LanguageManager {
                 id: languageManager
@@ -67,6 +80,9 @@ Dialog {
 
             Layout.fillWidth: true
             Layout.alignment: Qt.AlignHCenter
+            Layout.leftMargin: 16
+            Layout.rightMargin: 16
+
             metronome: control.metronome
         }
     }
@@ -74,7 +90,7 @@ Dialog {
     background: Background {
         Material.roundedScale: Material.LargeScale
         opacity: 0.8
-        border.color: Qt.darker(Material.accent, 10)
+        border.color: Material.theme === Material.Dark ? Qt.darker(Material.accent, 10) : Qt.lighter(Material.accent, 1.8)
         border.width: 1
     }
 

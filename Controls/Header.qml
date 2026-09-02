@@ -18,7 +18,7 @@ T.ToolBar {
 
     background: Rectangle {
         implicitHeight: 48
-        color: Qt.darker(Material.accent, 16)
+        color: Material.theme === Material.Dark ? Qt.darker(Material.accent, 16) : Qt.lighter(Material.accent, 1.98)
     }
 
     RowLayout {
@@ -42,7 +42,8 @@ T.ToolBar {
 
             text: control.title
             font.pixelSize: 20
-            font.bold: true
+            // font.bold: true
+            font.weight: Font.Medium
 
             verticalAlignment: Qt.AlignVCenter
             elide: Label.ElideRight

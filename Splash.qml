@@ -1,4 +1,5 @@
 import QtQuick
+import QtCore
 import QtQuick.Controls
 import Metronom
 
@@ -14,9 +15,21 @@ Window {
     modality: Qt.ApplicationModal
     flags: Qt.SplashScreen | Qt.FramelessWindowHint
 
+    Material.theme: appSettings.theme
+
     Loader {
         id: mainLoader
         source: "Main.qml"
+    }
+
+    Settings {
+        id: appSettings
+
+        property int theme: Material.System
+    }
+
+    StatusBarController {
+        lightStatusBar: appSettings.theme === Material.Light
     }
 
     QtObject {

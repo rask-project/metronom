@@ -7,6 +7,8 @@ qt_add_qml_module(metronom_qml
         Metronome.cpp
         ScreenLockInhibitor.h
         ScreenLockInhibitor.cpp
+        StatusBarController.h
+        StatusBarController.cpp
         LanguageManager.h
         LanguageManager.cpp
     QML_FILES
