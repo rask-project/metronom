@@ -10,8 +10,12 @@ RowLayout {
 
     spacing: 12
 
-    RoundButton {
+    Button {
+        height: 48
         icon.name: metronome.running ? "pause" : "play"
+        flat: true
+        highlighted: true
+
         onClicked: metronome.running ? metronome.stop() : metronome.start()
     }
 

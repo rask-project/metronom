@@ -1,4 +1,5 @@
 import QtQuick
+import QtQuick.Window
 import QtCore
 import QtQuick.Controls
 import QtQuick.Layouts
@@ -77,18 +78,14 @@ Dialog {
         border.width: 1
     }
 
-    T.Overlay.modal: Rectangle {
+    T.Overlay.modal: Item {
         id: overlayBackground
 
         readonly property Item windowContentItem: Window.window?.contentItem ?? null
         readonly property point blurOrigin: windowContentItem ? mapToItem(windowContentItem, 0, 0) : Qt.point(0, 0)
 
-        color: Material.background
-
         ShaderEffectSource {
             id: overlayBlurSource
-
-            visible: false
 
             anchors.fill: parent
 
@@ -105,7 +102,8 @@ Dialog {
 
             blurEnabled: true
             blur: 1.0
-            blurMax: 64
+            blurMax: 32
+            autoPaddingEnabled: false
         }
     }
 

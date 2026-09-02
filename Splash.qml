@@ -103,6 +103,7 @@ Window {
         start();
 
         if (Qt.platform.os === "android") {
+            splash.flags |= Qt.ExpandedClientAreaHint;
             return;
         }
 

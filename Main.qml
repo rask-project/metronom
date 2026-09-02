@@ -8,7 +8,7 @@ import QtQuick.Effects
 import Metronom
 import "Controls"
 
-ApplicationWindow {
+Window {
     id: window
 
     title: "Rask Metronom"
@@ -56,6 +56,7 @@ ApplicationWindow {
 
     Component.onCompleted: {
         if (Qt.platform.os === "android") {
+            window.flags |= Qt.ExpandedClientAreaHint;
             return;
         }
 
