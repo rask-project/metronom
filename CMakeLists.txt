@@ -88,3 +88,86 @@ if(NOT ANDROID)
 
     install(SCRIPT ${deploy_script})
 endif()
+
+if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
+    set(METRONOM_APP_PREFIX "/opt/metronom")
+
+    configure_file(resources/metronom.desktop.in metronom.desktop @ONLY)
+
+    file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+    file(REMOVE ${CMAKE_BINARY_DIR}/bin/${TARGET_NAME})
+    file(CREATE_LINK ${METRONOM_APP_PREFIX}/bin/${TARGET_NAME}
+        ${CMAKE_BINARY_DIR}/bin/${TARGET_NAME} SYMBOLIC)
+
+    install(CODE "
+        if(CMAKE_INSTALL_PREFIX STREQUAL \"${METRONOM_APP_PREFIX}\")
+            file(INSTALL \"${CMAKE_CURRENT_BINARY_DIR}/metronom.desktop\"
+                DESTINATION /usr/share/applications)
+            file(INSTALL \"${CMAKE_CURRENT_SOURCE_DIR}/resources/logo.png\"
+                DESTINATION /usr/share/icons/hicolor/512x512/apps RENAME metronom.png)
+            file(INSTALL \"${CMAKE_BINARY_DIR}/bin/${TARGET_NAME}\"
+                DESTINATION /usr/bin)
+        endif()
+    ")
+
+    set(CPACK_PACKAGE_NAME "metronom")
+    set(CPACK_PACKAGE_VENDOR "Rask")
+    set(CPACK_PACKAGE_CONTACT "Mauro Marssola <mauro.marssola@hotmail.com>")
+    set(CPACK_PACKAGE_HOMEPAGE_URL "https://github.com/rask-project/metronom")
+    set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "A cross-platform metronome built with Qt 6")
+    set(CPACK_DEBIAN_PACKAGE_NAME "metronom")
+    set(CPACK_DEBIAN_PACKAGE_MAINTAINER "Mauro Marssola <mauro.marssola@hotmail.com>")
+    set(CPACK_DEBIAN_PACKAGE_SECTION "sound")
+    set(CPACK_DEBIAN_PACKAGE_DEPENDS
+        "libc6"
+        "libstdc++6"
+        "libgl1"
+        "libegl1"
+        "libopengl0"
+        "libgbm1"
+        "libdrm2"
+        "libepoxy0"
+        "libxkbcommon0"
+        "libxkbcommon-x11-0"
+        "libwayland-client0"
+        "libwayland-cursor0"
+        "libwayland-egl1"
+        "libxcb1"
+        "libxcb-cursor0"
+        "libxcb-icccm4"
+        "libxcb-image0"
+        "libxcb-keysyms1"
+        "libxcb-randr0"
+        "libxcb-render-util0"
+        "libxcb-shape0"
+        "libxcb-shm0"
+        "libxcb-sync1"
+        "libxcb-xfixes0"
+        "libxcb-xkb1"
+        "libx11-6"
+        "libx11-xcb1"
+        "libxext6"
+        "libxfixes3"
+        "libxrender1"
+        "libxcomposite1"
+        "libxdamage1"
+        "libxcursor1"
+        "libxi6"
+        "libxinerama1"
+        "libxrandr2"
+        "libfontconfig1"
+        "libfreetype6"
+        "libglib2.0-0t64"
+        "libdbus-1-3"
+        "libsystemd0"
+        "libgssapi-krb5-2"
+        "libpulse0"
+        "libsndfile1"
+        "libgtk-3-0t64")
+    # dpkg requires commas; the CMake 3.30+ DEB generator does not convert list separators
+    string(REPLACE ";" ", " CPACK_DEBIAN_PACKAGE_DEPENDS "${CPACK_DEBIAN_PACKAGE_DEPENDS}")
+    set(CPACK_PACKAGE_FILE_NAME "${CPACK_PACKAGE_NAME}-${PROJECT_VERSION}-${CMAKE_SYSTEM_PROCESSOR}")
+    set(CPACK_PACKAGING_INSTALL_PREFIX "${METRONOM_APP_PREFIX}")
+    set(CPACK_GENERATOR "DEB")
+    include(CPack)
+endif()

@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Version=1.0
+Name=Rask Metronom
+GenericName=Metronome
+Comment=A cross-platform metronome built with Qt 6
+Exec=@METRONOM_APP_PREFIX@/bin/metronom
+Icon=metronom
+Terminal=false
+Categories=Audio;AudioVideo;
