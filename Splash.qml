@@ -8,7 +8,12 @@ import "Controls"
 Window {
     id: splash
 
+    readonly property bool isAndroid: Qt.platform.os === "android"
+
     visible: true
+    width: splash.isAndroid ? null : 420
+    height: splash.isAndroid ? null : 420
+
     color: "transparent"
     title: "Rask Metronom"
 
@@ -119,8 +124,5 @@ Window {
             splash.flags |= Qt.ExpandedClientAreaHint;
             return;
         }
-
-        splash.width = 420;
-        splash.height = 420;
     }
 }

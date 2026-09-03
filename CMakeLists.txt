@@ -79,3 +79,12 @@ install(TARGETS ${TARGET_NAME}
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
 )
+
+if(NOT ANDROID)
+    qt_generate_deploy_qml_app_script(
+        TARGET ${TARGET_NAME}
+        OUTPUT_SCRIPT deploy_script
+    )
+
+    install(SCRIPT ${deploy_script})
+endif()

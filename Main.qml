@@ -15,6 +15,14 @@ Window {
 
     readonly property bool isLandscape: width > height && width >= layout.anchors.leftMargin + layout.anchors.rightMargin + bpmControl.implicitWidth + Math.max(noteValueSelector.implicitWidth, transport.implicitWidth)
     readonly property Item blurSourceItem: backgroundPage
+    readonly property bool isAndroid: Qt.platform.os === "android"
+
+    minimumWidth: window.isAndroid ? null : 380
+    minimumHeight: window.isAndroid ? null : 600
+    maximumWidth: minimumWidth
+    maximumHeight: minimumHeight
+
+    flags: window.isAndroid ? Qt.ExpandedClientAreaHint : Qt.WindowMaximizeButtonHint
 
     onVisibleChanged: {
         if (visible) {
@@ -59,19 +67,6 @@ Window {
                 window.showNormal();
             }
         }
-    }
-
-    Component.onCompleted: {
-        if (Qt.platform.os === "android") {
-            window.flags |= Qt.ExpandedClientAreaHint;
-            return;
-        }
-
-        window.flags |= Qt.WindowMaximizeButtonHint;
-        window.minimumWidth = 380;
-        window.minimumHeight = 600;
-        window.maximumWidth = 800;
-        window.maximumHeight = 600;
     }
 
     Component.onDestruction: {

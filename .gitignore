@@ -58,6 +58,7 @@ compile_commands.json
 # Build directories
 build-*/
 build/
+dist/
 
 # Output director from robot results
 results
