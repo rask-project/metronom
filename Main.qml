@@ -22,7 +22,7 @@ Window {
     maximumWidth: minimumWidth
     maximumHeight: minimumHeight
 
-    flags: window.isAndroid ? Qt.ExpandedClientAreaHint : Qt.WindowMaximizeButtonHint
+    flags: window.isAndroid ? Qt.ExpandedClientAreaHint : Qt.defaultWindowFlags & ~Qt.WindowMaximizeButtonHint
 
     onVisibleChanged: {
         if (visible) {
