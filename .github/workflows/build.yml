@@ -19,7 +19,7 @@ jobs:
     name: Check formatting
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - run: pipx install clang-format==19.1.6
       - run: scripts/format-code.sh -n
 
@@ -27,7 +27,7 @@ jobs:
     name: macOS (arm64)
     runs-on: macos-26
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0 # git describe --tags for the version
 
@@ -74,7 +74,7 @@ jobs:
           hdiutil create -volname "Rask Metronom" -srcfolder "$STAGE" -ov -format UDZO \
             "out/Metronom-$VERSION-macos-arm64.dmg"
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: metronom-macos
           path: out/*
@@ -84,7 +84,7 @@ jobs:
     name: Linux (x86_64)
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
 
@@ -123,7 +123,7 @@ jobs:
           mv build/ci/*.deb "out/Metronom-$VERSION-linux-amd64.deb"
           dpkg-deb --info out/*.deb
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: metronom-linux
           path: out/*
@@ -138,11 +138,11 @@ jobs:
       QT_ANDROID_KEYSTORE_STORE_PASS: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
       QT_ANDROID_KEYSTORE_KEY_PASS: ${{ secrets.ANDROID_KEY_PASSWORD }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
 
-      - uses: actions/setup-java@v4
+      - uses: actions/setup-java@v6
         with:
           distribution: temurin
           java-version: "17"
@@ -199,7 +199,7 @@ jobs:
           cp "$AAB" "out/Metronom-$VERSION-android-arm64-v8a$SUFFIX.aab"
           ls -l out
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: metronom-android
           path: out/*
