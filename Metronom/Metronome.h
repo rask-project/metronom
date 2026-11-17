@@ -73,6 +73,7 @@ public:
 
     Q_INVOKABLE void start();
     Q_INVOKABLE void stop();
+    Q_INVOKABLE void toggle();
     Q_INVOKABLE void increaseBpm();
     Q_INVOKABLE void decreaseBpm();
     Q_INVOKABLE void nextTempoMarking();

@@ -16,7 +16,7 @@ RowLayout {
         flat: true
         highlighted: true
 
-        onClicked: metronome.running ? metronome.stop() : metronome.start()
+        onClicked: metronome.toggle()
     }
 
     RowLayout {

@@ -324,6 +324,15 @@ void Metronome::start()
     updateAutoIncrementTimer();
 }
 
+void Metronome::toggle()
+{
+    if (m_running) {
+        stop();
+        return;
+    }
+    start();
+}
+
 void Metronome::stop()
 {
     if (!m_running) {

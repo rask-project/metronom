@@ -200,6 +200,36 @@ Window {
     }
 
     Shortcut {
+        sequence: "Space"
+        enabled: !settingsDialog.visible
+        onActivated: metronome.toggle()
+    }
+
+    Shortcut {
+        sequence: "Up"
+        enabled: !settingsDialog.visible
+        onActivated: metronome.increaseBpm()
+    }
+
+    Shortcut {
+        sequence: "Down"
+        enabled: !settingsDialog.visible
+        onActivated: metronome.decreaseBpm()
+    }
+
+    Shortcut {
+        sequence: "PgUp"
+        enabled: !settingsDialog.visible
+        onActivated: metronome.nextTempoMarking()
+    }
+
+    Shortcut {
+        sequence: "PgDown"
+        enabled: !settingsDialog.visible
+        onActivated: metronome.previousTempoMarking()
+    }
+
+    Shortcut {
         sequences: [StandardKey.Close, StandardKey.Quit]
         onActivated: Qt.quit()
     }
