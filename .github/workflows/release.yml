@@ -1,0 +1,57 @@
+name: Release
+
+# Push a tag (git tag v1.1.0 && git push origin v1.1.0) to build every
+# platform and publish the packages as a GitHub Release. A tag with a suffix
+# (v1.1.0-beta.1, v1.1.0-rc.1) publishes a pre-release instead.
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+jobs:
+  build:
+    uses: ./.github/workflows/build.yml
+    secrets: inherit
+
+  publish:
+    name: Publish GitHub Release
+    needs: build
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: metronom-*
+          path: out
+          merge-multiple: true
+
+      - name: Publish
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          (cd out && sha256sum Metronom-* > SHA256SUMS.txt)
+          cat > "$RUNNER_TEMP/notes.md" <<'EOF'
+          ## Install
+
+          - **macOS** (Apple Silicon, macOS 14.4+): open the `.dmg` and drag Metronom to Applications. The app is not
+            notarized; clear the quarantine flag once: `xattr -dr com.apple.quarantine /Applications/metronom.app`.
+          - **Linux** (Debian/Ubuntu 24.04+): `sudo apt install ./Metronom-*-linux-amd64.deb`.
+          - **Android**: install the `.apk`; the `.aab` is for Google Play.
+          EOF
+          # A stable release lists the changes since the previous stable one.
+          PREVIOUS=$(git tag --list 'v*' --sort=-v:refname | grep -v -- - | grep -vxF "$GITHUB_REF_NAME" | head -n 1 || true)
+          FLAGS=(--latest)
+          if [ -n "$PREVIOUS" ]; then FLAGS+=(--notes-start-tag "$PREVIOUS"); fi
+          if [[ "$GITHUB_REF_NAME" == *-* ]]; then FLAGS=(--prerelease --latest=false); fi
+          gh release create "$GITHUB_REF_NAME" out/* "${FLAGS[@]}" \
+            --title "Rask Metronom ${GITHUB_REF_NAME#v}" \
+            --notes-file "$RUNNER_TEMP/notes.md" --generate-notes
