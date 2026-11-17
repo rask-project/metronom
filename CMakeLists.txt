@@ -79,6 +79,41 @@ endif()
 
 qt_standard_project_setup(REQUIRES 6.10)
 
+# Updates on macOS (Sparkle). The release workflow adds each tag to the appcast
+# (scripts/update-appcast.py). Debug builds have no feed URL and do not update themselves.
+set(METRONOM_SPARKLE_PLIST_KEYS "")
+if(APPLE)
+    if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+        set(default_feed_url "")
+    else()
+        set(default_feed_url "https://raw.githubusercontent.com/rask-project/metronom/appcast/appcast.xml")
+    endif()
+    set(METRONOM_UPDATE_FEED_URL "${default_feed_url}" CACHE STRING
+        "Sparkle appcast URL (empty turns the updater off)")
+    # Public half of the EdDSA key the release workflow signs updates with (SPARKLE_ED_PRIVATE_KEY secret);
+    # the same key as Konsoll, as Sparkle recommends one key per developer.
+    set(METRONOM_UPDATE_PUBLIC_KEY "hb9+LAm6J+NKJX6j3LRQL/G4iV4h1/eJOwS/lYJPDto=" CACHE STRING
+        "Sparkle EdDSA public key (empty turns the updater off)")
+
+    include(cmake/Sparkle.cmake)
+
+    if(METRONOM_UPDATE_FEED_URL AND METRONOM_UPDATE_PUBLIC_KEY)
+        # Checked daily, downloaded in the background and installed on quit, without Sparkle's first-run question.
+        string(CONCAT METRONOM_SPARKLE_PLIST_KEYS
+            "\t<key>SUFeedURL</key>\n"
+            "\t<string>${METRONOM_UPDATE_FEED_URL}</string>\n"
+            "\t<key>SUPublicEDKey</key>\n"
+            "\t<string>${METRONOM_UPDATE_PUBLIC_KEY}</string>\n"
+            "\t<key>SUVerifyUpdateBeforeExtraction</key>\n"
+            "\t<true/>\n"
+            "\t<key>SUEnableAutomaticChecks</key>\n"
+            "\t<true/>\n"
+            "\t<key>SUAutomaticallyUpdate</key>\n"
+            "\t<true/>\n"
+        )
+    endif()
+endif()
+
 add_subdirectory(Metronom)
 
 set(MACOSX_BUNDLE_ICON_FILE metronom.icns)
@@ -100,7 +135,9 @@ qt_add_qml_module(${TARGET_NAME}
     QML_FILES
         Main.qml
         Splash.qml
+        Controls/AboutDialog.qml
         Controls/Background.qml
+        Controls/BlurOverlay.qml
         Controls/Header.qml
         Controls/SettingsDialog.qml
     IMPORTS TARGET metronom_qml
@@ -167,6 +204,14 @@ install(TARGETS ${TARGET_NAME}
 )
 
 if(APPLE)
+    # ditto keeps the framework's symlinks.
+    add_custom_command(TARGET ${TARGET_NAME} POST_BUILD
+        COMMAND rm -rf "$<TARGET_BUNDLE_DIR:${TARGET_NAME}>/Contents/Frameworks/Sparkle.framework"
+        COMMAND ditto "${SPARKLE_FRAMEWORK}" "$<TARGET_BUNDLE_DIR:${TARGET_NAME}>/Contents/Frameworks/Sparkle.framework"
+        COMMENT "Embedding Sparkle.framework"
+        VERBATIM
+    )
+
     set(deploy_tool_options_arg)
     if(METRONOM_CODESIGN_IDENTITY)
         qt_policy(SET QTP0007 NEW)

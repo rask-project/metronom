@@ -18,11 +18,15 @@ Guidance for AI agents working in this repository.
   - `StatusBarController` — Android status bar appearance.
   - `LanguageManager` — UI language selection (QSettings `language`).
   - `NativeWindow` — translucent, blurred window with the content under the title bar (macOS; no-op elsewhere).
+  - `AppInfo` — QML singleton: Qt build/runtime versions for the About dialog, `nativeMenuBar` (macOS).
+  - `MacUpdater` — Sparkle updates and "Check for Updates…" (macOS only, started from `main.cpp`).
 - `main.cpp` — `QGuiApplication` + `QQmlApplicationEngine`, loads the translator and `App.Splash`.
 - `android/` — Android package sources (manifest, Gradle, `SplashActivity`, icons).
-- `cmake/` — macOS `Info.plist.in` and `PruneBundle.cmake` (install step of `package-macos`).
+- `cmake/` — macOS `Info.plist.in`, `PruneBundle.cmake` (install step of `package-macos`) and `Sparkle.cmake`.
+- `docs/releases/<tag>.md` — release notes (GitHub Release and the Sparkle update dialog).
 - `resources/` — icons theme, logo, macOS `metronom.icns`, `qtquickcontrols2.conf`, Linux `.desktop` template.
-- `scripts/` — `format-code.sh` (clang-format), `make-macos-icon.sh` (regenerates the `.icns`).
+- `scripts/` — `format-code.sh` (clang-format), `make-macos-icon.sh` (regenerates the `.icns`), `update-appcast.py`
+  (adds a release to the Sparkle appcast; run by `release.yml`).
 - `translations/` — `.ts` files (pt_BR, es_ES, fr_FR, it_IT).
 - `build/` — out-of-source build directories (gitignored), one per Qt Creator kit.
 
@@ -126,6 +130,9 @@ Qt Creator opens the project directly with the matching kit.
   `[nsView window]`, and only when `QGuiApplication::platformName()` is `cocoa`.
 - **Configurable native behaviour is exposed to QML as a C++ QML type** (`QML_ELEMENT`), and QML binds its properties —
   e.g. `NativeWindow` (`window`/`color`/`alpha`). Don't reach into native code from QML; add a property instead.
+- The app menu is a QML `MenuBar` (`Main.qml`), loaded only when `AppInfo.nativeMenuBar`. Qt moves items into the
+  macOS app menu by matching their text ("About…", "Settings…", "Quit…"), so those texts stay in English; any other
+  item of that menu must be added natively (see `MacUpdater.mm`).
 - AppKit colors expect **0.0–1.0** components: use `QColor::redF()`/`greenF()`/`blueF()`, not `red()`/`green()`/
   `blue()`.
 
@@ -140,8 +147,21 @@ Qt Creator opens the project directly with the matching kit.
   - macOS `CFBundleVersion` = `MAJOR.MINOR.PATCH.<build>`, `CFBundleShortVersionString` = the tag;
   - Android `versionCode` = `((MAJOR * 100 + MINOR) * 100 + PATCH) * 10000 + <build>`, `versionName` = the tag;
   - DEB version = the tag with `-` → `~` (so `1.2.0~beta.1` sorts before `1.2.0`).
-- To release: bump `project(... VERSION ...)` in the commit the tag points at, tag it
-  (`git tag v1.1.0 && git push origin v1.1.0`), then reconfigure CMake so the new tag is picked up.
+- To release: write `docs/releases/<tag>.md` (what changed, for users), bump `project(... VERSION ...)` in the commit
+  the tag points at, tag it (`git tag v1.1.0 && git push origin v1.1.0`), then reconfigure CMake so the new tag is
+  picked up.
+
+## Updates (macOS, Sparkle)
+
+- Sparkle (version and SHA-256 pinned in `cmake/Sparkle.cmake`, downloaded at configure time) is embedded in
+  `metronom.app/Contents/Frameworks`. Release builds get `SUFeedURL` (`METRONOM_UPDATE_FEED_URL`, the `appcast` branch)
+  and `SUPublicEDKey` (`METRONOM_UPDATE_PUBLIC_KEY`, the same key as Konsoll) in `Info.plist`; Debug builds have no feed
+  and never update.
+- Checks are daily and updates install on quit (`SUEnableAutomaticChecks`, `SUAutomaticallyUpdate`). Sparkle compares
+  `CFBundleVersion`, so pre-releases sort before their release; they go in the `beta` channel, which the app does not
+  read.
+- `release.yml` (job `appcast`) signs the macOS zip with the `SPARKLE_ED_PRIVATE_KEY` secret and adds it to
+  `appcast.xml` on the `appcast` branch, with `docs/releases/<tag>.md` as the notes. Without the secret it only warns.
 - Android JNI calls that touch the activity/window run on the Android UI thread via
   `QNativeInterface::QAndroidApplication::runOnAndroidMainThread`.
 

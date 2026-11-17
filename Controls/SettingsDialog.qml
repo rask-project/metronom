@@ -15,6 +15,8 @@ Dialog {
     required property Settings settings
     required property Metronome metronome
 
+    signal aboutRequested
+
     padding: 0
     topPadding: 6
     bottomPadding: 32
@@ -86,6 +88,14 @@ Dialog {
 
             metronome: control.metronome
         }
+
+        ItemDelegate {
+            Layout.fillWidth: true
+
+            text: qsTr("About Rask Metronom")
+
+            onClicked: control.aboutRequested()
+        }
     }
 
     background: Background {
@@ -96,43 +106,7 @@ Dialog {
         border.width: 1
     }
 
-    T.Overlay.modal: Item {
-        id: overlayBackground
-
-        // The page, not the window's contentItem: that one holds the overlay itself.
-        readonly property Item blurSourceItem: Window.window?.blurSourceItem ?? null
-        readonly property point blurOrigin: blurSourceItem ? mapToItem(blurSourceItem, 0, 0) : Qt.point(0, 0)
-
-        ShaderEffectSource {
-            id: overlayBlurSource
-
-            anchors.fill: parent
-
-            sourceItem: parent.blurSourceItem
-            sourceRect: Qt.rect(parent.blurOrigin.x, parent.blurOrigin.y, width, height)
-            visible: false
-            hideSource: false
-            live: true
-            recursive: false
-        }
-
-        // Fills what the blurred page leaves transparent (translucent window), hiding the sharp page below.
-        Background {
-            anchors.fill: parent
-            radius: 0
-            opacity: 0.9
-        }
-
-        MultiEffect {
-            anchors.fill: overlayBlurSource
-            source: overlayBlurSource
-
-            blurEnabled: true
-            blur: 1.0
-            blurMax: 32
-            autoPaddingEnabled: false
-        }
-    }
+    T.Overlay.modal: BlurOverlay {}
 
     T.Overlay.modeless: Rectangle {
         readonly property color backgroundColor: Material.dropShadowColor

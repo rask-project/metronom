@@ -5,6 +5,10 @@
 #include <QSettings>
 #include <QTranslator>
 
+#ifdef Q_OS_MACOS
+#include "Metronom/MacUpdater.h"
+#endif
+
 int main(int argc, char *argv[])
 {
     QCoreApplication::setOrganizationDomain(QStringLiteral("com.github.rask-project"));
@@ -44,6 +48,10 @@ int main(int argc, char *argv[])
         Qt::QueuedConnection
     );
     engine.loadFromModule("App", "Splash");
+
+#ifdef Q_OS_MACOS
+    MacUpdater::start();
+#endif
 
     return QGuiApplication::exec();
 }

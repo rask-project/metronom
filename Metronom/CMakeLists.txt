@@ -13,6 +13,8 @@ qt_add_qml_module(metronom_qml
         LanguageManager.cpp
         NativeWindow.h
         NativeWindow.cpp
+        AppInfo.h
+        AppInfo.cpp
     QML_FILES
         AudioDeviceSelector.qml
         AutoIncrementControl.qml
@@ -24,10 +26,16 @@ qt_add_qml_module(metronom_qml
 )
 
 if(APPLE)
-    target_sources(metronom_qml PRIVATE MacWindowEffects.h MacWindowEffects.mm)
-    set_source_files_properties(MacWindowEffects.mm PROPERTIES COMPILE_OPTIONS -fobjc-arc)
+    target_sources(metronom_qml PRIVATE MacWindowEffects.h MacWindowEffects.mm MacUpdater.h MacUpdater.mm)
+    set_source_files_properties(MacWindowEffects.mm MacUpdater.mm PROPERTIES COMPILE_OPTIONS -fobjc-arc)
     target_link_libraries(metronom_qml PRIVATE
         "-framework IOKit" "-framework CoreFoundation" "-framework AppKit")
+    # Sparkle.framework is embedded in the bundle's Frameworks directory (top-level CMakeLists.txt).
+    get_filename_component(sparkle_framework_dir "${SPARKLE_FRAMEWORK}" DIRECTORY)
+    # -iframework: a system framework path, so its headers raise no warnings.
+    target_compile_options(metronom_qml PRIVATE "-iframework${sparkle_framework_dir}")
+    target_link_options(metronom_qml PUBLIC "-F${sparkle_framework_dir}")
+    target_link_libraries(metronom_qml PUBLIC "-framework Sparkle")
 elseif(ANDROID)
     find_package(Qt6CorePrivate REQUIRED)
     target_link_libraries(metronom_qml PRIVATE Qt6::CorePrivate)

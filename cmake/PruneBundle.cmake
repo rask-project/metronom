@@ -12,7 +12,10 @@
 #   unused.
 # - QtWidgets: only the widget style plugin (styles/libqmacstyle) and the
 #   native Quick style need it, and Metronom has no widgets.
-# - tls, networkinformation: Metronom makes no network connections.
+# - tls, networkinformation: Metronom's own code makes no network connections
+#   (Sparkle downloads updates with NSURLSession).
+# - Sparkle.framework: its headers, and the XPC services only sandboxed apps
+#   need.
 
 set(contents "${APP_BUNDLE}/Contents")
 set(remove
@@ -41,6 +44,11 @@ foreach(style IN ITEMS Fusion Universal Imagine FluentWinUI3 iOS macOS)
         "${contents}/PlugIns/libqtquickcontrols2${lower}styleimplplugin.dylib"
         "${contents}/Resources/qml/QtQuick/Controls/${style}"
     )
+endforeach()
+
+set(sparkle "${contents}/Frameworks/Sparkle.framework")
+foreach(part IN ITEMS Headers PrivateHeaders Modules XPCServices)
+    list(APPEND remove "${sparkle}/Versions/B/${part}" "${sparkle}/${part}")
 endforeach()
 
 foreach(path IN LISTS remove)

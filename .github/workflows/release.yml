@@ -8,7 +8,7 @@ on:
     tags: ["v*"]
 
 permissions:
-  contents: write
+  contents: write # create the release, upload assets, push the appcast
 
 concurrency:
   group: release
@@ -39,7 +39,10 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           (cd out && sha256sum Metronom-* > SHA256SUMS.txt)
-          cat > "$RUNNER_TEMP/notes.md" <<'EOF'
+          # docs/releases/<tag>.md, when present, opens the notes.
+          NOTES="docs/releases/$GITHUB_REF_NAME.md"
+          if [ -f "$NOTES" ]; then cp "$NOTES" "$RUNNER_TEMP/notes.md"; else : > "$RUNNER_TEMP/notes.md"; fi
+          cat >> "$RUNNER_TEMP/notes.md" <<'EOF'
           ## Install
 
           - **macOS** (Apple Silicon, macOS 14.4+): open the `.dmg` and drag Metronom to Applications. The app is not
@@ -55,3 +58,70 @@ jobs:
           gh release create "$GITHUB_REF_NAME" out/* "${FLAGS[@]}" \
             --title "Rask Metronom ${GITHUB_REF_NAME#v}" \
             --notes-file "$RUNNER_TEMP/notes.md" --generate-notes
+
+  appcast:
+    # "Check for Updates…" (macOS) reads appcast.xml on the appcast branch. The zip is signed with the EdDSA key
+    # whose public half is in the app (METRONOM_UPDATE_PUBLIC_KEY); a pre-release goes in the beta channel.
+    name: Publish the macOS update (Sparkle appcast)
+    needs: publish
+    runs-on: macos-26
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: metronom-macos
+          path: out
+
+      - name: Sign and add to the appcast
+        env:
+          SPARKLE_ED_PRIVATE_KEY: ${{ secrets.SPARKLE_ED_PRIVATE_KEY }}
+        run: |
+          if [ -z "$SPARKLE_ED_PRIVATE_KEY" ]; then
+            echo "::warning::SPARKLE_ED_PRIVATE_KEY is not set: the appcast was not updated."
+            exit 0
+          fi
+          VERSION=${GITHUB_REF_NAME#v}
+          ZIP="out/Metronom-$VERSION-macos-arm64.zip"
+
+          APP_DIR="$RUNNER_TEMP/app"
+          ditto -x -k "$ZIP" "$APP_DIR"
+          PLIST="$APP_DIR/metronom.app/Contents/Info.plist"
+          if ! plutil -extract SUPublicEDKey raw "$PLIST" >/dev/null 2>&1; then
+            echo "::error::The app has no SUPublicEDKey (METRONOM_UPDATE_PUBLIC_KEY): it could not install this update."
+            exit 1
+          fi
+          BUILD=$(plutil -extract CFBundleVersion raw "$PLIST")
+
+          # The Sparkle version and checksum pinned in cmake/Sparkle.cmake.
+          SPARKLE_VERSION=$(sed -n 's/^set(METRONOM_SPARKLE_VERSION \(.*\))$/\1/p' cmake/Sparkle.cmake)
+          SPARKLE_SHA256=$(sed -n 's/^set(METRONOM_SPARKLE_SHA256 \(.*\))$/\1/p' cmake/Sparkle.cmake)
+          SPARKLE="$RUNNER_TEMP/sparkle"
+          mkdir -p "$SPARKLE"
+          curl -fsSL -o "$SPARKLE.tar.xz" \
+            "https://github.com/sparkle-project/Sparkle/releases/download/$SPARKLE_VERSION/Sparkle-$SPARKLE_VERSION.tar.xz"
+          echo "$SPARKLE_SHA256  $SPARKLE.tar.xz" | shasum -a 256 -c -
+          tar -xf "$SPARKLE.tar.xz" -C "$SPARKLE"
+          SIGNATURE=$(printf '%s' "$SPARKLE_ED_PRIVATE_KEY" | "$SPARKLE/bin/sign_update" --ed-key-file - -p "$ZIP")
+
+          CHANNEL=()
+          if [[ "$GITHUB_REF_NAME" == *-* ]]; then CHANNEL=(--channel beta); fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          FEED="$RUNNER_TEMP/appcast"
+          if git fetch origin appcast; then
+            git worktree add -B appcast "$FEED" FETCH_HEAD
+          else
+            git worktree add --orphan -b appcast "$FEED"
+          fi
+          python3 -I scripts/update-appcast.py "$FEED/appcast.xml" \
+            --version "$VERSION" --build "$BUILD" \
+            --url "https://github.com/$GITHUB_REPOSITORY/releases/download/$GITHUB_REF_NAME/Metronom-$VERSION-macos-arm64.zip" \
+            --length "$(stat -f %z "$ZIP")" --signature "$SIGNATURE" \
+            --notes "docs/releases/$GITHUB_REF_NAME.md" \
+            --link "https://github.com/$GITHUB_REPOSITORY/releases/tag/$GITHUB_REF_NAME" \
+            "${CHANNEL[@]}"
+          git -C "$FEED" add appcast.xml
+          git -C "$FEED" commit -m "Rask Metronom $VERSION"
+          git -C "$FEED" push origin appcast

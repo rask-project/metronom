@@ -2,6 +2,24 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="fr_FR">
 <context>
+    <name>AboutDialog</name>
+    <message>
+        <location filename="../Controls/AboutDialog.qml" line="41"/>
+        <source>Version %1</source>
+        <translation>Version %1</translation>
+    </message>
+    <message>
+        <location filename="../Controls/AboutDialog.qml" line="50"/>
+        <source>Built with Qt %1, running on Qt %2</source>
+        <translation>Compilé avec Qt %1, exécuté sur Qt %2</translation>
+    </message>
+    <message>
+        <location filename="../Controls/AboutDialog.qml" line="59"/>
+        <source>MIT License</source>
+        <translation>Licence MIT</translation>
+    </message>
+</context>
+<context>
     <name>AudioDeviceSelector</name>
     <message>
         <location filename="../Metronom/AudioDeviceSelector.qml" line="13"/>
@@ -17,7 +35,7 @@
         <translation>Augmentation automatique du BPM</translation>
     </message>
     <message>
-        <location filename="../Metronom/AutoIncrementControl.qml" line="30"/>
+        <location filename="../Metronom/AutoIncrementControl.qml" line="32"/>
         <source>Interval</source>
         <translation>Intervalle</translation>
     </message>
@@ -40,20 +58,7 @@
     <message>
         <location filename="../Metronom/LanguageSelector.qml" line="30"/>
         <source>To change the language, you need to restart the application.</source>
-        <translation>Pour changer la langue, vous devez redémarrer l'application.</translation>
-    </message>
-</context>
-<context>
-    <name>SettingsDialog</name>
-    <message>
-        <location filename="../Controls/SettingsDialog.qml" line="23"/>
-        <source>Settings</source>
-        <translation>Paramètres</translation>
-    </message>
-    <message>
-        <location filename="../Controls/SettingsDialog.qml" line="44"/>
-        <source>Save the BPM and note value</source>
-        <translation>Enregistrer le BPM et la division rythmique</translation>
+        <translation>Pour changer la langue, vous devez redémarrer l&apos;application.</translation>
     </message>
 </context>
 <context>
@@ -77,6 +82,29 @@
         <location filename="../Metronom/NoteValueSelector.qml" line="42"/>
         <source>Thirty Second</source>
         <translation>Triple-croche</translation>
+    </message>
+</context>
+<context>
+    <name>SettingsDialog</name>
+    <message>
+        <location filename="../Controls/SettingsDialog.qml" line="27"/>
+        <source>Settings</source>
+        <translation>Paramètres</translation>
+    </message>
+    <message>
+        <location filename="../Controls/SettingsDialog.qml" line="48"/>
+        <source>Dark mode</source>
+        <translation>Mode sombre</translation>
+    </message>
+    <message>
+        <location filename="../Controls/SettingsDialog.qml" line="57"/>
+        <source>Save the BPM and note value</source>
+        <translation>Enregistrer le BPM et la division rythmique</translation>
+    </message>
+    <message>
+        <location filename="../Controls/SettingsDialog.qml" line="95"/>
+        <source>About Rask Metronom</source>
+        <translation>À propos de Rask Metronom</translation>
     </message>
 </context>
 </TS>

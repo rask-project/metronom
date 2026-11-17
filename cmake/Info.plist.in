@@ -42,5 +42,5 @@
 
 	<key>NSSupportsAutomaticGraphicsSwitching</key>
 	<true/>
-</dict>
+${METRONOM_SPARKLE_PLIST_KEYS}</dict>
 </plist>

@@ -16,6 +16,7 @@ Window {
     readonly property bool isLandscape: width > height && width >= layout.anchors.leftMargin + layout.anchors.rightMargin + bpmControl.implicitWidth + Math.max(noteValueSelector.implicitWidth, transport.implicitWidth)
     readonly property Item blurSourceItem: backgroundPage
     readonly property bool isAndroid: Qt.platform.os === "android"
+    readonly property bool dialogOpen: settingsDialog.visible || aboutDialog.visible
 
     minimumWidth: window.isAndroid ? null : 380
     minimumHeight: window.isAndroid ? null : 640
@@ -201,37 +202,85 @@ Window {
 
     Shortcut {
         sequence: "Space"
-        enabled: !settingsDialog.visible
+        enabled: !window.dialogOpen
         onActivated: metronome.toggle()
     }
 
     Shortcut {
         sequence: "Up"
-        enabled: !settingsDialog.visible
+        enabled: !window.dialogOpen
         onActivated: metronome.increaseBpm()
     }
 
     Shortcut {
         sequence: "Down"
-        enabled: !settingsDialog.visible
+        enabled: !window.dialogOpen
         onActivated: metronome.decreaseBpm()
     }
 
     Shortcut {
         sequence: "PgUp"
-        enabled: !settingsDialog.visible
+        enabled: !window.dialogOpen
         onActivated: metronome.nextTempoMarking()
     }
 
     Shortcut {
         sequence: "PgDown"
-        enabled: !settingsDialog.visible
+        enabled: !window.dialogOpen
         onActivated: metronome.previousTempoMarking()
     }
 
     Shortcut {
-        sequences: [StandardKey.Close, StandardKey.Quit]
+        sequences: [StandardKey.Close]
         onActivated: Qt.quit()
+    }
+
+    // English on purpose: Qt moves these into the macOS app menu by matching "About", "Settings" and "Quit".
+    Action {
+        id: aboutAction
+
+        text: "About Rask Metronom"
+        onTriggered: aboutDialog.open()
+    }
+
+    Action {
+        id: settingsAction
+
+        text: "Settings…"
+        shortcut: StandardKey.Preferences
+        onTriggered: settingsDialog.open()
+    }
+
+    Action {
+        id: quitAction
+
+        text: "Quit Rask Metronom"
+        shortcut: StandardKey.Quit
+        onTriggered: Qt.quit()
+    }
+
+    Loader {
+        active: AppInfo.nativeMenuBar
+
+        sourceComponent: MenuBar {
+            Menu {
+                title: Qt.application.name
+
+                MenuItem {
+                    action: aboutAction
+                }
+
+                MenuItem {
+                    action: settingsAction
+                }
+
+                MenuSeparator {}
+
+                MenuItem {
+                    action: quitAction
+                }
+            }
+        }
     }
 
     SettingsDialog {
@@ -244,5 +293,19 @@ Window {
 
         settings: appSettings
         metronome: metronome
+
+        onAboutRequested: {
+            settingsDialog.close();
+            aboutDialog.open();
+        }
+    }
+
+    AboutDialog {
+        id: aboutDialog
+
+        width: window.width > 450 ? 450 : window.width * 0.95
+
+        anchors.centerIn: parent
+        parent: Overlay.overlay
     }
 }
