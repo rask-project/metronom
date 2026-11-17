@@ -183,7 +183,10 @@ jobs:
             "${SIGN_ARGS[@]}"
 
       - name: Build
-        run: cmake --build build/ci --target apk aab
+        # One at a time: both run Gradle in the same android-build directory.
+        run: |
+          cmake --build build/ci --target apk
+          cmake --build build/ci --target aab
 
       - name: Package
         run: |
