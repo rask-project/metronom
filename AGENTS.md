@@ -64,6 +64,8 @@ Qt Creator opens the project directly with the matching kit.
   abstractions.
 - **Design:** minimal solutions, no speculative fields or options.
 - No debug logging (`qDebug`) left in committed code.
+- **Commits and PRs:** never add `Co-authored-by` (or any other AI attribution trailer, e.g. "Generated with")
+  to commit messages or pull request descriptions. The author is the repository owner.
 
 ## C++ rules
 
