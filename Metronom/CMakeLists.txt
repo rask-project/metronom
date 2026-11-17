@@ -27,39 +27,7 @@ elseif(ANDROID)
     find_package(Qt6CorePrivate REQUIRED)
     target_link_libraries(metronom_qml PRIVATE Qt6::CorePrivate)
 elseif(UNIX)
-    find_package(PkgConfig REQUIRED)
-
-    pkg_check_modules(XCB REQUIRED IMPORTED_TARGET xcb)
-    pkg_check_modules(WAYLAND_CLIENT REQUIRED IMPORTED_TARGET wayland-client)
-
-    find_program(WAYLAND_SCANNER NAMES wayland-scanner)
-    find_path(IDLE_INHIBIT_PROTOCOL_DIR
-        NAMES unstable/idle-inhibit/idle-inhibit-unstable-v1.xml
-        PATHS /usr/share/wayland-protocols /usr/local/share/wayland-protocols
-    )
-
-    if(NOT WAYLAND_SCANNER OR NOT IDLE_INHIBIT_PROTOCOL_DIR)
-        message(FATAL_ERROR "wayland-scanner or idle-inhibit-unstable-v1.xml not found (install wayland and wayland-protocols)")
-    endif()
-
-    set(IDLE_INHIBIT_PROTOCOL_HEADER ${CMAKE_CURRENT_BINARY_DIR}/idle-inhibit-unstable-v1-protocol.h)
-    set(IDLE_INHIBIT_PROTOCOL_SOURCE ${CMAKE_CURRENT_BINARY_DIR}/idle-inhibit-unstable-v1-protocol.c)
-
-    add_custom_command(
-        OUTPUT ${IDLE_INHIBIT_PROTOCOL_HEADER} ${IDLE_INHIBIT_PROTOCOL_SOURCE}
-        COMMAND ${WAYLAND_SCANNER} client-header
-                ${IDLE_INHIBIT_PROTOCOL_DIR}/unstable/idle-inhibit/idle-inhibit-unstable-v1.xml
-                ${IDLE_INHIBIT_PROTOCOL_HEADER}
-        COMMAND ${WAYLAND_SCANNER} private-code
-                ${IDLE_INHIBIT_PROTOCOL_DIR}/unstable/idle-inhibit/idle-inhibit-unstable-v1.xml
-                ${IDLE_INHIBIT_PROTOCOL_SOURCE}
-        DEPENDS ${IDLE_INHIBIT_PROTOCOL_DIR}/unstable/idle-inhibit/idle-inhibit-unstable-v1.xml
-        VERBATIM
-    )
-
-    target_sources(metronom_qml PRIVATE ${IDLE_INHIBIT_PROTOCOL_SOURCE})
-    target_include_directories(metronom_qml PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
-    target_link_libraries(metronom_qml PRIVATE Qt6::DBus PkgConfig::XCB PkgConfig::WAYLAND_CLIENT)
+    target_link_libraries(metronom_qml PRIVATE Qt6::DBus)
 endif()
 
 target_link_libraries(metronom_qml

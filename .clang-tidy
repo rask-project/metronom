@@ -1,6 +1,7 @@
 Checks: >
   -*,
   bugprone-*,
+  -bugprone-easily-swappable-parameters,
   bugprone-assignment-in-if-condition,
   bugprone-branch-clone,
   bugprone-empty-catch,
