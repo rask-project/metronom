@@ -10,7 +10,10 @@ int main(int argc, char *argv[])
     QCoreApplication::setOrganizationDomain(QStringLiteral("com.github.rask-project"));
     QCoreApplication::setOrganizationName(QStringLiteral("rask-project"));
     QCoreApplication::setApplicationName(QStringLiteral("Metronom"));
-    QCoreApplication::setApplicationVersion(QStringLiteral("1.0.0"));
+    QCoreApplication::setApplicationVersion(
+        QStringLiteral(METRONOM_VERSION) + QStringLiteral(" (") + QStringLiteral(METRONOM_GIT_COMMIT) +
+        QStringLiteral(")")
+    );
 
     QGuiApplication app(argc, argv);
     QGuiApplication::setWindowIcon(QIcon(":/resources/logo.png"));

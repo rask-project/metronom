@@ -1,21 +1,95 @@
 cmake_minimum_required(VERSION 3.16)
 
-project(Metronom VERSION 1.0.0 LANGUAGES C CXX)
+set(CMAKE_OSX_ARCHITECTURES "arm64" CACHE STRING "macOS target architecture")
+set(CMAKE_OSX_DEPLOYMENT_TARGET "14.4" CACHE STRING "Minimum supported macOS version")
+
+project(Metronom VERSION 1.0.0 LANGUAGES CXX)
 
 set(TARGET_NAME metronom)
+
+set(METRONOM_CODESIGN_IDENTITY "" CACHE STRING
+    "Developer ID used to sign the installed macOS bundle (empty: ad-hoc signature)")
+
+if(APPLE AND CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
+    set(CMAKE_INSTALL_PREFIX "${CMAKE_BINARY_DIR}/dist" CACHE PATH
+        "Directory for the installed macOS application bundle" FORCE)
+endif()
+
+execute_process(
+    COMMAND git rev-parse --short=7 HEAD
+    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+    OUTPUT_VARIABLE METRONOM_GIT_COMMIT
+    OUTPUT_STRIP_TRAILING_WHITESPACE
+    ERROR_QUIET
+)
+if(NOT METRONOM_GIT_COMMIT)
+    set(METRONOM_GIT_COMMIT "unknown")
+endif()
+
+execute_process(
+    COMMAND git describe --tags --abbrev=0
+    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+    OUTPUT_VARIABLE METRONOM_DISPLAY_VERSION
+    OUTPUT_STRIP_TRAILING_WHITESPACE
+    ERROR_QUIET
+)
+if(METRONOM_DISPLAY_VERSION)
+    string(REGEX REPLACE "^v" "" METRONOM_DISPLAY_VERSION "${METRONOM_DISPLAY_VERSION}")
+else()
+    set(METRONOM_DISPLAY_VERSION ${PROJECT_VERSION})
+endif()
+
+# Numeric build that orders pre-releases before their release
+# (1.2.0-alpha.2 -> 2, -beta.2 -> 102, -rc.2 -> 502, 1.2.0 -> 1000).
+set(release_base ${PROJECT_VERSION})
+set(release_build 1000)
+if(METRONOM_DISPLAY_VERSION MATCHES "^([0-9]+)\\.([0-9]+)\\.([0-9]+)(-(alpha|beta|rc)\\.([0-9]+))?$")
+    set(release_base "${CMAKE_MATCH_1}.${CMAKE_MATCH_2}.${CMAKE_MATCH_3}")
+    set(release_major ${CMAKE_MATCH_1})
+    set(release_minor ${CMAKE_MATCH_2})
+    set(release_patch ${CMAKE_MATCH_3})
+    if(CMAKE_MATCH_5 STREQUAL "alpha")
+        set(release_build ${CMAKE_MATCH_6})
+    elseif(CMAKE_MATCH_5 STREQUAL "beta")
+        math(EXPR release_build "100 + ${CMAKE_MATCH_6}")
+    elseif(CMAKE_MATCH_5 STREQUAL "rc")
+        math(EXPR release_build "500 + ${CMAKE_MATCH_6}")
+    endif()
+else()
+    set(release_major ${PROJECT_VERSION_MAJOR})
+    set(release_minor ${PROJECT_VERSION_MINOR})
+    set(release_patch ${PROJECT_VERSION_PATCH})
+endif()
+
+# CFBundleVersion (macOS) and versionCode (Android) must grow with every release.
+set(METRONOM_BUNDLE_VERSION "${release_base}.${release_build}")
+math(EXPR METRONOM_VERSION_CODE
+    "((${release_major} * 100 + ${release_minor}) * 100 + ${release_patch}) * 10000 + ${release_build}")
 
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(Qt6 6.10 REQUIRED COMPONENTS Quick Multimedia QmlIntegration LinguistTools)
-find_package(Qt6 6.10 COMPONENTS DBus)
+if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
+    find_package(Qt6 6.10 REQUIRED COMPONENTS DBus)
+endif()
 
 qt_standard_project_setup(REQUIRES 6.10)
 
 add_subdirectory(Metronom)
 
+set(MACOSX_BUNDLE_ICON_FILE metronom.icns)
+set(app_icon_macos "${CMAKE_CURRENT_SOURCE_DIR}/resources/metronom.icns")
+set_source_files_properties(${app_icon_macos} PROPERTIES MACOSX_PACKAGE_LOCATION "Resources")
+
 qt_add_executable(${TARGET_NAME}
     main.cpp
+    ${app_icon_macos}
+)
+
+target_compile_definitions(${TARGET_NAME} PRIVATE
+    METRONOM_VERSION="${METRONOM_DISPLAY_VERSION}"
+    METRONOM_GIT_COMMIT="${METRONOM_GIT_COMMIT}"
 )
 
 qt_add_qml_module(${TARGET_NAME}
@@ -45,18 +119,27 @@ qt_import_qml_plugins(${TARGET_NAME})
 
 add_subdirectory(resources/icons)
 
-# Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
-# If you are developing for iOS or macOS you should consider setting an
-# explicit, fixed bundle identifier manually though.
+# Debug builds get their own id so they don't share macOS permissions and
+# preferences caches with the installed app.
+set(METRONOM_BUNDLE_ID com.github.rask-project.metronom)
+if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+    string(APPEND METRONOM_BUNDLE_ID ".debug")
+endif()
+
 set_target_properties(${TARGET_NAME} PROPERTIES
-#    MACOSX_BUNDLE_GUI_IDENTIFIER com.example.${TARGET_NAME}
-    MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION}
-    MACOSX_BUNDLE_SHORT_VERSION_STRING ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}
+    MACOSX_BUNDLE_BUNDLE_NAME "Rask Metronom"
+    MACOSX_BUNDLE_GUI_IDENTIFIER ${METRONOM_BUNDLE_ID}
+    MACOSX_BUNDLE_BUNDLE_VERSION ${METRONOM_BUNDLE_VERSION}
+    MACOSX_BUNDLE_SHORT_VERSION_STRING ${METRONOM_DISPLAY_VERSION}
+    MACOSX_BUNDLE_COPYRIGHT "Copyright (c) 2026 Rask Project"
+    MACOSX_BUNDLE_INFO_PLIST "${CMAKE_CURRENT_SOURCE_DIR}/cmake/Info.plist.in"
     MACOSX_BUNDLE TRUE
     WIN32_EXECUTABLE TRUE
     QT_ANDROID_PACKAGE_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/android"
     QT_ANDROID_APP_ICON "@mipmap/ic_launcher"
     QT_ANDROID_APP_NAME "Rask Metronom"
+    QT_ANDROID_VERSION_NAME ${METRONOM_DISPLAY_VERSION}
+    QT_ANDROID_VERSION_CODE ${METRONOM_VERSION_CODE}
 )
 
 target_link_libraries(${TARGET_NAME}
@@ -80,12 +163,36 @@ install(TARGETS ${TARGET_NAME}
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
 )
 
-if(NOT ANDROID)
+if(APPLE)
+    set(deploy_tool_options_arg)
+    if(METRONOM_CODESIGN_IDENTITY)
+        qt_policy(SET QTP0007 NEW)
+        list(APPEND deploy_tool_options_arg "-sign-for-notarization=${METRONOM_CODESIGN_IDENTITY}")
+    endif()
+
+    qt_generate_deploy_qml_app_script(
+        TARGET ${TARGET_NAME}
+        OUTPUT_SCRIPT deploy_script
+        DEPLOY_TOOL_OPTIONS ${deploy_tool_options_arg}
+    )
+    install(SCRIPT ${deploy_script})
+    install(CODE "
+        set(APP_BUNDLE \"\${CMAKE_INSTALL_PREFIX}/${TARGET_NAME}.app\")
+        set(CODESIGN_IDENTITY \"${METRONOM_CODESIGN_IDENTITY}\")
+        include(\"${CMAKE_CURRENT_SOURCE_DIR}/cmake/PruneBundle.cmake\")
+    ")
+
+    add_custom_target(package-macos
+        COMMAND ${CMAKE_COMMAND} --install ${CMAKE_BINARY_DIR} --config $<CONFIG>
+        DEPENDS ${TARGET_NAME}
+        COMMENT "Deploying self-contained Metronom bundle to ${CMAKE_INSTALL_PREFIX}"
+        VERBATIM
+    )
+elseif(NOT ANDROID)
     qt_generate_deploy_qml_app_script(
         TARGET ${TARGET_NAME}
         OUTPUT_SCRIPT deploy_script
     )
-
     install(SCRIPT ${deploy_script})
 endif()
 
@@ -116,6 +223,8 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
     set(CPACK_PACKAGE_HOMEPAGE_URL "https://github.com/rask-project/metronom")
     set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "A cross-platform metronome built with Qt 6")
     set(CPACK_DEBIAN_PACKAGE_NAME "metronom")
+    # "~" makes dpkg sort 1.2.0~beta.1 before 1.2.0
+    string(REPLACE "-" "~" CPACK_DEBIAN_PACKAGE_VERSION "${METRONOM_DISPLAY_VERSION}")
     set(CPACK_DEBIAN_PACKAGE_MAINTAINER "Mauro Marssola <mauro.marssola@hotmail.com>")
     set(CPACK_DEBIAN_PACKAGE_SECTION "sound")
     set(CPACK_DEBIAN_PACKAGE_DEPENDS
@@ -166,7 +275,7 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
         "libgtk-3-0t64")
     # dpkg requires commas; the CMake 3.30+ DEB generator does not convert list separators
     string(REPLACE ";" ", " CPACK_DEBIAN_PACKAGE_DEPENDS "${CPACK_DEBIAN_PACKAGE_DEPENDS}")
-    set(CPACK_PACKAGE_FILE_NAME "${CPACK_PACKAGE_NAME}-${PROJECT_VERSION}-${CMAKE_SYSTEM_PROCESSOR}")
+    set(CPACK_PACKAGE_FILE_NAME "${CPACK_PACKAGE_NAME}-${METRONOM_DISPLAY_VERSION}-${CMAKE_SYSTEM_PROCESSOR}")
     set(CPACK_PACKAGING_INSTALL_PREFIX "${METRONOM_APP_PREFIX}")
     set(CPACK_GENERATOR "DEB")
     include(CPack)
