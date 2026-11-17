@@ -71,3 +71,6 @@ sonar_main.json
 sonar_main.csv
 sonar_*.json
 sonar_*.csv
+
+# macOS
+.DS_Store
