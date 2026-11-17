@@ -151,11 +151,11 @@ jobs:
         uses: jurplel/install-qt-action@v4
         with:
           version: ${{ env.QT_VERSION }}
-          host: linux
+          host: all_os # Qt >= 6.7 publishes Android under all_os
           target: android
           arch: android_arm64_v8a
           modules: qtmultimedia
-          autodesktop: true # host Qt for the build tools
+          extra: --autodesktop # host Qt for the build tools
           aqtversion: ${{ env.AQT_VERSION }}
           cache: true
 
