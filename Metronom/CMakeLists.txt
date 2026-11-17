@@ -11,6 +11,8 @@ qt_add_qml_module(metronom_qml
         StatusBarController.cpp
         LanguageManager.h
         LanguageManager.cpp
+        NativeWindow.h
+        NativeWindow.cpp
     QML_FILES
         AudioDeviceSelector.qml
         AutoIncrementControl.qml
@@ -22,7 +24,10 @@ qt_add_qml_module(metronom_qml
 )
 
 if(APPLE)
-    target_link_libraries(metronom_qml PRIVATE "-framework IOKit" "-framework CoreFoundation")
+    target_sources(metronom_qml PRIVATE MacWindowEffects.h MacWindowEffects.mm)
+    set_source_files_properties(MacWindowEffects.mm PROPERTIES COMPILE_OPTIONS -fobjc-arc)
+    target_link_libraries(metronom_qml PRIVATE
+        "-framework IOKit" "-framework CoreFoundation" "-framework AppKit")
 elseif(ANDROID)
     find_package(Qt6CorePrivate REQUIRED)
     target_link_libraries(metronom_qml PRIVATE Qt6::CorePrivate)

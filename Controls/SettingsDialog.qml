@@ -1,7 +1,8 @@
+import QtCore
+
 import QtQuick
 import QtQuick.Window
-import QtCore
-import QtQuick.Controls
+import QtQuick.Controls.Material
 import QtQuick.Layouts
 import QtQuick.Templates as T
 import QtQuick.Effects
@@ -89,7 +90,8 @@ Dialog {
 
     background: Background {
         Material.roundedScale: Material.LargeScale
-        opacity: 0.8
+
+        opacity: 0.95
         border.color: Material.theme === Material.Dark ? Qt.darker(Material.accent, 10) : Qt.lighter(Material.accent, 1.8)
         border.width: 1
     }
@@ -97,19 +99,28 @@ Dialog {
     T.Overlay.modal: Item {
         id: overlayBackground
 
-        readonly property Item windowContentItem: Window.window?.contentItem ?? null
-        readonly property point blurOrigin: windowContentItem ? mapToItem(windowContentItem, 0, 0) : Qt.point(0, 0)
+        // The page, not the window's contentItem: that one holds the overlay itself.
+        readonly property Item blurSourceItem: Window.window?.blurSourceItem ?? null
+        readonly property point blurOrigin: blurSourceItem ? mapToItem(blurSourceItem, 0, 0) : Qt.point(0, 0)
 
         ShaderEffectSource {
             id: overlayBlurSource
 
             anchors.fill: parent
 
-            sourceItem: parent.windowContentItem
+            sourceItem: parent.blurSourceItem
             sourceRect: Qt.rect(parent.blurOrigin.x, parent.blurOrigin.y, width, height)
+            visible: false
             hideSource: false
             live: true
             recursive: false
+        }
+
+        // Fills what the blurred page leaves transparent (translucent window), hiding the sharp page below.
+        Background {
+            anchors.fill: parent
+            radius: 0
+            opacity: 0.9
         }
 
         MultiEffect {

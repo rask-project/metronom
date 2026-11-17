@@ -17,6 +17,7 @@ Guidance for AI agents working in this repository.
   - `ScreenLockInhibitor` — keeps the screen awake while playing (see *Platform code*).
   - `StatusBarController` — Android status bar appearance.
   - `LanguageManager` — UI language selection (QSettings `language`).
+  - `NativeWindow` — translucent, blurred window with the content under the title bar (macOS; no-op elsewhere).
 - `main.cpp` — `QGuiApplication` + `QQmlApplicationEngine`, loads the translator and `App.Splash`.
 - `android/` — Android package sources (manifest, Gradle, `SplashActivity`, icons).
 - `cmake/` — macOS `Info.plist.in` and `PruneBundle.cmake` (install step of `package-macos`).
@@ -27,7 +28,7 @@ Guidance for AI agents working in this repository.
 
 ## Build and run
 
-Only build when the user explicitly asks; don't run a build on your own to "validate" changes.
+Build to validate changes (the macOS Debug build below); also run it when the user asks.
 
 ```sh
 # macOS (kit: Qt 6.12.0 for macOS)
@@ -108,8 +109,25 @@ Qt Creator opens the project directly with the matching kit.
   libraries directly.
 - `ScreenLockInhibitor`: IOPM assertion `PreventUserIdleDisplaySleep` on macOS, `FLAG_KEEP_SCREEN_ON` on Android,
   D-Bus `org.freedesktop.ScreenSaver` + `org.freedesktop.portal.Inhibit` on Linux (works on X11 and Wayland).
+- `NativeWindow` (`Main.qml`): on macOS the window uses `ExpandedClientAreaHint | NoTitleBarBackgroundHint`, a
+  transparent `color` and the `Header` starts after the window buttons (`leadingInset`); elsewhere `translucent` is
+  false and the window is unchanged.
 - macOS app icon: `resources/metronom.icns`, generated from `resources/logo.svg` by `scripts/make-macos-icon.sh`
   (run on macOS whenever the logo changes and commit the result).
+
+## Native macOS interop
+
+- Native AppKit behaviour is written in **Objective-C++** (`Metronom/*.mm`, compiled with ARC: `-fobjc-arc`). The
+  top-level `CMakeLists.txt` enables `OBJCXX` only on Apple, and `Metronom/CMakeLists.txt` adds the `.mm` sources and
+  AppKit inside `if(APPLE)`, so Linux and Android never see them.
+- The `.mm` file exposes plain C++ functions in a C++-only header (e.g. `MacWindowEffects.h`); the QML type calls them
+  under `#ifdef Q_OS_MACOS`.
+- On macOS `QWindow::winId()` is the window's `contentView` (`NSView *`), not the `NSWindow` — get the window via
+  `[nsView window]`, and only when `QGuiApplication::platformName()` is `cocoa`.
+- **Configurable native behaviour is exposed to QML as a C++ QML type** (`QML_ELEMENT`), and QML binds its properties —
+  e.g. `NativeWindow` (`window`/`color`/`alpha`). Don't reach into native code from QML; add a property instead.
+- AppKit colors expect **0.0–1.0** components: use `QColor::redF()`/`greenF()`/`blueF()`, not `red()`/`green()`/
+  `blue()`.
 
 ## Versioning and releases
 
@@ -145,8 +163,8 @@ Qt Creator opens the project directly with the matching kit.
 
 ## Formatting
 
-- **Run `scripts/format-code.sh` after every change**, before building or committing. It formats C/C++ (`.cpp`, `.h`)
-  with clang-format (`.clang-format`: LLVM-based, 120 columns, 4 spaces, never tabs).
+- **Run `scripts/format-code.sh` after every change**, before building or committing. It formats C++ and
+  Objective-C++ (`.cpp`, `.h`, `.mm`) with clang-format (`.clang-format`: LLVM-based, 120 columns, 4 spaces, never tabs).
 - `scripts/format-code.sh -n` changes nothing and exits 1 listing the files that need formatting.
 - QML follows the Qt QML coding conventions (4-space indent, attribute order: id, properties, signals, functions,
   children).
@@ -161,3 +179,6 @@ Qt Creator opens the project directly with the matching kit.
 - Verify per file (needs `-DCMAKE_EXPORT_COMPILE_COMMANDS=ON`; with Homebrew's clang-tidy on macOS pass the SDK):
   `clang-tidy -p build/Qt_6_12_0_for_macOS_Debug --config-file=.clang-tidy --extra-arg=-isysroot$(xcrun --show-sdk-path) <file>`.
   On macOS only the macOS branches of platform code are analysed — check Linux code on a Linux build.
+- **`.mm` caveat:** clang-tidy 19 segfaults on `.mm` files while running
+  `cppcoreguidelines-avoid-const-or-ref-data-members` (AST-matcher bug, not a code issue). Run `.mm` files with that
+  single check disabled (`--checks=-cppcoreguidelines-avoid-const-or-ref-data-members`); all other checks still apply.

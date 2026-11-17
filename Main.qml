@@ -18,11 +18,20 @@ Window {
     readonly property bool isAndroid: Qt.platform.os === "android"
 
     minimumWidth: window.isAndroid ? null : 380
-    minimumHeight: window.isAndroid ? null : 600
+    minimumHeight: window.isAndroid ? null : 640
     maximumWidth: minimumWidth
     maximumHeight: minimumHeight
 
-    flags: window.isAndroid ? Qt.ExpandedClientAreaHint : Qt.defaultWindowFlags & ~Qt.WindowMaximizeButtonHint
+    flags: {
+        if (window.isAndroid) {
+            return Qt.ExpandedClientAreaHint;
+        }
+        if (nativeWindow.translucent) {
+            return Qt.Window | Qt.CustomizeWindowHint | Qt.WindowTitleHint | Qt.WindowCloseButtonHint | Qt.WindowMinimizeButtonHint | Qt.ExpandedClientAreaHint | Qt.NoTitleBarBackgroundHint;
+        }
+        return Qt.defaultWindowFlags & ~Qt.WindowMaximizeButtonHint;
+    }
+    color: nativeWindow.translucent ? "transparent" : "white"
 
     onVisibleChanged: {
         if (visible) {
@@ -56,6 +65,14 @@ Window {
         id: metronome
     }
 
+    NativeWindow {
+        id: nativeWindow
+
+        window: window
+        color: pageBackground.gradientStop2
+        alpha: 1.0
+    }
+
     StatusBarController {
         lightStatusBar: appSettings.theme === Material.Light
     }
@@ -82,10 +99,16 @@ Window {
         id: backgroundPage
 
         anchors.fill: parent
-        background: Background {}
+        background: Background {
+            id: pageBackground
+
+            visible: !nativeWindow.translucent
+        }
 
         header: Header {
             title: window.title
+            translucent: nativeWindow.translucent
+            leadingInset: nativeWindow.leadingInset
 
             settingsButton: ToolButton {
                 icon.name: "settings"

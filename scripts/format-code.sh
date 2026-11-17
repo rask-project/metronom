@@ -70,7 +70,7 @@ while IFS= read -r -d '' file; do
 done < <(
     find . \
         \( -path ./build -o -path ./external \) -prune -o \
-        \( -iname '*.c' -o -iname '*.cc' -o -iname '*.cpp' -o -iname '*.cxx' -o \
+        \( -iname '*.c' -o -iname '*.cc' -o -iname '*.cpp' -o -iname '*.cxx' -o -iname '*.mm' -o \
            -iname '*.h' -o -iname '*.hh' -o -iname '*.hpp' -o -iname '*.hxx' -o -iname '*.ipp' -o -iname '*.tpp' \) \
         -print0
 )
