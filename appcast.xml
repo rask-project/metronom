@@ -6,6 +6,36 @@
     <description>Rask Metronom releases</description>
     <language>en</language>
     <item>
+      <title>Rask Metronom 3.0.0</title>
+      <link>https://github.com/rask-project/metronom/releases/tag/v3.0.0</link>
+      <sparkle:version>3.0.0.1000</sparkle:version>
+      <sparkle:shortVersionString>3.0.0</sparkle:shortVersionString>
+      <sparkle:minimumSystemVersion>14.4</sparkle:minimumSystemVersion>
+      <pubDate>Wed, 18 Nov 2026 16:55:52 GMT</pubDate>
+      <description sparkle:format="markdown"><![CDATA[## What's new
+
+Rask Metronom 3.0.0 looks native on macOS and reorganises the layout for phones in landscape.
+
+### macOS
+
+- **Native look:** buttons, switches, the BPM wheel and dialogs now follow the macOS style instead of Material.
+- Light and dark themes apply to the native controls too, with the app's orange accent.
+- Dialogs have a border and a shadow over a slightly dimmed page, so they stand out in both themes.
+
+### Android
+
+- **Landscape layout:** the metronome takes the left side and the note values, BPM and play controls stack on the
+  right. The BPM wheel shows fewer rows when the screen is short.
+- Dialogs fit between the system bars, and the settings scroll when they do not fit.
+- Fixed the note value names being hard to read on the dark theme.
+
+### Also
+
+- Your light or dark choice is kept from the previous version.
+]]></description>
+      <enclosure url="https://github.com/rask-project/metronom/releases/download/v3.0.0/Metronom-3.0.0-macos-arm64.zip" length="57347371" type="application/octet-stream" sparkle:edSignature="2a99Jwb1B/2S4Jbhqu5iiSnuPHr9RTkfkVkUUoZi3IfY9qUTEDQeBzzw3VQ+fDre+Zrkob7WoWAg8CcGhK1CDA=="/>
+    </item>
+    <item>
       <title>Rask Metronom 2.0.0</title>
       <link>https://github.com/rask-project/metronom/releases/tag/v2.0.0</link>
       <sparkle:version>2.0.0.1000</sparkle:version>
