@@ -38,62 +38,70 @@ Dialog {
         verticalAlignment: Label.AlignVCenter
     }
 
-    contentItem: ColumnLayout {
-        spacing: 16
+    // Scrolls when the dialog is capped to a short window (landscape on phones).
+    contentItem: ScrollView {
+        id: scrollView
 
-        SwitchDelegate {
-            Layout.fillWidth: true
+        contentWidth: availableWidth
 
-            text: qsTr("Dark mode")
+        ColumnLayout {
+            width: scrollView.availableWidth
+            spacing: 16
 
-            checked: Appearance.dark
-            onToggled: Appearance.colorScheme = checked ? Qt.Dark : Qt.Light
-        }
+            SwitchDelegate {
+                Layout.fillWidth: true
 
-        SwitchDelegate {
-            Layout.fillWidth: true
+                text: qsTr("Dark mode")
 
-            text: qsTr("Save the BPM, time signature and note value")
-
-            checked: control.settings.autoSave
-            onCheckedChanged: control.settings.autoSave = checked
-        }
-
-        AutoIncrementControl {
-            Layout.fillWidth: true
-            Layout.alignment: Qt.AlignHCenter
-
-            metronome: control.metronome
-        }
-
-        LanguageSelector {
-            Layout.fillWidth: true
-            Layout.alignment: Qt.AlignHCenter
-            Layout.leftMargin: 16
-            Layout.rightMargin: 16
-
-            manager: LanguageManager {
-                id: languageManager
+                checked: Appearance.dark
+                onToggled: Appearance.colorScheme = checked ? Qt.Dark : Qt.Light
             }
-        }
 
-        AudioDeviceSelector {
-            id: audioDeviceSelector
+            SwitchDelegate {
+                Layout.fillWidth: true
 
-            Layout.fillWidth: true
-            Layout.alignment: Qt.AlignHCenter
-            Layout.leftMargin: 16
-            Layout.rightMargin: 16
+                text: qsTr("Save the BPM, time signature and note value")
 
-            metronome: control.metronome
-        }
+                checked: control.settings.autoSave
+                onCheckedChanged: control.settings.autoSave = checked
+            }
 
-        ItemDelegate {
-            Layout.fillWidth: true
+            AutoIncrementControl {
+                Layout.fillWidth: true
+                Layout.alignment: Qt.AlignHCenter
 
-            text: qsTr("About Rask Metronom")
+                metronome: control.metronome
+            }
 
-            onClicked: control.aboutRequested()
+            LanguageSelector {
+                Layout.fillWidth: true
+                Layout.alignment: Qt.AlignHCenter
+                Layout.leftMargin: 16
+                Layout.rightMargin: 16
+
+                manager: LanguageManager {
+                    id: languageManager
+                }
+            }
+
+            AudioDeviceSelector {
+                id: audioDeviceSelector
+
+                Layout.fillWidth: true
+                Layout.alignment: Qt.AlignHCenter
+                Layout.leftMargin: 16
+                Layout.rightMargin: 16
+
+                metronome: control.metronome
+            }
+
+            ItemDelegate {
+                Layout.fillWidth: true
+
+                text: qsTr("About Rask Metronom")
+
+                onClicked: control.aboutRequested()
+            }
         }
     }
 

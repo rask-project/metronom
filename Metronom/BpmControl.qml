@@ -33,8 +33,13 @@ RowLayout {
             id: tumbler
 
             Layout.fillWidth: true
+            Layout.fillHeight: true
+            Layout.maximumHeight: implicitHeight
             Layout.minimumWidth: 150
             Layout.alignment: Qt.AlignRight
+
+            // Fewer, taller rows when the height is short (landscape on phones).
+            visibleItemCount: height < 180 ? 3 : 5
 
             currentIndex: metronome.bpm - metronome.minBpm
             model: Array.from({

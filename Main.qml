@@ -18,6 +18,8 @@ Window {
     readonly property Item blurSourceItem: backgroundPage
     readonly property bool isAndroid: Qt.platform.os === "android"
     readonly property bool dialogOpen: settingsDialog.visible || aboutDialog.visible || timeSignatureDialog.visible
+    // Keeps dialogs clear of the status and navigation bars on short (landscape) screens.
+    readonly property real dialogMaximumHeight: height - backgroundPage.SafeArea.margins.top - backgroundPage.SafeArea.margins.bottom - 16
 
     minimumWidth: window.isAndroid ? null : 380
     minimumHeight: window.isAndroid ? null : 640
@@ -142,6 +144,8 @@ Window {
             NoteValueSelector {
                 id: noteValueSelector
 
+                Layout.row: 0
+                Layout.column: window.isLandscape ? 1 : 0
                 Layout.minimumWidth: implicitWidth
                 Layout.alignment: Qt.AlignHCenter
                 metronome: metronome
@@ -150,21 +154,28 @@ Window {
             BpmControl {
                 id: bpmControl
 
+                Layout.row: 1
+                Layout.column: window.isLandscape ? 1 : 0
                 Layout.fillWidth: true
                 Layout.minimumHeight: 250
-                Layout.rowSpan: window.isLandscape ? 4 : 1
                 Layout.alignment: Qt.AlignHCenter
                 metronome: metronome
             }
 
             Item {
+                id: metronomArea
+
+                // Landscape: the metronome on the left, the controls stacked on the right.
+                Layout.row: window.isLandscape ? 0 : 2
+                Layout.column: 0
+                Layout.rowSpan: window.isLandscape ? 3 : 1
                 Layout.fillWidth: true
                 Layout.fillHeight: true
 
                 Metronom {
                     id: metronom
 
-                    height: parent.height * 0.7
+                    height: Math.min(parent.height * 0.7, parent.width * 0.9)
                     width: height
                     anchors.centerIn: parent
 
@@ -175,6 +186,8 @@ Window {
             Transport {
                 id: transport
 
+                Layout.row: window.isLandscape ? 2 : 3
+                Layout.column: window.isLandscape ? 1 : 0
                 Layout.fillWidth: true
                 Layout.minimumWidth: implicitWidth
                 Layout.alignment: Qt.AlignHCenter
@@ -189,23 +202,16 @@ Window {
                     when: window.isLandscape
 
                     PropertyChanges {
+                        target: metronomArea
+                        Layout.fillWidth: false
+                        Layout.preferredWidth: layout.width * 0.4
+                    }
+
+                    PropertyChanges {
                         target: bpmControl
-                        Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
-                    }
-
-                    PropertyChanges {
-                        target: noteValueSelector
-                        Layout.alignment: Qt.AlignHCenter | Qt.AlignBottom
-                    }
-
-                    PropertyChanges {
-                        target: metronom
-                        Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
-                    }
-
-                    PropertyChanges {
-                        target: transport
-                        Layout.alignment: Qt.AlignHCenter | Qt.AlignTop
+                        Layout.maximumWidth: 400
+                        Layout.fillHeight: true
+                        Layout.minimumHeight: 120
                     }
                 }
             ]
@@ -299,6 +305,7 @@ Window {
         id: settingsDialog
 
         width: window.width > 450 ? 450 : window.width * 0.95
+        height: Math.min(implicitHeight, window.dialogMaximumHeight)
 
         anchors.centerIn: parent
         parent: Overlay.overlay
@@ -316,6 +323,7 @@ Window {
         id: timeSignatureDialog
 
         width: window.width > 450 ? 450 : window.width * 0.95
+        height: Math.min(implicitHeight, window.dialogMaximumHeight)
 
         anchors.centerIn: parent
         parent: Overlay.overlay
@@ -327,6 +335,7 @@ Window {
         id: aboutDialog
 
         width: window.width > 450 ? 450 : window.width * 0.95
+        height: Math.min(implicitHeight, window.dialogMaximumHeight)
 
         anchors.centerIn: parent
         parent: Overlay.overlay
