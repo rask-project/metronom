@@ -1,5 +1,7 @@
 qt_add_library(metronom_qml STATIC)
 
+set_source_files_properties(Theme.qml PROPERTIES QT_QML_SINGLETON_TYPE TRUE)
+
 qt_add_qml_module(metronom_qml
     URI Metronom
     SOURCES
@@ -15,6 +17,8 @@ qt_add_qml_module(metronom_qml
         NativeWindow.cpp
         AppInfo.h
         AppInfo.cpp
+        Appearance.h
+        Appearance.cpp
     QML_FILES
         AudioDeviceSelector.qml
         AutoIncrementControl.qml
@@ -22,6 +26,7 @@ qt_add_qml_module(metronom_qml
         LanguageSelector.qml
         Metronom.qml
         NoteValueSelector.qml
+        Theme.qml
         Transport.qml
 )
 

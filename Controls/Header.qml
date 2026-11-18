@@ -1,7 +1,9 @@
 import QtQuick
-import QtQuick.Controls.Material
+import QtQuick.Controls
 import QtQuick.Templates as T
 import QtQuick.Layouts
+
+import Metronom
 
 T.ToolBar {
     id: control
@@ -21,10 +23,8 @@ T.ToolBar {
     bottomPadding: control.translucent ? 0 : SafeArea.margins.bottom + 8
 
     background: Rectangle {
-        readonly property color baseColor: Material.theme === Material.Dark ? Qt.darker(Material.accent, 16) : Qt.lighter(Material.accent, 1.98)
-
         implicitHeight: control.translucent ? Math.max(48, control.SafeArea.margins.top) : 48
-        color: control.translucent ? Qt.alpha(baseColor, 0.25) : baseColor
+        color: control.translucent ? Qt.alpha(Theme.headerBackground, 0.25) : Theme.headerBackground
     }
 
     RowLayout {

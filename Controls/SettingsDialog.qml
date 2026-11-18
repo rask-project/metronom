@@ -1,8 +1,7 @@
 import QtCore
 
 import QtQuick
-import QtQuick.Window
-import QtQuick.Controls.Material
+import QtQuick.Controls
 import QtQuick.Layouts
 import QtQuick.Templates as T
 import QtQuick.Effects
@@ -47,8 +46,8 @@ Dialog {
 
             text: qsTr("Dark mode")
 
-            checked: Material.theme === Material.Dark
-            onCheckedChanged: control.settings.theme = checked ? Material.Dark : Material.Light
+            checked: Appearance.dark
+            onToggled: Appearance.colorScheme = checked ? Qt.Dark : Qt.Light
         }
 
         SwitchDelegate {
@@ -99,18 +98,15 @@ Dialog {
     }
 
     background: Background {
-        Material.roundedScale: Material.LargeScale
-
+        radius: Theme.dialogRadius
         opacity: 0.95
-        border.color: Material.theme === Material.Dark ? Qt.darker(Material.accent, 7) : Qt.lighter(Material.accent, 1.9)
+        border.color: Theme.dialogBorder
         border.width: 1
     }
 
     T.Overlay.modal: BlurOverlay {}
 
     T.Overlay.modeless: Rectangle {
-        readonly property color backgroundColor: Material.dropShadowColor
-
-        color: Qt.rgba(backgroundColor.r, backgroundColor.g, backgroundColor.b, 0.5)
+        color: Theme.scrim
     }
 }

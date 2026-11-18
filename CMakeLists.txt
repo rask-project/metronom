@@ -72,7 +72,7 @@ math(EXPR METRONOM_VERSION_CODE
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(Qt6 6.10 REQUIRED COMPONENTS Quick Multimedia QmlIntegration LinguistTools)
+find_package(Qt6 6.10 REQUIRED COMPONENTS Quick QuickControls2 Multimedia QmlIntegration LinguistTools)
 if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
     find_package(Qt6 6.10 REQUIRED COMPONENTS DBus)
 endif()
@@ -186,6 +186,7 @@ set_target_properties(${TARGET_NAME} PROPERTIES
 target_link_libraries(${TARGET_NAME}
     PRIVATE
         Qt6::Quick
+        Qt6::QuickControls2
         Qt6::Multimedia
         metronom_qml
 )

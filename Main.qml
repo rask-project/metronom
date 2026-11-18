@@ -1,6 +1,7 @@
 import QtQuick
 import QtCore
-import QtQuick.Controls.Material
+import QtQuick.Controls
+import QtQuick.Controls.Material as M
 import QtQuick.Templates as T
 import QtQuick.Layouts
 import QtQuick.Effects
@@ -42,7 +43,8 @@ Window {
         Qt.callLater(Qt.quit);
     }
 
-    Material.theme: appSettings.theme
+    // Material only: other styles follow the color scheme set by Appearance.
+    M.Material.theme: Appearance.dark ? M.Material.Dark : M.Material.Light
 
     Settings {
         id: appSettings
@@ -52,7 +54,6 @@ Window {
         property int numerator: 4
         property int denominator: 4
         property int noteValue: 0
-        property int theme: Material.System
 
         Component.onCompleted: {
             if (!appSettings.autoSave) {
@@ -74,13 +75,13 @@ Window {
         id: nativeWindow
 
         window: window
-        color: pageBackground.gradientStop2
+        color: Theme.backgroundEnd
         alpha: 1.0
-        dark: pageBackground.isDark
+        dark: Theme.dark
     }
 
     StatusBarController {
-        lightStatusBar: appSettings.theme === Material.Light
+        lightStatusBar: !Theme.dark
     }
 
     Connections {
@@ -108,8 +109,6 @@ Window {
 
         anchors.fill: parent
         background: Background {
-            id: pageBackground
-
             visible: !nativeWindow.translucent
         }
 

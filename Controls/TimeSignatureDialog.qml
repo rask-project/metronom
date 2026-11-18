@@ -1,5 +1,5 @@
 import QtQuick
-import QtQuick.Controls.Material
+import QtQuick.Controls
 import QtQuick.Layouts
 import QtQuick.Templates as T
 
@@ -69,10 +69,9 @@ Dialog {
     }
 
     background: Background {
-        Material.roundedScale: Material.LargeScale
-
+        radius: Theme.dialogRadius
         opacity: 0.95
-        border.color: Material.theme === Material.Dark ? Qt.darker(Material.accent, 7) : Qt.lighter(Material.accent, 1.9)
+        border.color: Theme.dialogBorder
         border.width: 1
     }
 

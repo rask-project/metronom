@@ -1,7 +1,6 @@
 import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls
-import QtQuick.Controls.Material
 
 RowLayout {
     id: root
@@ -65,7 +64,7 @@ RowLayout {
                         Layout.alignment: Qt.AlignVCenter
 
                         radius: height / 2
-                        color: beat.index === 0 ? Material.accent : Material.primary
+                        color: beat.index === 0 ? Theme.accent : Theme.primary
                         opacity: beat.active && index <= root.metronome.currentSubdivision ? 1.0 : 0.3
                     }
                 }

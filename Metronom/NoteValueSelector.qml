@@ -80,7 +80,7 @@ Row {
 
             width: parent.width
             text: control.label
-            color: control.highlighted ? Material.accent : Material.foreground
+            color: control.highlighted ? Theme.accent : palette.windowText
 
             font.weight: Font.Light
             wrapMode: Text.WordWrap

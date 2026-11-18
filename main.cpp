@@ -2,6 +2,7 @@
 #include <QIcon>
 #include <QLocale>
 #include <QQmlApplicationEngine>
+#include <QQuickStyle>
 #include <QSettings>
 #include <QTranslator>
 
@@ -34,6 +35,9 @@ int main(int argc, char *argv[])
     } else {
         qWarning().noquote() << "No translation for locale:" << locale.name();
     }
+
+    // Set before any QML import: the Material import used for its attached theme must not select the style.
+    QQuickStyle::setStyle(QStringLiteral("Material"));
 
     QQmlApplicationEngine engine;
 

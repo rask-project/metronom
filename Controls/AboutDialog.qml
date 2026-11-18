@@ -1,6 +1,5 @@
 import QtQuick
 import QtQuick.Controls
-import QtQuick.Controls.Material
 import QtQuick.Layouts
 import QtQuick.Templates as T
 
@@ -68,7 +67,7 @@ Dialog {
 
             text: "<a href=\"https://github.com/rask-project/metronom\">github.com/rask-project/metronom</a>"
             textFormat: Text.StyledText
-            linkColor: Material.accent
+            linkColor: Theme.accent
             horizontalAlignment: Text.AlignHCenter
 
             onLinkActivated: link => Qt.openUrlExternally(link)
@@ -76,10 +75,9 @@ Dialog {
     }
 
     background: Background {
-        Material.roundedScale: Material.LargeScale
-
+        radius: Theme.dialogRadius
         opacity: 0.95
-        border.color: Material.theme === Material.Dark ? Qt.darker(Material.accent, 10) : Qt.lighter(Material.accent, 1.8)
+        border.color: Theme.dialogBorder
         border.width: 1
     }
 

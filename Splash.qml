@@ -1,6 +1,6 @@
 import QtQuick
-import QtCore
-import QtQuick.Controls.Material
+import QtQuick.Controls
+import QtQuick.Controls.Material as M
 import Metronom
 
 import "Controls"
@@ -20,21 +20,16 @@ Window {
     modality: Qt.ApplicationModal
     flags: Qt.SplashScreen | Qt.FramelessWindowHint
 
-    Material.theme: appSettings.theme
+    // Material only: other styles follow the color scheme set by Appearance.
+    M.Material.theme: Appearance.dark ? M.Material.Dark : M.Material.Light
 
     Loader {
         id: mainLoader
         source: "Main.qml"
     }
 
-    Settings {
-        id: appSettings
-
-        property int theme: Material.System
-    }
-
     StatusBarController {
-        lightStatusBar: appSettings.theme === Material.Light
+        lightStatusBar: !Theme.dark
     }
 
     QtObject {
