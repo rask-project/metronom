@@ -24,6 +24,10 @@ A cross-platform metronome for desktop (Linux, Windows, macOS) and Android, buil
   <img src="docs/screenshots/android-settings-dark.png" alt="Android: settings, dark theme" width="220" />
 </p>
 
+<p align="center">
+  <img src="docs/screenshots/android-landscape-light.png" alt="Android: landscape, playing" width="680" />
+</p>
+
 <p align="center"><sub>More, including the time signature dialog, in <a href="docs/screenshots">docs/screenshots</a>.</sub></p>
 
 ## Features
