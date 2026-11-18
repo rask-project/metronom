@@ -6,6 +6,43 @@
     <description>Rask Metronom releases</description>
     <language>en</language>
     <item>
+      <title>Rask Metronom 2.0.0</title>
+      <link>https://github.com/rask-project/metronom/releases/tag/v2.0.0</link>
+      <sparkle:version>2.0.0.1000</sparkle:version>
+      <sparkle:shortVersionString>2.0.0</sparkle:shortVersionString>
+      <sparkle:minimumSystemVersion>14.4</sparkle:minimumSystemVersion>
+      <pubDate>Wed, 18 Nov 2026 12:05:01 GMT</pubDate>
+      <description sparkle:format="markdown"><![CDATA[## What's new
+
+Rask Metronom 2.0.0 adds time signatures and makes subdivisions follow the beat, like a real metronome.
+
+### Time signatures
+
+- **Choose the time signature** with the button next to play: 1 to 12 beats over a half, quarter or eighth note.
+- **Compound meters** (6/8, 9/8, 12/8) are counted in dotted quarters, each split in three eighths, and the BPM
+  counts the dotted quarter.
+- Changes made while playing start on the next beat, so the count never breaks.
+
+### Subdivisions
+
+- The note value now divides **each beat**: in 4/4, eighths play 2 notes per beat, sixteenths 4 and thirty-seconds 8.
+- Only the note values that fit the beat are offered. Half notes are available in x/2 and dotted quarters in
+  compound meters.
+- **Three clicks:** an accent on the first beat of the bar, a medium click on the other beats and a soft click on
+  the subdivisions.
+- **The beat bar** shows one group per beat with a cell for each note, so you can see how many notes to play in
+  that beat.
+- **The pendulum** swings once per beat instead of on every click.
+- Note icons use filled note heads, as in standard notation.
+
+### Also
+
+- Your time signature is remembered with the BPM and note value.
+- macOS: the translucent window follows the app's light or dark theme instead of the system's.
+]]></description>
+      <enclosure url="https://github.com/rask-project/metronom/releases/download/v2.0.0/Metronom-2.0.0-macos-arm64.zip" length="54667635" type="application/octet-stream" sparkle:edSignature="BRBr9tf5TY72zLg3YKhJIEKhQnrBjPsTVmmaHjjVjBtwMP2J6nBg+mzo/YD45uI70sDbma+nv4zVabjV/PPyAw=="/>
+    </item>
+    <item>
       <title>Rask Metronom 1.0.0</title>
       <link>https://github.com/rask-project/metronom/releases/tag/v1.0.0</link>
       <sparkle:version>1.0.0.1000</sparkle:version>
