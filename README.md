@@ -4,7 +4,21 @@
 
 # Rask Metronom
 
-A cross-platform metronome for desktop (Linux, Windows, macOS) and Android, built with **Qt 6** (Qt Quick / QML, Material style) and **C++23**.
+A cross-platform metronome for desktop (Linux, Windows, macOS) and Android, built with **Qt 6** (Qt Quick / QML) and **C++23**. It uses the Material style on Android and Linux and a native-looking macOS style on macOS.
+
+## Screenshots
+
+<p align="center">
+  <img src="docs/screenshots/macos-main-light.png" alt="Main window, light theme" width="280" />
+  <img src="docs/screenshots/macos-main-dark.png" alt="Main window, dark theme" width="280" />
+</p>
+
+<p align="center">
+  <img src="docs/screenshots/macos-settings-light.png" alt="Settings, light theme" width="280" />
+  <img src="docs/screenshots/macos-time-signature-dark.png" alt="Time signature, dark theme" width="280" />
+</p>
+
+<p align="center"><sub>macOS. More in <a href="docs/screenshots">docs/screenshots</a>.</sub></p>
 
 ## Features
 
@@ -33,6 +47,8 @@ A static library exposing the engine and platform services as `QML_ELEMENT`s:
 | `ScreenLockInhibitor` | Keeps the screen on while running (platform-specific) |
 | `StatusBarController` | Android status-bar light/dark adaptation |
 | `LanguageManager` | Language selection (applied on restart) |
+| `Appearance` | Light / dark / system choice, applied with `QStyleHints::setColorScheme` |
+| `Theme` (QML) | App colours, independent of the Controls style |
 
 #### Audio engine
 
@@ -54,11 +70,15 @@ A static library exposing the engine and platform services as `QML_ELEMENT`s:
 
 | File | Role |
 |---|---|
-| `main.cpp` | Entry point: application metadata, locale + translator, icon theme; loads `App.Splash` |
+| `main.cpp` | Entry point: application metadata, Controls style, locale + translator, icon theme; loads `App.Splash` |
 | `Splash.qml` | Splash window that loads the main window behind it |
 | `Main.qml` | Main window: adaptive layout, `Settings` persistence, theming |
-| `Controls/` | Shared UI: `Background`, `Header`, `SettingsDialog` |
+| `Controls/` | Shared UI: `Background`, `Header`, `SettingsDialog`, `TimeSignatureDialog`, `AboutDialog` |
 | `Metronom/*.qml` | Feature controls: `BpmControl`, `NoteValueSelector`, `Transport`, `Metronom` (visual), `AudioDeviceSelector`, `LanguageSelector`, `AutoIncrementControl` |
+
+### Controls style
+
+The style is selected at run time in `main.cpp`: **Material** on Android and Linux, **`MacStyle`** on macOS. `MacStyle` (`MacStyle/`) builds on Qt's macOS style, whose controls are drawn by AppKit, and adds the controls it lacks or draws unlike a native app — `Button` (flat), `RoundButton`, `ToolButton`, `Tumbler`, `ToolTip`, `SwitchDelegate` and `ItemDelegate`.
 
 ### Internationalization
 
@@ -66,7 +86,7 @@ The source language is English. Translations live in `translations/*.ts` (pt_BR,
 
 ### Build
 
-CMake (≥ 3.16) with Qt ≥ 6.10 (`Quick`, `Multimedia`, `QmlIntegration`, `LinguistTools`; `DBus` optional). Android builds use the Gradle project under `android/`.
+CMake (≥ 3.16) with Qt ≥ 6.10 (`Quick`, `QuickControls2`, `Multimedia`, `QmlIntegration`, `LinguistTools`; `DBus` optional). Android builds use the Gradle project under `android/`.
 
 ## AI-assisted development
 
