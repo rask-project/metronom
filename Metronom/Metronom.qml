@@ -8,6 +8,7 @@ Item {
     id: _qt_node0
 
     required property var metronome
+    property bool swingToLeft: false
 
     property AnimationsInfo animations: AnimationsInfo {}
     transform: [
@@ -329,7 +330,7 @@ Item {
         target: swing
         property: "angle"
         to: -91.6
-        duration: 60000 / metronome.bpm / Math.pow(2, metronome.noteValue)
+        duration: 60000 / metronome.bpm
         easing.type: Easing.InOutSine
     }
 
@@ -338,7 +339,7 @@ Item {
         target: swing
         property: "angle"
         to: 0
-        duration: 60000 / metronome.bpm / Math.pow(2, metronome.noteValue)
+        duration: 60000 / metronome.bpm
         easing.type: Easing.InOutSine
     }
 
@@ -358,6 +359,7 @@ Item {
             if (metronome.running) {
                 settle.stop();
                 swing.angle = 0;
+                _qt_node0.swingToLeft = false;
                 return;
             }
 
@@ -366,12 +368,13 @@ Item {
             settle.start();
         }
 
-        function onCurrentBeatChanged() {
-            if (!metronome.running) {
+        function onTicked() {
+            if (!metronome.running || metronome.currentSubdivision !== 0) {
                 return;
             }
 
-            if (metronome.currentBeat % 2 === 0) {
+            _qt_node0.swingToLeft = !_qt_node0.swingToLeft;
+            if (_qt_node0.swingToLeft) {
                 swingLeft.start();
                 return;
             }

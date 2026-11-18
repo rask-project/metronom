@@ -6,44 +6,90 @@
 #include <QDebug>
 #include <QMediaDevices>
 #include <QSettings>
-#include <QSpan>
 #include <algorithm>
 #include <array>
 #include <cmath>
 #include <cstdint>
 #include <iterator>
 #include <numbers>
+#include <ranges>
 #include <type_traits>
 
 namespace
 {
-constexpr double kStrongFreq = 3400.0;
-constexpr double kWeakFreq = 2200.0;
-constexpr double kStrongDurationSeconds = 0.012;
-constexpr double kWeakDurationSeconds = 0.009;
-constexpr double kStrongDecaySeconds = 0.0025;
-constexpr double kWeakDecaySeconds = 0.002;
-constexpr double kStrongAmplitude = 0.9;
-constexpr double kWeakAmplitude = 0.55;
+struct ClickSound {
+    double freq;
+    double durationSeconds;
+    double decaySeconds;
+    double amplitude;
+};
+
+constexpr ClickSound kAccentClick{.freq = 3400.0, .durationSeconds = 0.012, .decaySeconds = 0.0025, .amplitude = 0.9};
+constexpr ClickSound kBeatClick{.freq = 2200.0, .durationSeconds = 0.009, .decaySeconds = 0.002, .amplitude = 0.6};
+constexpr ClickSound
+    kSubdivisionClick{.freq = 1600.0, .durationSeconds = 0.006, .decaySeconds = 0.0015, .amplitude = 0.3};
+
 constexpr int kMinBpm = 40;
 constexpr int kMaxBpm = 300;
+constexpr int kMaxNumerator = 12;
+constexpr std::array<int, 3> kDenominators{2, 4, 8};
+constexpr int kMaxSubdivisions = 8;
+constexpr int kPositionPollMs = 4;
 
-template <typename T> float toNormalized(T value)
+// Note lengths in 1/32 of a whole note, so dotted notes are whole numbers.
+constexpr int kWholeLength = 32;
+constexpr std::array<Metronome::NoteValue, 6> kNoteValuesByLength{
+    Metronome::Half,
+    Metronome::DottedQuarter,
+    Metronome::Quarter,
+    Metronome::Eighth,
+    Metronome::Sixteenth,
+    Metronome::ThirtySecond
+};
+
+constexpr int noteLength(Metronome::NoteValue noteValue) noexcept
 {
-    if constexpr (std::is_same_v<T, float>) {
-        return value;
+    switch (noteValue) {
+    case Metronome::Half:
+        return 16;
+    case Metronome::DottedQuarter:
+        return 12;
+    case Metronome::Quarter:
+        return 8;
+    case Metronome::Eighth:
+        return 4;
+    case Metronome::Sixteenth:
+        return 2;
+    case Metronome::ThirtySecond:
+        return 1;
     }
-
-    return static_cast<float>(value) / 32768.0f;
+    return kWholeLength;
 }
 
-template <typename T> T fromNormalized(float value)
+constexpr std::uint32_t packTickConfig(int bpm, int subdivisions, int beatsPerMeasure) noexcept
+{
+    return (static_cast<std::uint32_t>(bpm) << 16U) | (static_cast<std::uint32_t>(subdivisions) << 8U) |
+           static_cast<std::uint32_t>(beatsPerMeasure);
+}
+
+constexpr std::uint32_t packTickPosition(std::uint16_t serial, int beat, int subdivision) noexcept
+{
+    return (static_cast<std::uint32_t>(serial) << 16U) | (static_cast<std::uint32_t>(beat) << 8U) |
+           static_cast<std::uint32_t>(subdivision);
+}
+
+constexpr int unpackField(std::uint32_t packed, unsigned shift, std::uint32_t mask) noexcept
+{
+    return static_cast<int>((packed >> shift) & mask);
+}
+
+template <typename T> T fromNormalized(float value) noexcept
 {
     if constexpr (std::is_same_v<T, float>) {
-        return qBound(-1.0f, value, 1.0f);
+        return std::clamp(value, -1.0f, 1.0f);
     }
 
-    const int clamped = qBound(-32768, static_cast<int>(std::lround(value * 32767.0f)), 32767);
+    const int clamped = std::clamp(static_cast<int>(std::lround(value * 32767.0f)), -32768, 32767);
     return static_cast<qint16>(clamped);
 }
 
@@ -70,28 +116,26 @@ QAudioFormat chooseFormat(const QAudioDevice &device)
 
     return device.preferredFormat();
 }
-} // namespace
 
-std::vector<float>
-// NOLINTNEXTLINE(bugprone-easily-swappable-parameters)
-Metronome::renderClick(double freq, double durationSeconds, double decaySeconds, double amplitude, int sampleRate)
+std::vector<float> renderClick(const ClickSound &sound, int sampleRate)
 {
-    const int samples = static_cast<int>(sampleRate * durationSeconds);
+    const int samples = static_cast<int>(sampleRate * sound.durationSeconds);
     std::vector<float> click(samples);
     uint32_t seed = 1;
 
     for (int i = 0; i < samples; ++i) {
         const double t = static_cast<double>(i) / sampleRate;
-        const double envelope = std::exp(-t / decaySeconds);
+        const double envelope = std::exp(-t / sound.decaySeconds);
         seed = (seed * 1664525u) + 1013904223u;
         const double noise = (static_cast<double>(seed >> 8) / 8388608.0) - 1.0;
-        const double tone = std::sin(2.0 * std::numbers::pi * freq * t);
+        const double tone = std::sin(2.0 * std::numbers::pi * sound.freq * t);
         const double sample = (0.6 * tone) + (0.4 * noise);
-        click[i] = static_cast<float>(sample * envelope * amplitude);
+        click[i] = static_cast<float>(sample * envelope * sound.amplitude);
     }
 
     return click;
 }
+} // namespace
 
 Metronome::Metronome(QObject *parent)
     : QObject(parent)
@@ -102,6 +146,12 @@ Metronome::Metronome(QObject *parent)
     m_autoIncrementInterval = QSettings().value("autoIncrementInterval", 60).toInt();
     m_autoIncrementTimer.setSingleShot(false);
     connect(&m_autoIncrementTimer, &QTimer::timeout, this, &Metronome::nextTempoMarking);
+
+    m_positionTimer.setTimerType(Qt::PreciseTimer);
+    m_positionTimer.setInterval(kPositionPollMs);
+    connect(&m_positionTimer, &QTimer::timeout, this, &Metronome::pollPosition);
+
+    publishTickConfig();
     rebuildAudio();
 }
 
@@ -112,12 +162,8 @@ Metronome::~Metronome()
 
 int Metronome::defaultDeviceIndex() const
 {
-    for (int i = 0; i < m_devices.size(); ++i) {
-        if (m_devices.at(i).isDefault()) {
-            return i;
-        }
-    }
-    return 0;
+    const auto it = std::ranges::find_if(m_devices, &QAudioDevice::isDefault);
+    return it == m_devices.end() ? 0 : static_cast<int>(std::distance(m_devices.begin(), it));
 }
 
 QAudioDevice Metronome::deviceAt(int index) const
@@ -134,10 +180,9 @@ void Metronome::rebuildAudio()
     m_format = chooseFormat(device);
     m_sampleRate = m_format.sampleRate();
     m_channelCount = m_format.channelCount();
-    m_strongClick =
-        renderClick(kStrongFreq, kStrongDurationSeconds, kStrongDecaySeconds, kStrongAmplitude, m_sampleRate);
-    m_weakClick = renderClick(kWeakFreq, kWeakDurationSeconds, kWeakDecaySeconds, kWeakAmplitude, m_sampleRate);
-    m_tickIntervalSamples = tickIntervalSeconds() * m_sampleRate;
+    m_accentClick = renderClick(kAccentClick, m_sampleRate);
+    m_beatClick = renderClick(kBeatClick, m_sampleRate);
+    m_subdivisionClick = renderClick(kSubdivisionClick, m_sampleRate);
     m_sink = std::make_unique<QAudioSink>(device, m_format);
 }
 
@@ -145,9 +190,7 @@ QList<QString> Metronome::audioDeviceNames() const
 {
     QList<QString> names;
     names.reserve(m_devices.size());
-    for (const QAudioDevice &device : m_devices) {
-        names.append(device.description());
-    }
+    std::ranges::transform(m_devices, std::back_inserter(names), &QAudioDevice::description);
     return names;
 }
 
@@ -194,7 +237,7 @@ void Metronome::setBpm(int bpm)
     }
 
     m_bpm = clamped;
-    m_tickIntervalSamples = tickIntervalSeconds() * m_sampleRate;
+    publishTickConfig();
     emit bpmChanged();
 }
 
@@ -208,6 +251,90 @@ int Metronome::maxBpm() const
     return kMaxBpm;
 }
 
+int Metronome::numerator() const
+{
+    return m_numerator;
+}
+
+void Metronome::setNumerator(int numerator)
+{
+    if (numerator < 1 || numerator > kMaxNumerator || numerator == m_numerator) {
+        return;
+    }
+
+    m_numerator = numerator;
+    applyTimeSignature();
+}
+
+int Metronome::denominator() const
+{
+    return m_denominator;
+}
+
+void Metronome::setDenominator(int denominator)
+{
+    if (denominator == m_denominator || !std::ranges::contains(kDenominators, denominator)) {
+        return;
+    }
+
+    m_denominator = denominator;
+    applyTimeSignature();
+}
+
+QList<int> Metronome::numerators() const
+{
+    QList<int> values;
+    std::ranges::copy(std::views::iota(1, kMaxNumerator + 1), std::back_inserter(values));
+    return values;
+}
+
+QList<int> Metronome::denominators() const
+{
+    return {kDenominators.begin(), kDenominators.end()};
+}
+
+// 6/8, 9/8 and 12/8 are felt in dotted quarters, each one split in three eighths.
+bool Metronome::isCompound() const
+{
+    return m_denominator == 8 && m_numerator > 3 && m_numerator % 3 == 0;
+}
+
+int Metronome::beatsPerMeasure() const
+{
+    return isCompound() ? m_numerator / 3 : m_numerator;
+}
+
+int Metronome::beatLength() const
+{
+    const int unitLength = kWholeLength / m_denominator;
+    return isCompound() ? unitLength * 3 : unitLength;
+}
+
+int Metronome::subdivisionsFor(NoteValue noteValue) const
+{
+    const int length = noteLength(noteValue);
+    const int beat = beatLength();
+    if (length > beat || beat % length != 0) {
+        return 0;
+    }
+
+    const int subdivisions = beat / length;
+    return subdivisions <= kMaxSubdivisions ? subdivisions : 0;
+}
+
+void Metronome::applyTimeSignature()
+{
+    if (subdivisionsFor(m_noteValue) == 0) {
+        m_noteValue =
+            *std::ranges::find_if(kNoteValuesByLength, [this](NoteValue value) { return subdivisionsFor(value) > 0; });
+        emit noteValueChanged();
+    }
+
+    publishTickConfig();
+    emit timeSignatureChanged();
+    emit subdivisionsChanged();
+}
+
 Metronome::NoteValue Metronome::noteValue() const
 {
     return m_noteValue;
@@ -215,13 +342,29 @@ Metronome::NoteValue Metronome::noteValue() const
 
 void Metronome::setNoteValue(NoteValue noteValue)
 {
-    if (noteValue == m_noteValue) {
+    if (noteValue == m_noteValue || subdivisionsFor(noteValue) == 0) {
         return;
     }
 
     m_noteValue = noteValue;
-    m_tickIntervalSamples = tickIntervalSeconds() * m_sampleRate;
+    publishTickConfig();
     emit noteValueChanged();
+    emit subdivisionsChanged();
+}
+
+QList<int> Metronome::availableNoteValues() const
+{
+    QList<int> values;
+    std::ranges::copy(
+        kNoteValuesByLength | std::views::filter([this](NoteValue value) { return subdivisionsFor(value) > 0; }),
+        std::back_inserter(values)
+    );
+    return values;
+}
+
+int Metronome::subdivisions() const
+{
+    return subdivisionsFor(m_noteValue);
 }
 
 bool Metronome::running() const
@@ -234,63 +377,108 @@ int Metronome::currentBeat() const
     return m_currentBeat;
 }
 
-int Metronome::beatsPerMeasure() const
+int Metronome::currentSubdivision() const
 {
-    return beatsPerBar * subdivision();
+    return m_currentSubdivision;
 }
 
-// NOLINTNEXTLINE(bugprone-easily-swappable-parameters)
-template <typename T> void Metronome::writeClickT(T *data, int frameCount, int offset, const std::vector<float> &click)
+void Metronome::publishTickConfig()
 {
-    for (std::size_t i = 0; i < click.size(); ++i) {
-        const int pos = offset + static_cast<int>(i);
-        if (pos >= frameCount) {
-            m_pendingTail.assign(click.begin() + static_cast<std::ptrdiff_t>(i), click.end());
-            return;
-        }
+    m_tickConfig.store(packTickConfig(m_bpm, subdivisions(), beatsPerMeasure()), std::memory_order_release);
+}
 
-        for (int c = 0; c < m_channelCount; ++c) {
-            const int index = (pos * m_channelCount) + c;
-            data[index] = fromNormalized<T>(toNormalized<T>(data[index]) + click[i]);
-        }
+void Metronome::pollPosition()
+{
+    const std::uint32_t position = m_tickPosition.load(std::memory_order_acquire);
+    if (position == m_lastTickPosition) {
+        return;
+    }
+
+    m_lastTickPosition = position;
+    m_currentBeat = unpackField(position, 8U, 0xFFU);
+    m_currentSubdivision = unpackField(position, 0U, 0xFFU);
+    emit ticked();
+}
+
+template <typename T> void Metronome::mixActiveClick(QSpan<T> samples, qint64 from, qint64 to) noexcept
+{
+    if (m_activeClick == nullptr) {
+        return;
+    }
+
+    const std::vector<float> &click = *m_activeClick;
+    const auto count = std::min(to - from, static_cast<qint64>(click.size() - m_activeClickPos));
+
+    for (qint64 i = 0; i < count; ++i) {
+        const T value = fromNormalized<T>(click[m_activeClickPos + static_cast<std::size_t>(i)]);
+        std::ranges::fill(samples.subspan((from + i) * m_channelCount, m_channelCount), value);
+    }
+
+    m_activeClickPos += static_cast<std::size_t>(count);
+    if (m_activeClickPos >= click.size()) {
+        m_activeClick = nullptr;
     }
 }
 
-template <typename T> void Metronome::fillSamplesT(T *data, int count)
+template <typename T> void Metronome::fillSamples(QSpan<T> samples) noexcept
 {
-    const int frameCount = count / m_channelCount;
-    std::fill_n(data, count, fromNormalized<T>(0.0f));
+    std::ranges::fill(samples, fromNormalized<T>(0.0f));
 
-    for (int i = 0; i < static_cast<int>(m_pendingTail.size()) && i < frameCount; ++i) {
-        for (int c = 0; c < m_channelCount; ++c) {
-            data[(i * m_channelCount) + c] = fromNormalized<T>(m_pendingTail[i]);
+    const qint64 frameCount = samples.size() / m_channelCount;
+    qint64 frame = 0;
+
+    while (frame < frameCount) {
+        const qint64 tickFrame = static_cast<qint64>(m_nextTickFrame) - m_framesWritten;
+        const qint64 end = std::clamp(tickFrame, frame, frameCount);
+        mixActiveClick(samples, frame, end);
+        frame = end;
+
+        if (frame < frameCount) {
+            startTick();
         }
     }
 
-    m_pendingTail.clear();
+    m_framesWritten += frameCount;
+}
 
-    const double bufferStart = static_cast<double>(m_framesWritten);
-    const double bufferEnd = bufferStart + frameCount;
-    const int measure = beatsPerMeasure();
+// Settings are latched at each beat, so a change never breaks the beat grid.
+void Metronome::startBeat() noexcept
+{
+    const std::uint32_t config = m_tickConfig.load(std::memory_order_acquire);
+    const int bpm = unpackField(config, 16U, 0xFFFFU);
+    m_audioSubdivisions = unpackField(config, 8U, 0xFFU);
+    m_audioBeatsPerMeasure = unpackField(config, 0U, 0xFFU);
+    m_beatFrames = 60.0 * m_sampleRate / bpm;
+    m_beatStartFrame = m_nextTickFrame;
 
-    while (m_nextTickSample < bufferEnd) {
-        const int offset = static_cast<int>(m_nextTickSample - bufferStart);
-        if (offset >= 0 && offset < frameCount) {
-            const bool strong = (m_beatIndex % measure) == 0;
-            writeClickT<T>(data, frameCount, offset, strong ? m_strongClick : m_weakClick);
-        }
+    if (m_audioBeat >= m_audioBeatsPerMeasure) {
+        m_audioBeat = 0;
+    }
+}
 
-        const int beat = m_beatIndex % measure;
-        if (beat != m_currentBeat) {
-            m_currentBeat = beat;
-            emit currentBeatChanged();
-        }
-
-        m_nextTickSample += m_tickIntervalSamples;
-        m_beatIndex++;
+void Metronome::startTick() noexcept
+{
+    if (m_audioSubdivision == 0) {
+        startBeat();
     }
 
-    m_framesWritten = static_cast<qint64>(bufferEnd);
+    const bool downbeat = m_audioBeat == 0;
+    const std::vector<float> &beatClick = downbeat ? m_accentClick : m_beatClick;
+    m_activeClick = m_audioSubdivision == 0 ? &beatClick : &m_subdivisionClick;
+    m_activeClickPos = 0;
+
+    ++m_tickSerial;
+    m_tickPosition.store(packTickPosition(m_tickSerial, m_audioBeat, m_audioSubdivision), std::memory_order_release);
+
+    ++m_audioSubdivision;
+    if (m_audioSubdivision < m_audioSubdivisions) {
+        m_nextTickFrame = m_beatStartFrame + (m_beatFrames * m_audioSubdivision / m_audioSubdivisions);
+        return;
+    }
+
+    m_audioSubdivision = 0;
+    m_audioBeat = (m_audioBeat + 1) % m_audioBeatsPerMeasure;
+    m_nextTickFrame = m_beatStartFrame + m_beatFrames;
 }
 
 void Metronome::start()
@@ -304,23 +492,29 @@ void Metronome::start()
         return;
     }
 
-    resetScheduler();
+    m_activeClick = nullptr;
+    m_activeClickPos = 0;
+    m_nextTickFrame = 0.0;
+    m_framesWritten = 0;
+    m_audioBeat = 0;
+    m_audioSubdivision = 0;
+    m_tickSerial = 0;
+    m_tickPosition.store(0, std::memory_order_relaxed);
+    m_lastTickPosition = 0;
+    m_currentBeat = 0;
+    m_currentSubdivision = 0;
+
     m_running = true;
     m_screenLock.setInhibited(true);
-    m_currentBeat = 0;
 
     if (m_format.sampleFormat() == QAudioFormat::Int16) {
-        m_sink->start([this](QSpan<qint16> samples) {
-            fillSamplesT<qint16>(samples.data(), static_cast<int>(samples.size()));
-        });
+        m_sink->start([this](QSpan<qint16> samples) { fillSamples(samples); });
     } else {
-        m_sink->start([this](QSpan<float> samples) {
-            fillSamplesT<float>(samples.data(), static_cast<int>(samples.size()));
-        });
+        m_sink->start([this](QSpan<float> samples) { fillSamples(samples); });
     }
 
+    m_positionTimer.start();
     emit runningChanged();
-    emit currentBeatChanged();
     updateAutoIncrementTimer();
 }
 
@@ -343,6 +537,7 @@ void Metronome::stop()
     m_screenLock.setInhibited(false);
 
     m_sink->stop();
+    m_positionTimer.stop();
     emit runningChanged();
     updateAutoIncrementTimer();
 }
@@ -429,33 +624,4 @@ QString Metronome::tempoMarking() const
     const auto it = std::ranges::upper_bound(tempoMarkingsValues, m_bpm);
     const int index = (it == begin) ? 0 : static_cast<int>(it - begin) - 1;
     return QString::fromUtf8(tempoMarkingNames[index]);
-}
-
-int Metronome::subdivision() const
-{
-    switch (m_noteValue) {
-    case Eighth:
-        return 2;
-    case Sixteenth:
-        return 4;
-    case ThirtySecond:
-        return 8;
-    case Quarter:
-    default:
-        return 1;
-    }
-}
-
-double Metronome::tickIntervalSeconds() const
-{
-    return (60.0 / static_cast<double>(m_bpm)) / static_cast<double>(subdivision());
-}
-
-void Metronome::resetScheduler()
-{
-    m_nextTickSample = 0.0;
-    m_framesWritten = 0;
-    m_beatIndex = 0;
-    m_pendingTail.clear();
-    m_tickIntervalSamples = tickIntervalSeconds() * m_sampleRate;
 }

@@ -64,22 +64,32 @@
 <context>
     <name>NoteValueSelector</name>
     <message>
-        <location filename="../Metronom/NoteValueSelector.qml" line="15"/>
+        <location filename="../Metronom/NoteValueSelector.qml" line="13"/>
+        <source>Half</source>
+        <translation>Minima</translation>
+    </message>
+    <message>
+        <location filename="../Metronom/NoteValueSelector.qml" line="17"/>
+        <source>Dotted Quarter</source>
+        <translation>Semiminima puntata</translation>
+    </message>
+    <message>
+        <location filename="../Metronom/NoteValueSelector.qml" line="21"/>
         <source>Quarter</source>
         <translation>Semiminima</translation>
     </message>
     <message>
-        <location filename="../Metronom/NoteValueSelector.qml" line="24"/>
+        <location filename="../Metronom/NoteValueSelector.qml" line="25"/>
         <source>Eighth</source>
         <translation>Croma</translation>
     </message>
     <message>
-        <location filename="../Metronom/NoteValueSelector.qml" line="33"/>
+        <location filename="../Metronom/NoteValueSelector.qml" line="29"/>
         <source>Sixteenth</source>
         <translation>Semicroma</translation>
     </message>
     <message>
-        <location filename="../Metronom/NoteValueSelector.qml" line="42"/>
+        <location filename="../Metronom/NoteValueSelector.qml" line="33"/>
         <source>Thirty Second</source>
         <translation>Biscroma</translation>
     </message>
@@ -98,13 +108,29 @@
     </message>
     <message>
         <location filename="../Controls/SettingsDialog.qml" line="57"/>
-        <source>Save the BPM and note value</source>
-        <translation>Salva il BPM e la divisione ritmica</translation>
+        <source>Save the BPM, time signature and note value</source>
+        <translation>Salva il BPM, il tempo musicale e la divisione ritmica</translation>
     </message>
     <message>
         <location filename="../Controls/SettingsDialog.qml" line="95"/>
         <source>About Rask Metronom</source>
         <translation>Informazioni su Rask Metronom</translation>
+    </message>
+</context>
+<context>
+    <name>TimeSignatureDialog</name>
+    <message>
+        <location filename="../Controls/TimeSignatureDialog.qml" line="19"/>
+        <source>Time signature</source>
+        <translation>Tempo musicale</translation>
+    </message>
+</context>
+<context>
+    <name>Transport</name>
+    <message>
+        <location filename="../Metronom/Transport.qml" line="25"/>
+        <source>Time signature</source>
+        <translation>Tempo musicale</translation>
     </message>
 </context>
 </TS>

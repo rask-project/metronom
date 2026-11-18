@@ -2,6 +2,8 @@ cmake_minimum_required(VERSION 3.19...3.24)
 
 list(APPEND ICONS_SRC
     metronom/index.theme
+    metronom/svg/half-note.svg
+    metronom/svg/dotted-quarter-note.svg
     metronom/svg/quarter-note.svg
     metronom/svg/eighth-note.svg
     metronom/svg/sixteenth-note.svg

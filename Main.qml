@@ -16,7 +16,7 @@ Window {
     readonly property bool isLandscape: width > height && width >= layout.anchors.leftMargin + layout.anchors.rightMargin + bpmControl.implicitWidth + Math.max(noteValueSelector.implicitWidth, transport.implicitWidth)
     readonly property Item blurSourceItem: backgroundPage
     readonly property bool isAndroid: Qt.platform.os === "android"
-    readonly property bool dialogOpen: settingsDialog.visible || aboutDialog.visible
+    readonly property bool dialogOpen: settingsDialog.visible || aboutDialog.visible || timeSignatureDialog.visible
 
     minimumWidth: window.isAndroid ? null : 380
     minimumHeight: window.isAndroid ? null : 640
@@ -49,6 +49,8 @@ Window {
 
         property bool autoSave: true
         property int bpm: 120
+        property int numerator: 4
+        property int denominator: 4
         property int noteValue: 0
         property int theme: Material.System
 
@@ -58,6 +60,8 @@ Window {
             }
 
             metronome.bpm = appSettings.bpm;
+            metronome.numerator = appSettings.numerator;
+            metronome.denominator = appSettings.denominator;
             metronome.noteValue = appSettings.noteValue;
         }
     }
@@ -94,6 +98,8 @@ Window {
         }
 
         appSettings.bpm = metronome.bpm;
+        appSettings.numerator = metronome.numerator;
+        appSettings.denominator = metronome.denominator;
         appSettings.noteValue = metronome.noteValue;
     }
 
@@ -167,9 +173,12 @@ Window {
             Transport {
                 id: transport
 
+                Layout.fillWidth: true
                 Layout.minimumWidth: implicitWidth
                 Layout.alignment: Qt.AlignHCenter
                 metronome: metronome
+
+                onTimeSignatureClicked: timeSignatureDialog.open()
             }
 
             states: [
@@ -299,6 +308,17 @@ Window {
             settingsDialog.close();
             aboutDialog.open();
         }
+    }
+
+    TimeSignatureDialog {
+        id: timeSignatureDialog
+
+        width: window.width > 450 ? 450 : window.width * 0.95
+
+        anchors.centerIn: parent
+        parent: Overlay.overlay
+
+        metronome: metronome
     }
 
     AboutDialog {

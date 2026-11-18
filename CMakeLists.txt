@@ -140,6 +140,7 @@ qt_add_qml_module(${TARGET_NAME}
         Controls/BlurOverlay.qml
         Controls/Header.qml
         Controls/SettingsDialog.qml
+        Controls/TimeSignatureDialog.qml
     IMPORTS TARGET metronom_qml
 )
 

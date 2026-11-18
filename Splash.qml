@@ -41,9 +41,10 @@ Window {
         id: metronome
 
         property int bpm: 100
-        property int noteValue: Metronome.Quarter
-        property int currentBeat: 0
+        property int currentSubdivision: 0
         property bool running: false
+
+        signal ticked
     }
 
     Background {
@@ -80,10 +81,7 @@ Window {
         running: metronome.running
         repeat: true
 
-        onTriggered: {
-            metronome.currentBeat = (metronome.currentBeat + 1) % 4;
-            metronome.currentBeatChanged();
-        }
+        onTriggered: metronome.ticked()
     }
 
     Timer {
@@ -107,7 +105,7 @@ Window {
     function start() {
         metronome.running = true;
         metronome.runningChanged();
-        metronome.currentBeatChanged();
+        metronome.ticked();
     }
 
     function exit() {

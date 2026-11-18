@@ -7,48 +7,52 @@ Row {
 
     required property Metronome metronome
 
+    readonly property var noteValues: ({
+            [Metronome.Half]: {
+                iconName: "half-note",
+                label: qsTr("Half")
+            },
+            [Metronome.DottedQuarter]: {
+                iconName: "dotted-quarter-note",
+                label: qsTr("Dotted Quarter")
+            },
+            [Metronome.Quarter]: {
+                iconName: "quarter-note",
+                label: qsTr("Quarter")
+            },
+            [Metronome.Eighth]: {
+                iconName: "eighth-note",
+                label: qsTr("Eighth")
+            },
+            [Metronome.Sixteenth]: {
+                iconName: "sixteenth-note",
+                label: qsTr("Sixteenth")
+            },
+            [Metronome.ThirtySecond]: {
+                iconName: "thirty-second-note",
+                label: qsTr("Thirty Second")
+            }
+        })
+
     spacing: 16
 
-    NoteValueButton {
-        metronome: root.metronome
-        iconName: "quarter-note"
-        label: qsTr("Quarter")
+    Repeater {
+        model: root.metronome.availableNoteValues
 
-        highlighted: root.metronome.noteValue === Metronome.Quarter
-        onClicked: root.metronome.noteValue = Metronome.Quarter
-    }
+        NoteValueButton {
+            required property int modelData
 
-    NoteValueButton {
-        metronome: root.metronome
-        iconName: "eighth-note"
-        label: qsTr("Eighth")
+            iconName: root.noteValues[modelData].iconName
+            label: root.noteValues[modelData].label
+            highlighted: root.metronome.noteValue === modelData
 
-        highlighted: root.metronome.noteValue === Metronome.Eighth
-        onClicked: root.metronome.noteValue = Metronome.Eighth
-    }
-
-    NoteValueButton {
-        metronome: root.metronome
-        iconName: "sixteenth-note"
-        label: qsTr("Sixteenth")
-
-        highlighted: root.metronome.noteValue === Metronome.Sixteenth
-        onClicked: root.metronome.noteValue = Metronome.Sixteenth
-    }
-
-    NoteValueButton {
-        metronome: root.metronome
-        iconName: "thirty-second-note"
-        label: qsTr("Thirty Second")
-
-        highlighted: root.metronome.noteValue === Metronome.ThirtySecond
-        onClicked: root.metronome.noteValue = Metronome.ThirtySecond
+            onClicked: root.metronome.noteValue = modelData
+        }
     }
 
     component NoteValueButton: Column {
         id: control
 
-        required property Metronome metronome
         required property string iconName
         required property string label
         required property bool highlighted

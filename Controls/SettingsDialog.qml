@@ -54,7 +54,7 @@ Dialog {
         SwitchDelegate {
             Layout.fillWidth: true
 
-            text: qsTr("Save the BPM and note value")
+            text: qsTr("Save the BPM, time signature and note value")
 
             checked: control.settings.autoSave
             onCheckedChanged: control.settings.autoSave = checked
