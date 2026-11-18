@@ -6,12 +6,12 @@
 # an ad-hoc signature).
 #
 # - Quick Controls styles: QtQuick.Controls lists every style as an optional
-#   import, so the QML import scanner deploys all of them. Metronom runs the
-#   Material style (resources/qtquickcontrols2.conf), which falls back to
-#   Basic; the others, and the native style the macOS one is built on, are
-#   unused.
-# - QtWidgets: only the widget style plugin (styles/libqmacstyle) and the
-#   native Quick style need it, and Metronom has no widgets.
+#   import, so the QML import scanner deploys all of them. Metronom runs its
+#   MacStyle (main.cpp), built on the macOS style and its native style, which
+#   fall back to Fusion and Basic; Material stays for the attached theme Main.qml
+#   and Splash.qml import. The others are unused.
+# - QtWidgets: only the widget style plugin (styles/libqmacstyle) needs it, and
+#   Metronom has no widgets.
 # - tls, networkinformation: Metronom's own code makes no network connections
 #   (Sparkle downloads updates with NSURLSession).
 # - Sparkle.framework: its headers, and the XPC services only sandboxed apps
@@ -20,20 +20,14 @@
 set(contents "${APP_BUNDLE}/Contents")
 set(remove
     "${contents}/Frameworks/QtWidgets.framework"
-    "${contents}/Frameworks/QtQuickNativeStyle.framework"
-    "${contents}/Frameworks/QtQuickControls2MacOSStyleImpl.framework"
-    "${contents}/PlugIns/libqtquicknativestyleplugin.dylib"
-    "${contents}/Resources/qml/QtQuick/NativeStyle"
     "${contents}/PlugIns/styles"
     "${contents}/PlugIns/tls"
     "${contents}/PlugIns/networkinformation"
 )
-foreach(style IN ITEMS Fusion Universal Imagine FluentWinUI3 iOS macOS)
+foreach(style IN ITEMS Universal Imagine FluentWinUI3 iOS)
     string(TOLOWER "${style}" lower)
     if(style STREQUAL "iOS")
         set(framework "IOS")
-    elseif(style STREQUAL "macOS")
-        set(framework "Macos")
     else()
         set(framework "${style}")
     endif()

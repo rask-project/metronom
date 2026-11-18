@@ -19,8 +19,14 @@ Guidance for AI agents working in this repository.
   - `LanguageManager` — UI language selection (QSettings `language`).
   - `NativeWindow` — translucent, blurred window with the content under the title bar (macOS; no-op elsewhere).
   - `AppInfo` — QML singleton: Qt build/runtime versions for the About dialog, `nativeMenuBar` (macOS).
+  - `Appearance` — QML singleton: light/dark choice (QSettings `colorScheme`, a `Qt::ColorScheme`), applied with
+    `QStyleHints::setColorScheme`; `dark` is the effective result.
+  - `Theme` — QML singleton (`Theme.qml`): the app colours (orange accent, backgrounds, borders), independent of the
+    Controls style.
   - `MacUpdater` — Sparkle updates and "Check for Updates…" (macOS only, started from `main.cpp`).
-- `main.cpp` — `QGuiApplication` + `QQmlApplicationEngine`, loads the translator and `App.Splash`.
+- `MacStyle/` — Qt Quick Controls style used on macOS (static QML module, `APPLE` only); see *Controls style*.
+- `main.cpp` — `QGuiApplication` + `QQmlApplicationEngine`, selects the Controls style, loads the translator and
+  `App.Splash`.
 - `android/` — Android package sources (manifest, Gradle, `SplashActivity`, icons).
 - `cmake/` — macOS `Info.plist.in`, `PruneBundle.cmake` (install step of `package-macos`) and `Sparkle.cmake`.
 - `docs/releases/<tag>.md` — release notes (GitHub Release and the Sparkle update dialog).
@@ -103,6 +109,20 @@ Qt Creator opens the project directly with the matching kit.
 - Check <https://doc.qt.io> for component and API behaviour rather than guessing.
   - QML best practices: <https://doc.qt.io/qt-6/qtquick-bestpractices.html>
   - QML coding conventions: <https://doc.qt.io/qt-6/qml-codingconventions.html>
+
+## Controls style
+
+- Chosen at run time in `main.cpp` (`QQuickStyle::setStyle`): **Material** on Android and Linux (configured in
+  `resources/qtquickcontrols2.conf`), **MacStyle** on macOS with `macOS` as the explicit fallback style (its plugin is
+  what keeps the palette in sync with the system and the colour scheme override).
+- Shared QML imports plain `QtQuick.Controls` and takes colours from `Theme`, never from `Material.*`. Only `Main.qml`
+  and `Splash.qml` import `QtQuick.Controls.Material as M`, for `M.Material.theme` (it has no effect under MacStyle).
+  Never import a style module unqualified: that is compile-time style selection.
+- `MacStyle` imports `QtQuick.Controls.macOS` and adds the controls the macOS style lacks (they would fall back to
+  Fusion) or draws unlike AppKit: `Button` (flat ones borderless), `RoundButton`, `ToolButton`, `Tumbler`, `ToolTip`,
+  `SwitchDelegate`/`ItemDelegate` (form rows). A control the app starts using that the macOS style does not implement
+  gets a file there. Tints use `palette.accent`, which `Main.qml` sets to `Theme.accent`.
+- qmllint reports `controls-native-customize` for every `MacStyle` file: expected, the module is the style.
 
 ## Platform code
 
