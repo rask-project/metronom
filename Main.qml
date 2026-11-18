@@ -45,6 +45,7 @@ Window {
 
     // Material only: other styles follow the color scheme set by Appearance.
     M.Material.theme: Appearance.dark ? M.Material.Dark : M.Material.Light
+    palette.accent: Theme.accent
 
     Settings {
         id: appSettings
@@ -118,6 +119,8 @@ Window {
             leadingInset: nativeWindow.leadingInset
 
             settingsButton: ToolButton {
+                anchors.centerIn: parent
+
                 icon.name: "settings"
 
                 onClicked: settingsDialog.open()

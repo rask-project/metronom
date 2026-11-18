@@ -115,6 +115,9 @@ if(APPLE)
 endif()
 
 add_subdirectory(Metronom)
+if(APPLE)
+    add_subdirectory(MacStyle)
+endif()
 
 set(MACOSX_BUNDLE_ICON_FILE metronom.icns)
 set(app_icon_macos "${CMAKE_CURRENT_SOURCE_DIR}/resources/metronom.icns")
@@ -157,6 +160,11 @@ set_source_files_properties(Main.qml
     PROPERTIES QT_QML_GENERATE_ANDROID_JAVA_CLASS TRUE)
 
 qt_import_qml_plugins(${TARGET_NAME})
+
+# Selected at run time (main.cpp), so no QML import pulls it in.
+if(APPLE)
+    target_link_libraries(${TARGET_NAME} PRIVATE metronom_macstyleplugin)
+endif()
 
 add_subdirectory(resources/icons)
 

@@ -37,7 +37,13 @@ int main(int argc, char *argv[])
     }
 
     // Set before any QML import: the Material import used for its attached theme must not select the style.
+#ifdef Q_OS_MACOS
+    QQuickStyle::setStyle(QStringLiteral("MacStyle"));
+    // Explicit, so the macOS style plugin initialises the theme and follows the system palette.
+    QQuickStyle::setFallbackStyle(QStringLiteral("macOS"));
+#else
     QQuickStyle::setStyle(QStringLiteral("Material"));
+#endif
 
     QQmlApplicationEngine engine;
 
