@@ -1,0 +1,20 @@
+---
+layout: default
+---
+<article class="page container container-narrow">
+  <header class="page-header">
+    <p class="eyebrow"><a href="{{ '/news/' | relative_url }}">News</a> · <time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: "%B %-d, %Y" }}</time></p>
+    <h1>{{ page.title }}</h1>
+    {%- if page.summary %}<p class="lead">{{ page.summary }}</p>{% endif %}
+  </header>
+  <div class="prose glass-card post-body">
+{{ content }}
+  </div>
+  <nav class="post-nav">
+    {%- if page.previous %}<a href="{{ page.previous.url | relative_url }}">← {{ page.previous.title }}</a>{% else %}<span></span>{% endif %}
+    {%- if page.next %}<a href="{{ page.next.url | relative_url }}">{{ page.next.title }} →</a>{% endif %}
+  </nav>
+  {%- if page.release %}
+  <p class="post-release"><a class="button button-secondary" href="{{ site.github_url }}/releases/tag/{{ page.release }}">Release {{ page.release }} on GitHub</a></p>
+  {%- endif %}
+</article>

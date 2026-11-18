@@ -1,0 +1,7 @@
+{%- comment -%} A form group of [label, value] rows, as in the app's Settings. {%- endcomment -%}
+<div class="form-group">
+  {%- for row in include.rows %}
+  {%- assign label = row[0] %}{% assign value = row[1] %}
+  <div class="form-row"><span>{% include tr.html s=label %}</span><span>{% include tr.html s=value %}</span></div>
+  {%- endfor %}
+</div>

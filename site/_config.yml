@@ -1,0 +1,45 @@
+title: Rask Metronom
+tagline: A metronome for macOS, Linux and Android
+description: >-
+  Rask Metronom is a free, open-source metronome for macOS, Linux and Android:
+  sample-accurate clicks, time signatures from 1/2 to 12/8 and subdivisions
+  that follow the beat.
+url: https://rask-project.github.io
+baseurl: /metronom
+repository: rask-project/metronom
+github_url: https://github.com/rask-project/metronom
+releases_url: https://github.com/rask-project/metronom/releases/latest
+lang: en
+
+markdown: kramdown
+kramdown:
+  input: GFM
+  syntax_highlighter_opts:
+    disable: true
+
+plugins:
+  - jekyll-seo-tag
+  - jekyll-feed
+  - jekyll-sitemap
+
+feed:
+  path: news/feed.xml
+
+permalink: /news/:year/:month/:day/:title/
+
+# Link previews (Open Graph / Twitter) and the logo in the structured data.
+logo: /assets/logo.png
+twitter:
+  card: summary_large_image
+
+defaults:
+  - scope: { path: "", type: posts }
+    values: { layout: post, image: /assets/screenshots/main-dark.jpg }
+  - scope: { path: "" }
+    values: { layout: page, image: /assets/screenshots/main-dark.jpg }
+
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - README.md
+  - vendor

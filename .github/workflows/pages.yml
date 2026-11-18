@@ -1,0 +1,51 @@
+name: Site
+
+# Builds site/ with Jekyll and publishes it to GitHub Pages
+# (https://rask-project.github.io/metronom/). The screenshots, icons
+# and logo come from docs/images and resources/ (scripts/site-assets.sh).
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "site/**"
+      - "docs/images/**"
+      - "resources/icons/metronom/svg/**"
+      - "resources/logo.png"
+      - "scripts/site-assets.sh"
+      - ".github/workflows/pages.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/configure-pages@v5
+      - name: Copy the screenshots and icons
+        run: scripts/site-assets.sh
+      - name: Build with Jekyll
+        uses: actions/jekyll-build-pages@v1
+        with:
+          source: ./site
+          destination: ./_site
+      - uses: actions/upload-pages-artifact@v3
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

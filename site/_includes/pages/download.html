@@ -1,0 +1,55 @@
+{%- include i18n.html -%}
+{%- assign d = t.download -%}
+{%- comment -%} key, title, icon, file pattern for site.js, extension {%- endcomment -%}
+{%- assign platforms = "macos|macOS|window|macos-arm64\.dmg$|.dmg,linux|Linux|display|linux-amd64\.deb$|.deb,android|Android|devices|android-arm64-v8a.*\.apk$|.apk" | split: "," -%}
+<div class="page container">
+  <header class="page-header">
+    <p class="eyebrow">{{ d.eyebrow }}</p>
+    <h1>{{ d.title }}</h1>
+    <p class="lead">{{ d.lead }} <span data-version="{{ d.version }}" hidden></span></p>
+  </header>
+
+  <div class="platforms">
+    {%- for platform in platforms %}
+    {%- assign p = platform | split: "|" %}
+    {%- assign text = p[0] | append: "_text" %}{% assign meta = p[0] | append: "_meta" %}
+    <div class="platform glass-card">
+      {% assign icon = p[2] %}{% include tile.html name=icon glyph=true %}
+      <h2>{{ p[1] }}</h2>
+      <p>{{ d[text] }}</p>
+      <div class="download-meta">{% for m in d[meta] %}<span>{{ m }}</span>{% endfor %}</div>
+      <a class="button" href="{{ site.releases_url }}" data-download="{{ p[3] }}">{{ d.button | replace: "%ext%", p[4] }}</a>
+    </div>
+    {%- endfor %}
+  </div>
+
+  <div class="prose container-narrow" style="margin-inline:0">
+    <h2 id="macos">{{ d.macos_title }}</h2>
+    <ol class="steps">
+      <li>{{ d.macos_steps[0] }}</li>
+      <li>
+        <p>{{ d.macos_steps[1] }}</p>
+        <div class="code-copy"><pre><code>xattr -dr com.apple.quarantine /Applications/metronom.app</code></pre></div>
+        <p>{{ d.macos_or }}</p>
+      </li>
+      <li>{{ d.macos_steps[2] }}</li>
+    </ol>
+
+    <h2 id="linux">{{ d.linux_title }}</h2>
+    <div class="code-copy"><pre><code>sudo apt install ./Metronom-*-linux-amd64.deb</code></pre></div>
+    <p>{{ d.linux_after }}</p>
+
+    <h2 id="android">{{ d.android_title }}</h2>
+    <p>{{ d.android_after }}</p>
+
+    <h2 id="source">{{ d.source_title }}</h2>
+    <p>{{ d.source_text }}</p>
+    <div class="code-copy"><pre><code>git clone https://github.com/rask-project/metronom.git
+cd metronom
+cmake -B build -G Ninja \
+    -DCMAKE_PREFIX_PATH=/path/to/Qt/6.12.0/macos \
+    -DCMAKE_BUILD_TYPE=Release
+cmake --build build</code></pre></div>
+    <p>{{ d.source_after }}</p>
+  </div>
+</div>

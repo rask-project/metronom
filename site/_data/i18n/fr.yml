@@ -1,0 +1,310 @@
+# Textes du site, français. Les mêmes clés que en.yml ; les termes suivent translations/metronom_fr_FR.ts.
+
+date_format: "%d/%m/%Y"
+
+nav:
+  features: "Fonctionnalités"
+  guide: "Mode d’emploi"
+  news: "Actualités"
+  download: "Télécharger"
+  github: "Rask Metronom sur GitHub"
+  language: "Langue"
+
+footer:
+  tagline: "« Metronom » signifie « métronome » en norvégien."
+  note: "Conçu avec Qt Quick et C++23 pour macOS, Linux et Android. Open source sous licence MIT sur <a href=\"https://github.com/rask-project/metronom\">GitHub</a>."
+
+notes:
+  half: "blanche"
+  dq: "noire pointée"
+  quarter: "noire"
+  eighth: "croche"
+  sixteenth: "double-croche"
+  thirtysecond: "triple-croche"
+labels:
+  half: "Blanche"
+  dq: "Noire pointée"
+  quarter: "Noire"
+  eighth: "Croche"
+  sixteenth: "Double-croche"
+  thirtysecond: "Triple-croche"
+
+markings:
+  - ["Largo", "40 · très lent, large"]
+  - ["Larghetto", "60 · assez large"]
+  - ["Adagio", "66 · lent, à l’aise"]
+  - ["Andante", "76 · à l’allure de la marche"]
+  - ["Moderato", "108 · modéré"]
+  - ["Allegro", "120 · rapide, gai"]
+  - ["Vivace", "168 · très vif"]
+  - ["Presto", "184 · très rapide"]
+  - ["Prestissimo", "208 · aussi vite que possible"]
+
+js:
+  copy: "Copier"
+  copied: "Copié"
+  play: "Lecture"
+  stop: "Arrêt"
+  per_beat: "{n}/temps"
+  beats: ["temps", "temps"]
+  clicks: ["clic", "clics"]
+  result: "<strong>{sig}</strong> compte {beats} par mesure, et chaque temps vaut une <strong>{beat}</strong>{compound}. {label} : <strong>{perBeat} par temps</strong>, {clicks} par mesure. À {bpm} BPM, cela fait {perMinute} clics par minute ({perSecond} par seconde)."
+  compound: " (trois croches)"
+  bar_label: "{sig} en {note} : {beats} groupes de {perBeat} cases"
+  no_audio: "Ce navigateur ne peut pas jouer de son."
+
+home:
+  badge: "Les mesures, c’est nouveau ? Lisez le mode d’emploi"
+  title: "Gardez le tempo. Sentez chaque temps."
+  lead: "Rask Metronom est un métronome libre et open source pour macOS, Linux et Android : des clics précis à l’échantillon près, des mesures de 1/2 à 12/8 et des subdivisions qui partagent chaque temps comme vous le comptez."
+  download: "Télécharger"
+  guide: "Mode d’emploi"
+  note: "Libre et open source · macOS 14.4+ · Linux · Android"
+  version: "Version %v · "
+  alt_light: "Rask Metronom en thème clair, jouant du 4/4 en croches à 120 BPM"
+  alt_playing: "Rask Metronom jouant du 4/4 à 120 BPM : le pendule oscille une fois par temps et la barre des temps s’allume temps après temps, le bureau flou à travers la fenêtre"
+  alt_settings: "Les Paramètres en thème sombre sur la fenêtre floutée"
+  grid_eyebrow: "Tout ce qu’une séance de travail demande"
+  grid_title: "Simple en surface. Précis en profondeur."
+  grid_lead: "Choisissez un tempo, une mesure et une division rythmique, puis lancez la lecture. Le reste ne vous gêne pas."
+  cards:
+    timing: ["Précision à l’échantillon", "Les clics sont placés sur l’horloge audio, pas sur un minuteur : le temps ne dérive jamais, ni après une minute, ni après une heure."]
+    tempo: ["Tempo de 40 à 300 BPM", "Tournez la roue des BPM, avancez d’un BPM à la fois ou sautez entre les indications classiques, de Largo à Prestissimo."]
+    meter: ["Mesures", "De 1 à 12 temps sur une blanche, une noire ou une croche. 6/8, 9/8 et 12/8 se comptent en noires pointées, comme les musiciens les ressentent."]
+    notes: ["Des subdivisions qui suivent le temps", "Croches, doubles ou triples-croches divisent chaque temps, et seules les figures qui conviennent à la mesure sont proposées."]
+    sound: ["Trois clics", "Un accent sur le premier temps de la mesure, un clic moyen sur les autres temps et un clic doux sur les subdivisions."]
+    bar: ["Voir la mesure", "La barre des temps montre un groupe par temps avec une case par note, et le pendule oscille une fois par temps."]
+    rise: ["Accélérer en travaillant", "L’augmentation automatique passe à l’indication de tempo suivante toutes les 30 secondes à 10 minutes : le passage accélère pendant que vous jouez."]
+    native: ["Natif sur chaque plateforme", "Une fenêtre translucide et floutée avec des contrôles natifs sur macOS ; Material sur Linux et Android. Thèmes clair et sombre partout."]
+    keyboard: ["Les mains sur l’instrument", "<kbd>Espace</kbd> lance et arrête, <kbd>↑</kbd> <kbd>↓</kbd> changent le BPM, <kbd>Page préc.</kbd> <kbd>Page suiv.</kbd> sautent d’une indication."]
+  notes_eyebrow: "Division rythmique"
+  notes_title: "Entendez chaque croche. Ou chaque triple-croche."
+  notes_text: "La division rythmique partage <em>chaque temps</em>. En 4/4, les croches jouent 2 notes par temps, les doubles-croches 4 et les triples-croches 8 — et la barre des temps montre exactement cela, une case par note."
+  notes_list:
+    - "<strong>Le temps reste le temps :</strong> le BPM et le pendule continuent de compter les temps pendant que les clics remplissent l’intervalle."
+    - "<strong>Changez en jouant :</strong> la nouvelle division commence au temps suivant, le compte n’est jamais rompu."
+  notes_link: "Le lien entre la division rythmique et la mesure →"
+  notes_alt: "Jouant du 4/4 à 120 BPM en passant de la noire à la croche, à la double et à la triple-croche ; la barre divise chaque temps en 2, 4 et 8 cases"
+  meter_eyebrow: "Mesures"
+  meter_title: "De la valse au blues en 12/8."
+  meter_text: "Touchez la mesure à côté de la lecture et tournez les roues : de 1 à 12 temps sur une blanche, une noire ou une croche."
+  meter_list:
+    - "<strong>Les mesures composées</strong> — 6/8, 9/8 et 12/8 — se comptent en noires pointées, chacune partagée en trois croches."
+    - "<strong>Le premier temps est accentué</strong> : vous savez toujours où commence la mesure."
+  meter_link: "Lire une mesure →"
+  meter_alt: "Changer de mesure en jouant : de 4/4 à 3/4, puis à 6/8, où les figures deviennent noire pointée, croche et double-croche"
+  tempo_eyebrow: "Tempo"
+  tempo_title: "Le tempo voulu, d’un geste."
+  tempo_text: "Faites glisser ou défiler la roue des BPM pour un réglage fin. Les doubles flèches sautent à l’indication de tempo précédente ou suivante, et son nom suit le BPM."
+  tempo_list:
+    - "<strong>De 40 à 300 BPM</strong>, de Largo à Prestissimo."
+    - "<strong>Au clavier :</strong> <kbd>↑</kbd> <kbd>↓</kbd> un BPM, <kbd>Page préc.</kbd> <kbd>Page suiv.</kbd> une indication."
+  tempo_link: "Le tempo et ses indications →"
+  tempo_alt: "Tourner la roue des BPM, sauter à Vivace et Presto avec les doubles flèches, puis revenir à Allegro"
+  mac_eyebrow: "Sur Mac"
+  mac_title: "Une fenêtre à travers laquelle on voit."
+  mac_text: "Sur macOS, la fenêtre est translucide et floutée, avec le contenu sous la barre de titre, et les boutons, interrupteurs et la roue des BPM sont des contrôles natifs teintés de l’orange de l’app."
+  mac_list:
+    - "<strong>Clair ou sombre</strong>, indépendamment du système."
+    - "<strong>Se met à jour seule :</strong> les mises à jour signées se téléchargent en arrière-plan et s’installent quand vous quittez."
+  mac_alt: "Les Paramètres : activer l’augmentation automatique affiche son intervalle, puis passage du thème sombre au thème clair"
+  cta_title: "Essayez Rask Metronom"
+  cta_lead: "Libre et open source, pour macOS, Linux et Android."
+  cta_source: "Code sur GitHub"
+
+features:
+  eyebrow: "Fonctionnalités"
+  title: "Tout ce que fait Rask Metronom"
+  lead: "Une visite de l’app, présentée comme une fenêtre de Paramètres. Pour la musique derrière — tempo, mesures et division rythmique — voyez le <a href=\"%base%guide/\">Mode d’emploi</a>."
+  sidebar:
+    tempo: "Tempo"
+    meter: "Mesure"
+    notes: "Division rythmique"
+    bar: "Barre des temps et pendule"
+    sound: "Son"
+    timing: "Précision"
+    rise: "Augmentation automatique"
+    keyboard: "Clavier"
+    appearance: "Apparence"
+    settings: "Paramètres"
+    platforms: "Plateformes"
+    updates: "Mises à jour"
+  tempo_text: "La roue des BPM règle le tempo de <strong>40 à 300 battements par minute</strong>. Sous le BPM, le nom de l’indication de tempo suit le nombre."
+  tempo_rows:
+    - ["Faire glisser ou défiler la roue", "Réglage fin, un BPM par ligne"]
+    - ["%up% Double flèche gauche", "L’indication de tempo précédente (plus lente)"]
+    - ["%down% Double flèche droite", "L’indication de tempo suivante (plus rapide)"]
+  tempo_markings: "Les indications sont Largo 40, Larghetto 60, Adagio 66, Andante 76, Moderato 108, Allegro 120, Vivace 168, Presto 184 et Prestissimo 208."
+  tempo_alt: "Tourner la roue des BPM puis sauter entre les indications de tempo avec les doubles flèches"
+  meter_text: "La mesure est le bouton à côté de la lecture. Il ouvre deux roues : les <strong>temps par mesure</strong> (1 à 12) et la <strong>figure qui vaut un temps</strong> (2 = blanche, 4 = noire, 8 = croche)."
+  meter_list:
+    - "<strong>Les mesures composées</strong> — 6/8, 9/8 et 12/8 — se comptent en noires pointées, chacune partagée en trois croches : 2, 3 et 4 temps par mesure. Le BPM compte la noire pointée."
+    - "<strong>Les changements faits en jouant</strong> commencent au temps suivant : le compte n’est jamais rompu."
+  meter_alt_dark: "La fenêtre Mesure en thème sombre, réglée sur 4/4"
+  meter_alt_light: "La fenêtre Mesure en thème clair, réglée sur 4/4"
+  notes_text: "La rangée de notes en haut choisit comment chaque temps est divisé. Seules les figures qui conviennent au temps de la mesure actuelle sont affichées :"
+  notes_rows:
+    - ["x/2 (temps à la blanche)", "Blanche, noire, croche, double-croche"]
+    - ["x/4 (temps à la noire)", "Noire, croche, double-croche, triple-croche"]
+    - ["x/8 (temps à la croche)", "Croche, double-croche, triple-croche"]
+    - ["6/8, 9/8, 12/8 (noire pointée)", "Noire pointée, croche, double-croche"]
+  notes_after: "Si la figure choisie ne convient pas à la nouvelle mesure, l’app prend la plus longue qui convient. Les icônes ont des têtes de note pleines, comme en notation standard."
+  notes_alt: "Jouant du 6/8 : de la noire pointée à la croche (3 par temps) et à la double-croche (6 par temps)"
+  bar_text: "À côté de la mesure, la <strong>barre des temps</strong> dessine toute la mesure : un groupe par temps, une case par note de ce temps. Le premier temps a sa propre couleur, et la note jouée s’allume."
+  bar_label: "Une mesure à 4/4 en croches : quatre groupes de deux cases, le premier mis en valeur"
+  bar_pendulum: "Le <strong>pendule</strong> oscille une fois par temps — pas à chaque clic — pour que l’œil suive la pulsation pendant que l’oreille entend les subdivisions."
+  bar_alt: "La barre des temps divisant chaque temps en 2, 4 et 8 cases à mesure que la division change"
+  sound_text: "Trois clics vous disent où vous en êtes dans la mesure sans regarder :"
+  sound_rows:
+    - ["Accent", "Le premier temps de la mesure — le clic le plus aigu et le plus fort"]
+    - ["Temps", "Les autres temps"]
+    - ["Subdivision", "Les notes entre les temps — un clic doux"]
+  sound_output: "Choisissez la <strong>sortie audio</strong> dans les Paramètres : haut-parleurs, casque ou interface audio. Changer de périphérique en jouant continue sans trou dans le compte."
+  timing_text: "Rask Metronom n’utilise pas de minuteur pour cliquer. Chaque clic est placé sur un échantillon exact du flux audio, compté sur l’horloge de la carte son elle-même : aucune dérive entre le temps et ce que vous entendez, à tout tempo et sur toute durée."
+  timing_list:
+    - "Les clics sont générés une fois puis mixés ; le chemin audio n’alloue pas de mémoire et ne prend aucun verrou."
+    - "Pendant que le métronome joue, <strong>l’écran reste allumé</strong> sur macOS, Linux (X11 et Wayland) et Android."
+  rise_text: "Pour amener un passage à tempo : activez l’<strong>Augmentation automatique du BPM</strong> dans les Paramètres et choisissez un intervalle. Pendant que le métronome joue, chaque intervalle porte le tempo à l’<strong>indication suivante</strong> — par exemple Moderato 108 → Allegro 120 → Vivace 168 — jusqu’à Prestissimo."
+  rise_rows:
+    - ["Intervalle", "30 secondes, 1, 2, 5 ou 10 minutes"]
+  rise_alt: "Activer l’augmentation automatique dans les Paramètres affiche le curseur d’intervalle"
+  keyboard_rows:
+    - ["<kbd>Espace</kbd>", "Lecture / arrêt"]
+    - ["<kbd>↑</kbd> / <kbd>↓</kbd>", "BPM plus un / moins un"]
+    - ["<kbd>Page préc.</kbd> / <kbd>Page suiv.</kbd>", "Indication de tempo suivante / précédente"]
+    - ["<kbd>⌘,</kbd>", "Paramètres (macOS)"]
+    - ["<kbd>⌘W</kbd> ou <kbd>⌘Q</kbd>", "Quitter (macOS)"]
+  appearance_text: "<strong>Clair ou sombre</strong>, au choix dans les Paramètres, indépendamment du système. Les fenêtres de dialogue ont une bordure et une ombre sur la page floutée et légèrement assombrie."
+  appearance_native: "Sur <strong>macOS</strong>, la fenêtre est translucide et floutée, avec le contenu sous la barre de titre, et utilise des contrôles natifs teintés de l’orange de l’app. Sur <strong>Linux et Android</strong>, elle utilise Material. La mise en page s’adapte au portrait et au paysage : sur un téléphone en paysage, le métronome occupe la gauche et les contrôles s’empilent à droite."
+  appearance_alt_dark: "La fenêtre principale en thème sombre, jouant du 4/4 en croches, le bureau flou à travers elle"
+  appearance_alt_light: "La fenêtre principale en thème clair, jouant du 4/4 en croches"
+  settings_rows:
+    - ["Mode sombre", "Thème clair ou sombre"]
+    - ["Enregistrer le BPM, la mesure et la division rythmique", "Les restaure au prochain lancement (activé par défaut)"]
+    - ["Augmentation automatique du BPM", "Indication de tempo suivante à chaque intervalle"]
+    - ["Langue", "English, Português (Brasil), Español, Français, Italiano ; appliquée au prochain lancement"]
+    - ["Sortie", "Le périphérique audio sur lequel jouer"]
+  settings_alt_dark: "Les Paramètres en thème sombre"
+  settings_alt_light: "Les Paramètres en thème clair"
+  platforms_rows:
+    - ["macOS", "14.4 ou ultérieur, Apple Silicon"]
+    - ["Linux", "Un <code>.deb</code> pour Debian et Ubuntu 24.04+, X11 et Wayland"]
+    - ["Android", "Téléphones et tablettes arm64"]
+  platforms_text: "Une seule base de code en Qt Quick et C++23. <a href=\"%base%download/\">Télécharger →</a>"
+  updates_text: "Sur macOS, une fois par jour, Rask Metronom cherche une nouvelle version, la télécharge en arrière-plan et l’installe quand vous quittez. <strong>Rask Metronom ▸ Check for Updates…</strong> vérifie tout de suite et montre ce qui a changé. Les mises à jour sont signées."
+
+guide:
+  eyebrow: "Mode d’emploi"
+  title: "Tempo, mesure et division rythmique"
+  lead: "Trois réglages font chaque clic : la vitesse du temps, la façon dont les temps se groupent en mesures et la façon dont chaque temps est divisé. Voici ce que chacun signifie et comment ils s’articulent."
+  quick_title: "Démarrage rapide"
+  quick_steps:
+    - "<strong>Choisissez la division rythmique</strong> dans la rangée du haut : %quarter% pour un clic par temps, %eighth% pour deux, et ainsi de suite."
+    - "<strong>Réglez le tempo</strong> sur la roue des BPM, ou sautez entre les indications avec les doubles flèches."
+    - "<strong>Choisissez la mesure</strong> avec le bouton à côté de la lecture — 4/4 si vous hésitez."
+    - "<strong>Lancez la lecture</strong> %play% ou <kbd>Espace</kbd>. Le premier temps de chaque mesure est accentué."
+  quick_after: "Tout peut changer pendant la lecture : un nouveau tempo, une nouvelle mesure ou division commence au temps suivant, le compte n’est jamais rompu."
+  quick_alt: "La fenêtre principale : les figures en haut, la roue des BPM avec l’indication de tempo, le métronome et, en bas, la lecture, la mesure et la barre des temps"
+  tempo_title: "1. Tempo (BPM)"
+  tempo_text: "Le tempo est la vitesse du <strong>temps</strong> (la pulsation), en <strong>battements par minute</strong>. À 60 BPM, il y a un temps par seconde ; à 120 BPM, deux. Rask Metronom va de 40 à 300 BPM."
+  tempo_callout: "<strong>Le BPM compte toujours des temps, pas des clics.</strong> La figure qui fait le temps dépend de la mesure (une noire en 4/4, une noire pointée en 6/8, voir plus bas). Choisir des croches ou des doubles-croches ajoute des clics <em>entre</em> les temps ; le tempo ne change pas."
+  tempo_change_title: "Changer le tempo"
+  tempo_change:
+    - "<strong>La roue :</strong> faites-la glisser ou défiler, un BPM par ligne."
+    - "<strong>Les doubles flèches</strong> de chaque côté sautent à l’indication de tempo précédente (gauche) ou suivante (droite)."
+    - "<strong>Le clavier :</strong> <kbd>↑</kbd> <kbd>↓</kbd> changent d’un BPM, <kbd>Page préc.</kbd> <kbd>Page suiv.</kbd> d’une indication."
+  markings_title: "Indications de tempo"
+  markings_text: "Le mot sous « BPM » est l’indication de tempo classique, en italien, pour la vitesse actuelle. Chacune commence au BPM ci-dessous et dure jusqu’à la suivante :"
+  tempo_alt: "Tourner la roue des BPM, sauter à Vivace et Presto avec la double flèche droite et revenir avec la gauche"
+  meter_title: "2. Mesure"
+  meter_text: "La musique groupe les temps en <strong>mesures</strong>. Le chiffrage de la mesure dit comment, avec deux nombres :"
+  meter_list:
+    - "<strong>Le nombre du haut</strong> est le nombre de temps dans une mesure — de 1 à 12 dans l’app."
+    - "<strong>Le nombre du bas</strong> est la figure qui vaut un temps : <strong>2</strong> = %half%, <strong>4</strong> = %quarter%, <strong>8</strong> = %eighth%."
+  meter_after: "Ainsi, <strong>3/4</strong> fait trois temps à la noire par mesure (une valse : <em>UN</em>-deux-trois), et <strong>2/2</strong> (« alla breve ») deux temps à la blanche. Le premier temps de chaque mesure reçoit le clic d’<strong>accent</strong> : vous entendez toujours où commence la mesure."
+  compound_title: "Mesures composées : 6/8, 9/8 et 12/8"
+  compound_text: "Quand le nombre du bas est 8 et celui du haut 6, 9 ou 12, les croches se ressentent par <strong>groupes de trois</strong>. Chaque groupe est un temps, de la durée d’une %dq% — c’est ainsi que les musiciens comptent une gigue ou un blues en 12/8. Rask Metronom les compte de la même façon :"
+  compound_head: ["Mesure", "Temps par mesure", "Un temps vaut", "Compté"]
+  compound_rows:
+    - ["2/4, 3/4, 4/4, 5/4…", "le nombre du haut", "%quarter%", "1 2 3 4"]
+    - ["2/2, 3/2…", "le nombre du haut", "%half%", "1 2"]
+    - ["3/8, 5/8, 7/8…", "le nombre du haut", "%eighth%", "1 2 3"]
+    - ["6/8", "2", "%dq%", "<em>1</em>-et-a <em>2</em>-et-a"]
+    - ["9/8", "3", "%dq%", "3 groupes de 3 croches"]
+    - ["12/8", "4", "%dq%", "4 groupes de 3 croches"]
+  compound_after: "En 6/8, 9/8 et 12/8, le <strong>BPM compte la noire pointée</strong>. 6/8 à 60 BPM fait deux temps par seconde, chacun avec trois croches à l’intérieur. 3/8 se compte en trois temps à la croche."
+  meter_alt: "Changer de mesure en jouant : 4/4, puis 3/4 avec trois groupes, puis 6/8 avec deux temps à la noire pointée"
+  notes_title: "3. Division rythmique : diviser le temps"
+  notes_text: "La division rythmique est le nombre de clics que vous entendez <strong>dans chaque temps</strong>. C’est là que la mesure et les figures se rencontrent : une figure n’est proposée que si un nombre entier d’entre elles tient dans un temps."
+  notes_rule: "<strong>Notes par temps = la durée du temps ÷ la durée de la figure.</strong>"
+  notes_rule_text: "Une %quarter% vaut 2 croches, 4 doubles-croches ou 8 triples-croches. Une %half% vaut 2 noires, 4 croches ou 8 doubles-croches. Une %dq% vaut 3 croches ou 6 doubles-croches — mais pas un nombre entier de noires, c’est pourquoi la noire n’est pas proposée en 6/8."
+  notes_table_intro: "Cela donne ces choix pour chaque type de temps (jusqu’à 8 notes par temps) :"
+  notes_head: ["Temps (mesure)", "Figures proposées — notes par temps"]
+  notes_fallback: "Quand vous changez de mesure et que votre figure ne convient plus, l’app passe à la figure la plus longue qui convient."
+  bar_title: "Lire la barre des temps"
+  bar_text: "La barre des temps, en bas de la fenêtre, dessine la mesure exactement ainsi : <strong>un groupe par temps, une case par note</strong>. La grande case au début de chaque groupe est le temps lui-même ; les petites sont les subdivisions. Pendant la lecture, la note jouée s’allume."
+  legend: ["Accent — premier temps de la mesure", "Clic du temps", "Subdivision — clic doux"]
+  example: "%beats% temps × %n% = %total% clics par mesure"
+  example_label: "%sig% en %note% : %beats% groupes de %n% cases"
+  caption_44: "4/4 : noire → croche → double-croche → triple-croche"
+  caption_68: "6/8 : noire pointée → croche → double-croche"
+  alt_44: "4/4 en passant de la noire à la croche, à la double et à la triple-croche"
+  alt_68: "6/8 en passant de la noire pointée à la croche et à la double-croche"
+  try_title: "Essayez"
+  try_text: "Choisissez une mesure, une division rythmique et un tempo pour voir la mesure que joue l’app et combien de clics vous entendrez — puis lancez la lecture pour l’écouter dans le navigateur."
+  try_beats: "Temps par mesure"
+  try_note: "Figure du temps"
+  try_noscript: "(Le simulateur a besoin de JavaScript.)"
+  score_title: "Quand la partition compte une autre figure"
+  score_text: "L’indication de tempo d’une partition nomme la figure qu’elle compte, et ce n’est pas toujours le temps de l’app. Convertissez selon le nombre de ces figures dans un temps :"
+  score_list:
+    - "<strong>6/8 marqué ♪ = 180 :</strong> une noire pointée vaut 3 croches, réglez donc <strong>180 ÷ 3 = 60</strong> BPM et choisissez %eighth% pour entendre chaque croche."
+    - "<strong>2/2 marqué ♩ = 160 :</strong> une blanche vaut 2 noires, réglez donc <strong>160 ÷ 2 = 80</strong> BPM et choisissez %quarter%."
+    - "<strong>4/4 marqué ♪ = 140 :</strong> réglez <strong>70</strong> BPM avec %eighth% — ou 140 avec %quarter% si vous préférez sentir les croches comme des temps."
+  practice_title: "4. Travailler jusqu’au tempo"
+  practice_text: "Commencez un passage difficile à un tempo que vous jouez proprement, puis laissez le métronome vous pousser :"
+  practice_steps:
+    - "Ouvrez les <strong>Paramètres</strong> %gear% et activez l’<strong>Augmentation automatique du BPM</strong>."
+    - "Choisissez l’<strong>intervalle</strong> : 30 secondes, 1, 2, 5 ou 10 minutes."
+    - "Jouez. À chaque intervalle, le tempo passe à l’<strong>indication suivante</strong> — Andante 76 → Moderato 108 → Allegro 120… — jusqu’à Prestissimo. Le décompte n’avance que pendant la lecture."
+  practice_after: "Pour monter plus doucement, laissez l’augmentation automatique désactivée et appuyez sur <kbd>↑</kbd> quelques BPM à la fois entre les répétitions."
+  practice_alt: "Activer l’augmentation automatique dans les Paramètres affiche le curseur d’intervalle, réglé sur une minute"
+  remember_title: "5. La prochaine fois"
+  remember_text: "Avec <strong>Enregistrer le BPM, la mesure et la division rythmique</strong> activé (par défaut), l’app s’ouvre là où vous l’avez laissée. Désactivez-le dans les Paramètres pour toujours commencer à 120 BPM en 4/4."
+
+download:
+  eyebrow: "Télécharger"
+  title: "Obtenir Rask Metronom"
+  lead: "Libre et open source."
+  version: "La dernière version est la %v."
+  macos_text: "Une image disque avec l’app. Des mises à jour signées ensuite."
+  macos_meta: ["macOS 14.4 ou ultérieur", "Apple Silicon"]
+  linux_text: "Un paquet Debian avec Qt inclus, installé dans <code>/opt/metronom</code>."
+  linux_meta: ["Debian, Ubuntu 24.04+", "x86-64", "X11 et Wayland"]
+  android_text: "Un APK à installer sur votre téléphone ou tablette."
+  android_meta: ["arm64"]
+  button: "Télécharger le %ext%"
+  macos_title: "Installer sur macOS"
+  macos_steps:
+    - "Ouvrez le <code>.dmg</code> et faites glisser <strong>Rask Metronom</strong> dans <strong>Applications</strong>."
+    - "L’app n’est pas encore notarisée par Apple : Gatekeeper bloque le premier lancement. Retirez la quarantaine une fois :"
+    - "C’est la seule fois : Rask Metronom se met à jour seul, et les mises à jour s’ouvrent sans cette étape."
+  macos_or: "ou ouvrez-la, puis choisissez <strong>Réglages Système ▸ Confidentialité et sécurité ▸ Ouvrir quand même</strong>."
+  linux_title: "Installer sur Linux"
+  linux_after: "Rask Metronom apparaît dans le menu des applications. L’écran reste allumé pendant la lecture, sous X11 et Wayland."
+  android_title: "Installer sur Android"
+  android_after: "Ouvrez le <code>.apk</code> sur l’appareil et autorisez l’installation depuis le navigateur ou le gestionnaire de fichiers quand Android le demande."
+  source_title: "Compiler depuis les sources"
+  source_text: "Il faut Qt 6.10 ou ultérieur (Quick, Quick Controls 2, Multimedia), CMake et un compilateur C++23."
+  source_after: "Le <a href=\"https://github.com/rask-project/metronom#readme\">README</a> décrit l’architecture, et <a href=\"https://github.com/rask-project/metronom/releases\">toutes les versions</a> sont sur GitHub."
+
+news:
+  eyebrow: "Actualités"
+  title: "Les nouveautés de Rask Metronom"
+  lead: "Notes de version et nouvelles du projet. <a href=\"%root%news/feed.xml\">S’abonner par RSS</a>."
+  english: "Les notes de version sont publiées en anglais."
+
+notfound:
+  title: "Un silence là où devrait être une page"
+  lead: "Cette page n’existe pas."
+  home: "Retour à l’accueil"

@@ -1,0 +1,16 @@
+# The site's languages, the same as the app's. prefix: the URL path (English at the root).
+- code: en
+  prefix: ""
+  name: English
+- code: pt-BR
+  prefix: /pt-br
+  name: Português (Brasil)
+- code: es
+  prefix: /es
+  name: Español
+- code: fr
+  prefix: /fr
+  name: Français
+- code: it
+  prefix: /it
+  name: Italiano

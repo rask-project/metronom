@@ -1,0 +1,21 @@
+{%- include i18n.html -%}
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <img src="{{ '/assets/logo.png' | relative_url }}" alt="" width="28" height="28">
+      <div>
+        <strong>Rask Metronom</strong>
+        <span>{{ t.footer.tagline }}</span>
+      </div>
+    </div>
+    <ul class="footer-links">
+      <li><a href="{{ base }}features/">{{ t.nav.features }}</a></li>
+      <li><a href="{{ base }}guide/">{{ t.nav.guide }}</a></li>
+      <li><a href="{{ base }}news/">{{ t.nav.news }}</a></li>
+      <li><a href="{{ base }}download/">{{ t.nav.download }}</a></li>
+      <li><a href="{{ site.github_url }}">GitHub</a></li>
+      <li><a href="{{ '/news/feed.xml' | relative_url }}">RSS</a></li>
+    </ul>
+    <p class="footer-note">{{ t.footer.note }}</p>
+  </div>
+</footer>

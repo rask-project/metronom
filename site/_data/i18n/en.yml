@@ -1,0 +1,314 @@
+# Site strings, English (the source). Every language file has the same keys.
+# Tokens replaced by _includes/tr.html: %half% %dq% %quarter% %eighth% %sixteenth% %thirtysecond%
+# (a note value's icon and name), %play% %gear% %up% %down% (an icon), %base% (this language's root URL).
+
+date_format: "%B %-d, %Y"
+
+nav:
+  features: "Features"
+  guide: "How to use"
+  news: "News"
+  download: "Download"
+  github: "Rask Metronom on GitHub"
+  language: "Language"
+
+footer:
+  tagline: "Norwegian for “metronome”."
+  note: "Built with Qt Quick and C++23 for macOS, Linux and Android. Open source under the MIT License on <a href=\"https://github.com/rask-project/metronom\">GitHub</a>."
+
+# Note values in running text (lower case) and as the app labels them.
+notes:
+  half: "half"
+  dq: "dotted quarter"
+  quarter: "quarter"
+  eighth: "eighth"
+  sixteenth: "sixteenth"
+  thirtysecond: "thirty-second"
+labels:
+  half: "Half"
+  dq: "Dotted quarter"
+  quarter: "Quarter"
+  eighth: "Eighth"
+  sixteenth: "Sixteenth"
+  thirtysecond: "Thirty-second"
+
+markings:
+  - ["Largo", "40 · very slow, broad"]
+  - ["Larghetto", "60 · rather broad"]
+  - ["Adagio", "66 · slow, at ease"]
+  - ["Andante", "76 · at a walking pace"]
+  - ["Moderato", "108 · moderate"]
+  - ["Allegro", "120 · fast, lively"]
+  - ["Vivace", "168 · very lively"]
+  - ["Presto", "184 · very fast"]
+  - ["Prestissimo", "208 · as fast as possible"]
+
+# Used by assets/js/site.js. {placeholders} are filled in by the script.
+js:
+  copy: "Copy"
+  copied: "Copied"
+  play: "Play"
+  stop: "Stop"
+  per_beat: "{n}/beat"
+  beats: ["beat", "beats"]
+  clicks: ["click", "clicks"]
+  result: "<strong>{sig}</strong> has {beats} per bar, each a <strong>{beat}</strong>{compound}. {label}: <strong>{perBeat} per beat</strong>, {clicks} per bar. At {bpm} BPM that is {perMinute} clicks per minute ({perSecond} per second)."
+  compound: " (three eighths)"
+  bar_label: "{sig} in {note}: {beats} groups of {perBeat} cells"
+  no_audio: "This browser cannot play sound."
+
+home:
+  badge: "New to time signatures? Read how to use it"
+  title: "Keep time. Feel every beat."
+  lead: "Rask Metronom is a free, open-source metronome for macOS, Linux and Android: sample-accurate clicks, time signatures from 1/2 to 12/8, and subdivisions that split each beat the way you count it."
+  download: "Download"
+  guide: "How to use"
+  note: "Free and open source · macOS 14.4+ · Linux · Android"
+  version: "Version %v · "
+  alt_light: "Rask Metronom in the light theme, playing 4/4 in eighth notes at 120 BPM"
+  alt_playing: "Rask Metronom playing 4/4 at 120 BPM: the pendulum swings once per beat and the beat bar lights up beat by beat, the desktop showing blurred through the window"
+  alt_settings: "The Settings dialog in the dark theme over the blurred window"
+  grid_eyebrow: "Everything a practice session needs"
+  grid_title: "Simple on the surface. Precise underneath."
+  grid_lead: "Pick a tempo, a time signature and a note value, then press play. The rest stays out of your way."
+  cards:
+    timing: ["Sample-accurate timing", "Clicks are scheduled against the audio clock, not a timer, so the beat never drifts — not after a minute, not after an hour."]
+    tempo: ["Tempo from 40 to 300 BPM", "Spin the BPM wheel, step one BPM at a time, or jump between the classic markings from Largo to Prestissimo."]
+    meter: ["Time signatures", "1 to 12 beats over a half, quarter or eighth note. 6/8, 9/8 and 12/8 are counted in dotted quarters, like musicians feel them."]
+    notes: ["Subdivisions that follow the beat", "Eighths, sixteenths or thirty-seconds divide each beat, and only the note values that fit the time signature are offered."]
+    sound: ["Three clicks", "An accent on the first beat of the bar, a medium click on the other beats and a soft click on the subdivisions."]
+    bar: ["See the bar", "The beat bar shows one group per beat with a cell per note, and the pendulum swings once per beat."]
+    rise: ["Speed up as you practise", "Auto-increment moves to the next tempo marking every 30 seconds to 10 minutes, so a passage gets faster as you play it."]
+    native: ["Native on every platform", "A see-through, blurred window and native controls on macOS; Material on Linux and Android. Light and dark themes everywhere."]
+    keyboard: ["Hands on the instrument", "<kbd>Space</kbd> plays and stops, <kbd>↑</kbd> <kbd>↓</kbd> change the BPM, <kbd>Page Up</kbd> <kbd>Page Down</kbd> jump between markings."]
+  notes_eyebrow: "Note values"
+  notes_title: "Hear every eighth. Or every thirty-second."
+  notes_text: "The note value divides <em>each beat</em>. In 4/4, eighths play 2 notes per beat, sixteenths 4 and thirty-seconds 8 — and the beat bar shows exactly that, one cell per note."
+  notes_list:
+    - "<strong>The beat stays the beat:</strong> the BPM and the pendulum keep counting beats while the clicks fill in between."
+    - "<strong>Change it while playing:</strong> the new value starts on the next beat, so the count never breaks."
+  notes_link: "How note values relate to the time signature →"
+  notes_alt: "Playing 4/4 at 120 BPM while switching from quarter to eighth, sixteenth and thirty-second notes; the beat bar splits each beat into 2, 4 and 8 cells"
+  meter_eyebrow: "Time signatures"
+  meter_title: "From a waltz to 12/8 blues."
+  meter_text: "Tap the time signature next to play and turn the wheels: 1 to 12 beats over a half, quarter or eighth note."
+  meter_list:
+    - "<strong>Compound meters</strong> — 6/8, 9/8 and 12/8 — are counted in dotted quarters, each split in three eighths."
+    - "<strong>The first beat is accented</strong>, so you always know where the bar starts."
+  meter_link: "Reading a time signature →"
+  meter_alt: "Changing the time signature while playing: from 4/4 to 3/4, then to 6/8, where the note values become dotted quarter, eighth and sixteenth"
+  tempo_eyebrow: "Tempo"
+  tempo_title: "The tempo you need, in a flick."
+  tempo_text: "Drag or scroll the BPM wheel for fine changes. The double arrows jump to the previous or next tempo marking, and the marking's name follows the BPM."
+  tempo_list:
+    - "<strong>40 to 300 BPM</strong>, from Largo to Prestissimo."
+    - "<strong>From the keyboard:</strong> <kbd>↑</kbd> <kbd>↓</kbd> one BPM, <kbd>Page Up</kbd> <kbd>Page Down</kbd> one marking."
+  tempo_link: "Tempo and the tempo markings →"
+  tempo_alt: "Turning the BPM wheel, then jumping to Vivace and Presto with the double arrows and back to Allegro"
+  mac_eyebrow: "On the Mac"
+  mac_title: "A window you can see through."
+  mac_text: "On macOS the window is translucent and blurred, with the content running under the title bar, and buttons, switches and the BPM wheel are native controls tinted with the app's orange."
+  mac_list:
+    - "<strong>Light or dark</strong>, independent of the system's setting."
+    - "<strong>Updates itself:</strong> signed updates download in the background and install when you quit."
+  mac_alt: "The Settings dialog: turning on auto-increment shows its interval, then switching between the dark and the light theme"
+  cta_title: "Try Rask Metronom"
+  cta_lead: "Free and open source, for macOS, Linux and Android."
+  cta_source: "Source on GitHub"
+
+features:
+  eyebrow: "Features"
+  title: "Everything Rask Metronom does"
+  lead: "A tour of the app, laid out like a Settings window. For the music behind it — tempo, time signatures and note values — see <a href=\"%base%guide/\">How to use</a>."
+  sidebar:
+    tempo: "Tempo"
+    meter: "Time Signature"
+    notes: "Note Values"
+    bar: "Beat Bar & Pendulum"
+    sound: "Sound"
+    timing: "Timing"
+    rise: "Auto-increment"
+    keyboard: "Keyboard"
+    appearance: "Appearance"
+    settings: "Settings"
+    platforms: "Platforms"
+    updates: "Updates"
+  tempo_text: "The BPM wheel sets the tempo from <strong>40 to 300 beats per minute</strong>. Under the BPM, the name of the tempo marking follows the number."
+  tempo_rows:
+    - ["Drag or scroll the wheel", "Fine changes, one BPM per row"]
+    - ["%up% Left double arrow", "The previous (slower) tempo marking"]
+    - ["%down% Right double arrow", "The next (faster) tempo marking"]
+  tempo_markings: "The markings are Largo 40, Larghetto 60, Adagio 66, Andante 76, Moderato 108, Allegro 120, Vivace 168, Presto 184 and Prestissimo 208."
+  tempo_alt: "Turning the BPM wheel, then jumping between tempo markings with the double arrows"
+  meter_text: "The time signature is the button next to play. It opens two wheels: the <strong>beats per bar</strong> (1 to 12) and the <strong>note that gets the beat</strong> (2 = half, 4 = quarter, 8 = eighth)."
+  meter_list:
+    - "<strong>Compound meters</strong> — 6/8, 9/8 and 12/8 — are counted in dotted quarters, each split in three eighths: 2, 3 and 4 beats per bar. The BPM counts the dotted quarter."
+    - "<strong>Changes made while playing</strong> start on the next beat, so the count never breaks."
+  meter_alt_dark: "The Time signature dialog in the dark theme, set to 4/4"
+  meter_alt_light: "The Time signature dialog in the light theme, set to 4/4"
+  notes_text: "The row of notes at the top chooses how each beat is divided. Only the note values that fit the beat of the current time signature are shown:"
+  notes_rows:
+    - ["x/2 (half-note beat)", "Half, quarter, eighth, sixteenth"]
+    - ["x/4 (quarter-note beat)", "Quarter, eighth, sixteenth, thirty-second"]
+    - ["x/8 (eighth-note beat)", "Eighth, sixteenth, thirty-second"]
+    - ["6/8, 9/8, 12/8 (dotted quarter)", "Dotted quarter, eighth, sixteenth"]
+  notes_after: "If the note value you had does not fit a new time signature, the app picks the longest one that does. Note icons use filled note heads, as in standard notation."
+  notes_alt: "Playing 6/8: switching from dotted quarter to eighth (3 per beat) and sixteenth (6 per beat)"
+  bar_text: "Next to the time signature, the <strong>beat bar</strong> draws the whole bar: one group per beat, one cell per note in that beat. The first beat has its own colour, and the note being played lights up."
+  bar_label: "A 4/4 bar in eighth notes: four groups of two cells, the first group highlighted"
+  bar_pendulum: "The <strong>pendulum</strong> swings once per beat — not on every click — so your eye follows the pulse while your ear hears the subdivisions."
+  bar_alt: "The beat bar splitting each beat into 2, 4 and 8 cells as the note value changes"
+  sound_text: "Three clicks tell you where you are in the bar without looking:"
+  sound_rows:
+    - ["Accent", "The first beat of the bar — the highest and loudest click"]
+    - ["Beat", "The other beats"]
+    - ["Subdivision", "The notes between the beats — a soft click"]
+  sound_output: "Choose the <strong>audio output</strong> in Settings: speakers, headphones or an audio interface. Switching devices while playing carries on without a gap in the count."
+  timing_text: "Rask Metronom does not use a timer to click. Every click is placed at an exact sample of the audio stream, counted against the sound card's own clock, so there is no drift between the beat and what you hear, at any tempo and for any length of time."
+  timing_list:
+    - "Clicks are rendered once and mixed in; the audio path does no allocation and takes no locks."
+    - "While the metronome plays, <strong>the screen stays awake</strong> on macOS, Linux (X11 and Wayland) and Android."
+  rise_text: "For working a passage up to speed: turn on <strong>Auto-increment BPM</strong> in Settings and choose an interval. While the metronome plays, each interval moves the tempo to the <strong>next tempo marking</strong> — for example Moderato 108 → Allegro 120 → Vivace 168 — until Prestissimo."
+  rise_rows:
+    - ["Interval", "30 seconds, 1, 2, 5 or 10 minutes"]
+  rise_alt: "Turning on auto-increment in Settings shows the interval slider"
+  keyboard_rows:
+    - ["<kbd>Space</kbd>", "Play / stop"]
+    - ["<kbd>↑</kbd> / <kbd>↓</kbd>", "BPM up / down by one"]
+    - ["<kbd>Page Up</kbd> / <kbd>Page Down</kbd>", "Next / previous tempo marking"]
+    - ["<kbd>⌘,</kbd>", "Settings (macOS)"]
+    - ["<kbd>⌘W</kbd> or <kbd>⌘Q</kbd>", "Quit (macOS)"]
+  appearance_text: "<strong>Light or dark</strong>, chosen in Settings, independent of the system. Dialogs have a border and a shadow over a blurred, slightly dimmed page."
+  appearance_native: "On <strong>macOS</strong> the window is translucent and blurred, with the content running under the title bar, and uses native controls tinted with the app's orange. On <strong>Linux and Android</strong> it uses Material. The layout adapts to portrait and landscape: on a phone in landscape the metronome takes the left side and the controls stack on the right."
+  appearance_alt_dark: "The main window in the dark theme, playing 4/4 in eighths, the desktop blurred through it"
+  appearance_alt_light: "The main window in the light theme, playing 4/4 in eighths"
+  settings_rows:
+    - ["Dark mode", "Light or dark theme"]
+    - ["Save the BPM, time signature and note value", "Restores them on the next launch (on by default)"]
+    - ["Auto-increment BPM", "Next tempo marking at every interval"]
+    - ["Language", "English, Português (Brasil), Español, Français, Italiano; applied on the next launch"]
+    - ["Output", "The audio device to play on"]
+  settings_alt_dark: "Settings in the dark theme"
+  settings_alt_light: "Settings in the light theme"
+  platforms_rows:
+    - ["macOS", "14.4 or later, Apple Silicon"]
+    - ["Linux", "A <code>.deb</code> for Debian and Ubuntu 24.04+, X11 and Wayland"]
+    - ["Android", "arm64 phones and tablets"]
+  platforms_text: "One code base in Qt Quick and C++23. <a href=\"%base%download/\">Download →</a>"
+  updates_text: "On macOS, once a day Rask Metronom looks for a newer release, downloads it in the background and installs it when you quit. <strong>Rask Metronom ▸ Check for Updates…</strong> checks right away and shows what changed. Updates are signed."
+
+guide:
+  eyebrow: "How to use"
+  title: "Tempo, time signature and note value"
+  lead: "Three settings make every click: how fast the beat goes, how the beats group into bars, and how each beat is divided. Here is what each one means and how they fit together."
+  quick_title: "Quick start"
+  quick_steps:
+    - "<strong>Pick a note value</strong> in the row at the top: %quarter% for one click per beat, %eighth% for two, and so on."
+    - "<strong>Set the tempo</strong> on the BPM wheel, or jump between markings with the double arrows."
+    - "<strong>Choose the time signature</strong> with the button next to play — 4/4 if you are not sure."
+    - "<strong>Press play</strong> %play% or <kbd>Space</kbd>. The first beat of each bar is accented."
+  quick_after: "Everything can change while it plays: a new tempo, time signature or note value starts on the next beat, so the count never breaks."
+  quick_alt: "The main window: note values at the top, the BPM wheel with the tempo marking, the metronome, and at the bottom play, the time signature and the beat bar"
+  tempo_title: "1. Tempo (BPM)"
+  tempo_text: "The tempo is the speed of the <strong>beat</strong>, in <strong>beats per minute</strong>. At 60 BPM there is one beat per second; at 120 BPM, two. Rask Metronom goes from 40 to 300 BPM."
+  tempo_callout: "<strong>The BPM always counts beats — not clicks.</strong> Which note is the beat depends on the time signature (a quarter in 4/4, a dotted quarter in 6/8, see below). Choosing eighths or sixteenths adds clicks <em>between</em> the beats; the tempo does not change."
+  tempo_change_title: "Changing the tempo"
+  tempo_change:
+    - "<strong>The wheel:</strong> drag it or scroll over it, one BPM per row."
+    - "<strong>The double arrows</strong> on each side jump to the previous (left) or next (right) tempo marking."
+    - "<strong>The keyboard:</strong> <kbd>↑</kbd> <kbd>↓</kbd> change one BPM, <kbd>Page Up</kbd> <kbd>Page Down</kbd> jump one marking."
+  markings_title: "Tempo markings"
+  markings_text: "The word under “BPM” is the classic Italian tempo marking for the current speed. Each one starts at the BPM below and lasts until the next:"
+  tempo_alt: "Turning the BPM wheel, then jumping to Vivace and Presto with the right double arrow and back with the left one"
+  meter_title: "2. Time signature"
+  meter_text: "Music groups beats into <strong>bars</strong> (measures). The time signature says how, with two numbers:"
+  meter_list:
+    - "<strong>The top number</strong> is how many beats there are in a bar — 1 to 12 in the app."
+    - "<strong>The bottom number</strong> is the note that gets one beat: <strong>2</strong> = a %half%, <strong>4</strong> = a %quarter%, <strong>8</strong> = an %eighth%."
+  meter_after: "So <strong>3/4</strong> is three quarter-note beats per bar (a waltz: <em>ONE</em>-two-three), and <strong>2/2</strong> (“cut time”) is two half-note beats. The first beat of every bar gets the <strong>accent</strong> click, so you always hear where the bar starts."
+  compound_title: "Compound meters: 6/8, 9/8 and 12/8"
+  compound_text: "When the bottom number is 8 and the top is 6, 9 or 12, the eighths are felt in <strong>groups of three</strong>. Each group is one beat, a %dq% long — that is how musicians count a jig or a 12/8 blues. Rask Metronom counts them the same way:"
+  compound_head: ["Time signature", "Beats per bar", "One beat is", "Counted"]
+  compound_rows:
+    - ["2/4, 3/4, 4/4, 5/4…", "the top number", "%quarter%", "1 2 3 4"]
+    - ["2/2, 3/2…", "the top number", "%half%", "1 2"]
+    - ["3/8, 5/8, 7/8…", "the top number", "%eighth%", "1 2 3"]
+    - ["6/8", "2", "%dq%", "<em>1</em>-and-a <em>2</em>-and-a"]
+    - ["9/8", "3", "%dq%", "3 groups of 3 eighths"]
+    - ["12/8", "4", "%dq%", "4 groups of 3 eighths"]
+  compound_after: "In 6/8, 9/8 and 12/8 the <strong>BPM counts the dotted quarter</strong>. 6/8 at 60 BPM is two beats per second, each with three eighths inside it. 3/8 is counted as three eighth-note beats."
+  meter_alt: "Changing the time signature while playing: 4/4, then 3/4 with three beat groups, then 6/8 with two dotted-quarter beats"
+  notes_title: "3. Note value: dividing the beat"
+  notes_text: "The note value is how many clicks you hear <strong>in each beat</strong>. It is where the time signature and the note values meet: a note value is offered only if a whole number of them fits in one beat."
+  notes_rule: "<strong>Notes per beat = the length of the beat ÷ the length of the note.</strong>"
+  notes_rule_text: "A %quarter% holds 2 eighths, 4 sixteenths or 8 thirty-seconds. A %half% holds 2 quarters, 4 eighths or 8 sixteenths. A %dq% holds 3 eighths or 6 sixteenths — but not a whole number of quarters, which is why quarters are not offered in 6/8."
+  notes_table_intro: "That gives these choices for each kind of beat (up to 8 notes per beat):"
+  notes_head: ["Beat (time signature)", "Note values offered — notes per beat"]
+  notes_fallback: "When you change the time signature and your note value no longer fits, the app switches to the longest note value that does."
+  bar_title: "Reading the beat bar"
+  bar_text: "The beat bar at the bottom of the window draws the bar exactly like this: <strong>one group per beat, one cell per note</strong>. The bigger cell at the start of each group is the beat itself; the smaller ones are the subdivisions. As it plays, the current note lights up."
+  legend: ["Accent — first beat of the bar", "Beat click", "Subdivision — soft click"]
+  example: "%beats% beats × %n% = %total% clicks per bar"
+  example_label: "%sig% in %note%: %beats% groups of %n% cells"
+  caption_44: "4/4: quarter → eighth → sixteenth → thirty-second"
+  caption_68: "6/8: dotted quarter → eighth → sixteenth"
+  alt_44: "4/4 while switching from quarter to eighth, sixteenth and thirty-second notes"
+  alt_68: "6/8 while switching from dotted quarter to eighth and sixteenth notes"
+  try_title: "Try it"
+  try_text: "Choose a time signature, a note value and a tempo to see the bar the app plays and how many clicks you will hear — then press play to hear it in your browser."
+  try_beats: "Beats per bar"
+  try_note: "Beat note"
+  try_noscript: "(The explorer needs JavaScript.)"
+  score_title: "When the score counts a different note"
+  score_text: "A score's tempo mark names the note it counts, and it is not always the app's beat. Convert by the number of those notes in one beat:"
+  score_list:
+    - "<strong>6/8 marked ♪ = 180:</strong> a dotted quarter holds 3 eighths, so set <strong>180 ÷ 3 = 60</strong> BPM and choose %eighth% to hear every eighth."
+    - "<strong>2/2 marked ♩ = 160:</strong> a half holds 2 quarters, so set <strong>160 ÷ 2 = 80</strong> BPM and choose %quarter%."
+    - "<strong>4/4 marked ♪ = 140:</strong> set <strong>70</strong> BPM with %eighth% — or 140 with %quarter% if you would rather feel the eighths as beats."
+  practice_title: "4. Practising up to speed"
+  practice_text: "Start a hard passage at a tempo you can play cleanly, then let the metronome push you:"
+  practice_steps:
+    - "Open <strong>Settings</strong> %gear% and turn on <strong>Auto-increment BPM</strong>."
+    - "Choose the <strong>interval</strong>: 30 seconds, 1, 2, 5 or 10 minutes."
+    - "Play. At every interval the tempo moves to the <strong>next tempo marking</strong> — Andante 76 → Moderato 108 → Allegro 120… — until Prestissimo. It only counts while the metronome plays."
+  practice_after: "To go up more gently, leave auto-increment off and press <kbd>↑</kbd> a few BPM at a time between repetitions."
+  practice_alt: "Turning on auto-increment in Settings shows the interval slider, set to one minute"
+  remember_title: "5. Next time"
+  remember_text: "With <strong>Save the BPM, time signature and note value</strong> on (the default), the app opens where you left it. Turn it off in Settings to always start at 120 BPM in 4/4."
+
+download:
+  eyebrow: "Download"
+  title: "Get Rask Metronom"
+  lead: "Free and open source."
+  version: "The latest version is %v."
+  macos_text: "A disk image with the app. Signed updates from then on."
+  macos_meta: ["macOS 14.4 or later", "Apple Silicon"]
+  linux_text: "A Debian package with Qt included, installed under <code>/opt/metronom</code>."
+  linux_meta: ["Debian, Ubuntu 24.04+", "x86-64", "X11 and Wayland"]
+  android_text: "An APK to install on your phone or tablet."
+  android_meta: ["arm64"]
+  button: "Download %ext%"
+  macos_title: "Install on macOS"
+  macos_steps:
+    - "Open the <code>.dmg</code> and drag <strong>Rask Metronom</strong> to <strong>Applications</strong>."
+    - "The app is not notarized by Apple yet, so Gatekeeper blocks the first launch. Clear the quarantine flag once:"
+    - "That is the only time: Rask Metronom updates itself, and updates open without this step."
+  macos_or: "or open it, then choose <strong>System Settings ▸ Privacy &amp; Security ▸ Open Anyway</strong>."
+  linux_title: "Install on Linux"
+  linux_after: "Rask Metronom appears in your applications menu. The screen stays awake while it plays, on X11 and Wayland."
+  android_title: "Install on Android"
+  android_after: "Open the <code>.apk</code> on the device and allow installing from your browser or file manager when Android asks."
+  source_title: "Build from source"
+  source_text: "You need Qt 6.10 or later (Quick, Quick Controls 2, Multimedia), CMake and a C++23 compiler."
+  source_after: "The <a href=\"https://github.com/rask-project/metronom#readme\">README</a> covers the architecture, and <a href=\"https://github.com/rask-project/metronom/releases\">all releases</a> are on GitHub."
+
+news:
+  eyebrow: "News"
+  title: "What's new in Rask Metronom"
+  lead: "Release notes and stories from the project. <a href=\"%root%news/feed.xml\">Subscribe with RSS</a>."
+  english: ""
+
+notfound:
+  title: "A rest where a page should be"
+  lead: "That page is not here."
+  home: "Go home"

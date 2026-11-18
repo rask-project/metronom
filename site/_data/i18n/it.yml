@@ -1,0 +1,310 @@
+# Testi del sito, italiano. Le stesse chiavi di en.yml; i termini seguono translations/metronom_it_IT.ts.
+
+date_format: "%d/%m/%Y"
+
+nav:
+  features: "Funzionalità"
+  guide: "Come si usa"
+  news: "Novità"
+  download: "Scarica"
+  github: "Rask Metronom su GitHub"
+  language: "Lingua"
+
+footer:
+  tagline: "“Metronom” in norvegese significa “metronomo”."
+  note: "Realizzato con Qt Quick e C++23 per macOS, Linux e Android. Open source con licenza MIT su <a href=\"https://github.com/rask-project/metronom\">GitHub</a>."
+
+notes:
+  half: "minima"
+  dq: "semiminima puntata"
+  quarter: "semiminima"
+  eighth: "croma"
+  sixteenth: "semicroma"
+  thirtysecond: "biscroma"
+labels:
+  half: "Minima"
+  dq: "Semiminima puntata"
+  quarter: "Semiminima"
+  eighth: "Croma"
+  sixteenth: "Semicroma"
+  thirtysecond: "Biscroma"
+
+markings:
+  - ["Largo", "40 · molto lento, ampio"]
+  - ["Larghetto", "60 · piuttosto ampio"]
+  - ["Adagio", "66 · lento, comodo"]
+  - ["Andante", "76 · a passo d’uomo"]
+  - ["Moderato", "108 · moderato"]
+  - ["Allegro", "120 · veloce, vivace"]
+  - ["Vivace", "168 · molto vivo"]
+  - ["Presto", "184 · molto veloce"]
+  - ["Prestissimo", "208 · il più veloce possibile"]
+
+js:
+  copy: "Copia"
+  copied: "Copiato"
+  play: "Riproduci"
+  stop: "Ferma"
+  per_beat: "{n}/battito"
+  beats: ["battito", "battiti"]
+  clicks: ["clic", "clic"]
+  result: "<strong>{sig}</strong> ha {beats} per battuta, e ogni battito vale una <strong>{beat}</strong>{compound}. {label}: <strong>{perBeat} per battito</strong>, {clicks} per battuta. A {bpm} BPM sono {perMinute} clic al minuto ({perSecond} al secondo)."
+  compound: " (tre crome)"
+  bar_label: "{sig} in {note}: {beats} gruppi di {perBeat} celle"
+  no_audio: "Questo browser non può riprodurre suoni."
+
+home:
+  badge: "Nuovo ai tempi musicali? Leggi come si usa"
+  title: "Tieni il tempo. Senti ogni battito."
+  lead: "Rask Metronom è un metronomo libero e open source per macOS, Linux e Android: clic precisi al campione, tempi musicali da 1/2 a 12/8 e suddivisioni che dividono ogni battito come lo conti tu."
+  download: "Scarica"
+  guide: "Come si usa"
+  note: "Libero e open source · macOS 14.4+ · Linux · Android"
+  version: "Versione %v · "
+  alt_light: "Rask Metronom con il tema chiaro, in 4/4 a crome a 120 BPM"
+  alt_playing: "Rask Metronom in 4/4 a 120 BPM: il pendolo oscilla una volta per battito e la barra dei battiti si accende battito dopo battito, con la scrivania sfocata attraverso la finestra"
+  alt_settings: "Le Impostazioni con il tema scuro sopra la finestra sfocata"
+  grid_eyebrow: "Tutto ciò che serve per studiare"
+  grid_title: "Semplice in superficie. Preciso sotto."
+  grid_lead: "Scegli un andamento, un tempo musicale e una divisione ritmica, poi premi play. Il resto non ti intralcia."
+  cards:
+    timing: ["Precisione al campione", "I clic sono programmati sull’orologio audio, non su un timer, quindi il battito non deriva mai: né dopo un minuto, né dopo un’ora."]
+    tempo: ["Andamento da 40 a 300 BPM", "Gira la rotella dei BPM, avanza di un BPM alla volta o salta tra le indicazioni classiche, da Largo a Prestissimo."]
+    meter: ["Tempi musicali", "Da 1 a 12 battiti su minima, semiminima o croma. 6/8, 9/8 e 12/8 si contano in semiminime puntate, come li sentono i musicisti."]
+    notes: ["Suddivisioni che seguono il battito", "Crome, semicrome o biscrome dividono ogni battito, e vengono proposte solo le figure adatte al tempo musicale."]
+    sound: ["Tre clic", "Un accento sul primo battito della battuta, un clic medio sugli altri battiti e un clic leggero sulle suddivisioni."]
+    bar: ["Guarda la battuta", "La barra dei battiti mostra un gruppo per battito con una cella per nota, e il pendolo oscilla una volta per battito."]
+    rise: ["Accelera mentre studi", "L’aumento automatico passa all’indicazione di andamento successiva ogni 30 secondi fino a 10 minuti, così il passaggio accelera mentre suoni."]
+    native: ["Nativo su ogni piattaforma", "Una finestra traslucida e sfocata con controlli nativi su macOS; Material su Linux e Android. Temi chiaro e scuro ovunque."]
+    keyboard: ["Mani sullo strumento", "<kbd>Spazio</kbd> avvia e ferma, <kbd>↑</kbd> <kbd>↓</kbd> cambiano i BPM, <kbd>Pag ↑</kbd> <kbd>Pag ↓</kbd> saltano tra le indicazioni."]
+  notes_eyebrow: "Divisione ritmica"
+  notes_title: "Senti ogni croma. O ogni biscroma."
+  notes_text: "La divisione ritmica divide <em>ogni battito</em>. In 4/4, le crome suonano 2 note per battito, le semicrome 4 e le biscrome 8 — e la barra dei battiti mostra proprio questo, una cella per nota."
+  notes_list:
+    - "<strong>Il battito resta il battito:</strong> i BPM e il pendolo continuano a contare i battiti mentre i clic riempiono lo spazio in mezzo."
+    - "<strong>Cambiala mentre suona:</strong> la nuova divisione parte dal battito successivo, così il conteggio non si interrompe mai."
+  notes_link: "Come la divisione ritmica si lega al tempo musicale →"
+  notes_alt: "In 4/4 a 120 BPM passando da semiminima a croma, semicroma e biscroma; la barra divide ogni battito in 2, 4 e 8 celle"
+  meter_eyebrow: "Tempi musicali"
+  meter_title: "Dal valzer al blues in 12/8."
+  meter_text: "Tocca il tempo musicale accanto al play e gira le rotelle: da 1 a 12 battiti su minima, semiminima o croma."
+  meter_list:
+    - "<strong>I tempi composti</strong> — 6/8, 9/8 e 12/8 — si contano in semiminime puntate, ognuna divisa in tre crome."
+    - "<strong>Il primo battito è accentato</strong>, così sai sempre dove inizia la battuta."
+  meter_link: "Leggere un tempo musicale →"
+  meter_alt: "Cambiare il tempo musicale mentre suona: da 4/4 a 3/4, poi a 6/8, dove le figure diventano semiminima puntata, croma e semicroma"
+  tempo_eyebrow: "Andamento"
+  tempo_title: "L’andamento che ti serve, in un gesto."
+  tempo_text: "Trascina o scorri la rotella dei BPM per le regolazioni fini. Le doppie frecce saltano all’indicazione di andamento precedente o successiva, e il suo nome segue i BPM."
+  tempo_list:
+    - "<strong>Da 40 a 300 BPM</strong>, da Largo a Prestissimo."
+    - "<strong>Dalla tastiera:</strong> <kbd>↑</kbd> <kbd>↓</kbd> un BPM, <kbd>Pag ↑</kbd> <kbd>Pag ↓</kbd> un’indicazione."
+  tempo_link: "L’andamento e le sue indicazioni →"
+  tempo_alt: "Girando la rotella dei BPM, saltando a Vivace e Presto con le doppie frecce e tornando ad Allegro"
+  mac_eyebrow: "Sul Mac"
+  mac_title: "Una finestra che lascia vedere attraverso."
+  mac_text: "Su macOS la finestra è traslucida e sfocata, con il contenuto sotto la barra del titolo, e pulsanti, interruttori e la rotella dei BPM sono controlli nativi tinti con l’arancione dell’app."
+  mac_list:
+    - "<strong>Chiaro o scuro</strong>, indipendente dal sistema."
+    - "<strong>Si aggiorna da sola:</strong> gli aggiornamenti firmati si scaricano in background e si installano quando esci."
+  mac_alt: "Le Impostazioni: attivando l’aumento automatico compare il suo intervallo, poi si passa dal tema scuro a quello chiaro"
+  cta_title: "Prova Rask Metronom"
+  cta_lead: "Libero e open source, per macOS, Linux e Android."
+  cta_source: "Codice su GitHub"
+
+features:
+  eyebrow: "Funzionalità"
+  title: "Tutto ciò che fa Rask Metronom"
+  lead: "Un giro dell’app, organizzato come una finestra di Impostazioni. Per la musica che c’è dietro — andamento, tempi musicali e divisione ritmica — vedi <a href=\"%base%guide/\">Come si usa</a>."
+  sidebar:
+    tempo: "Andamento"
+    meter: "Tempo musicale"
+    notes: "Divisione ritmica"
+    bar: "Barra dei battiti e pendolo"
+    sound: "Suono"
+    timing: "Precisione"
+    rise: "Aumento automatico"
+    keyboard: "Tastiera"
+    appearance: "Aspetto"
+    settings: "Impostazioni"
+    platforms: "Piattaforme"
+    updates: "Aggiornamenti"
+  tempo_text: "La rotella dei BPM imposta l’andamento da <strong>40 a 300 battiti al minuto</strong>. Sotto i BPM, il nome dell’indicazione di andamento segue il numero."
+  tempo_rows:
+    - ["Trascinare o scorrere la rotella", "Regolazione fine, un BPM per riga"]
+    - ["%up% Doppia freccia a sinistra", "L’indicazione di andamento precedente (più lenta)"]
+    - ["%down% Doppia freccia a destra", "L’indicazione di andamento successiva (più veloce)"]
+  tempo_markings: "Le indicazioni sono Largo 40, Larghetto 60, Adagio 66, Andante 76, Moderato 108, Allegro 120, Vivace 168, Presto 184 e Prestissimo 208."
+  tempo_alt: "Girando la rotella dei BPM e saltando tra le indicazioni di andamento con le doppie frecce"
+  meter_text: "Il tempo musicale è il pulsante accanto al play. Apre due rotelle: i <strong>battiti per battuta</strong> (da 1 a 12) e la <strong>figura che vale un battito</strong> (2 = minima, 4 = semiminima, 8 = croma)."
+  meter_list:
+    - "<strong>I tempi composti</strong> — 6/8, 9/8 e 12/8 — si contano in semiminime puntate, ognuna divisa in tre crome: 2, 3 e 4 battiti per battuta. I BPM contano la semiminima puntata."
+    - "<strong>Le modifiche fatte mentre suona</strong> partono dal battito successivo, così il conteggio non si interrompe mai."
+  meter_alt_dark: "La finestra del tempo musicale con il tema scuro, su 4/4"
+  meter_alt_light: "La finestra del tempo musicale con il tema chiaro, su 4/4"
+  notes_text: "La fila di note in alto sceglie come si divide ogni battito. Compaiono solo le figure adatte al battito del tempo musicale attuale:"
+  notes_rows:
+    - ["x/2 (battito di minima)", "Minima, semiminima, croma, semicroma"]
+    - ["x/4 (battito di semiminima)", "Semiminima, croma, semicroma, biscroma"]
+    - ["x/8 (battito di croma)", "Croma, semicroma, biscroma"]
+    - ["6/8, 9/8, 12/8 (semiminima puntata)", "Semiminima puntata, croma, semicroma"]
+  notes_after: "Se la figura che avevi non va bene con il nuovo tempo musicale, l’app sceglie la più lunga che va bene. Le icone hanno teste di nota piene, come nella notazione standard."
+  notes_alt: "In 6/8: da semiminima puntata a croma (3 per battito) e semicroma (6 per battito)"
+  bar_text: "Accanto al tempo musicale, la <strong>barra dei battiti</strong> disegna tutta la battuta: un gruppo per battito, una cella per ogni nota di quel battito. Il primo battito ha un colore proprio, e la nota che suona si accende."
+  bar_label: "Una battuta in 4/4 a crome: quattro gruppi di due celle, il primo evidenziato"
+  bar_pendulum: "Il <strong>pendolo</strong> oscilla una volta per battito — non a ogni clic — così l’occhio segue la pulsazione mentre l’orecchio sente le suddivisioni."
+  bar_alt: "La barra dei battiti che divide ogni battito in 2, 4 e 8 celle al cambiare della divisione"
+  sound_text: "Tre clic ti dicono dove sei nella battuta senza guardare:"
+  sound_rows:
+    - ["Accento", "Il primo battito della battuta — il clic più acuto e forte"]
+    - ["Battito", "Gli altri battiti"]
+    - ["Suddivisione", "Le note tra i battiti — un clic leggero"]
+  sound_output: "Scegli l’<strong>uscita audio</strong> nelle Impostazioni: altoparlanti, cuffie o un’interfaccia audio. Cambiare dispositivo mentre suona continua senza buchi nel conteggio."
+  timing_text: "Rask Metronom non usa un timer per i clic. Ogni clic è posto su un campione esatto del flusso audio, contato sull’orologio della scheda audio stessa: nessuna deriva tra il battito e ciò che senti, a qualsiasi andamento e per qualsiasi durata."
+  timing_list:
+    - "I clic sono generati una volta e mixati; il percorso audio non alloca memoria e non usa lock."
+    - "Mentre il metronomo suona, <strong>lo schermo resta acceso</strong> su macOS, Linux (X11 e Wayland) e Android."
+  rise_text: "Per portare un passaggio a tempo: attiva l’<strong>Aumento automatico del BPM</strong> nelle Impostazioni e scegli un intervallo. Mentre il metronomo suona, ogni intervallo porta l’andamento all’<strong>indicazione successiva</strong> — per esempio Moderato 108 → Allegro 120 → Vivace 168 — fino a Prestissimo."
+  rise_rows:
+    - ["Intervallo", "30 secondi, 1, 2, 5 o 10 minuti"]
+  rise_alt: "Attivando l’aumento automatico nelle Impostazioni compare il cursore dell’intervallo"
+  keyboard_rows:
+    - ["<kbd>Spazio</kbd>", "Avvia / ferma"]
+    - ["<kbd>↑</kbd> / <kbd>↓</kbd>", "BPM più uno / meno uno"]
+    - ["<kbd>Pag ↑</kbd> / <kbd>Pag ↓</kbd>", "Indicazione di andamento successiva / precedente"]
+    - ["<kbd>⌘,</kbd>", "Impostazioni (macOS)"]
+    - ["<kbd>⌘W</kbd> o <kbd>⌘Q</kbd>", "Esci (macOS)"]
+  appearance_text: "<strong>Chiaro o scuro</strong>, scelto nelle Impostazioni, indipendente dal sistema. Le finestre di dialogo hanno bordo e ombra sopra la pagina sfocata e leggermente scurita."
+  appearance_native: "Su <strong>macOS</strong> la finestra è traslucida e sfocata, con il contenuto sotto la barra del titolo, e usa controlli nativi tinti con l’arancione dell’app. Su <strong>Linux e Android</strong> usa Material. Il layout si adatta a verticale e orizzontale: su un telefono in orizzontale il metronomo sta a sinistra e i controlli si impilano a destra."
+  appearance_alt_dark: "La finestra principale con il tema scuro, in 4/4 a crome, con la scrivania sfocata attraverso"
+  appearance_alt_light: "La finestra principale con il tema chiaro, in 4/4 a crome"
+  settings_rows:
+    - ["Modalità scura", "Tema chiaro o scuro"]
+    - ["Salva il BPM, il tempo musicale e la divisione ritmica", "Li ripristina al prossimo avvio (attivo per impostazione predefinita)"]
+    - ["Aumento automatico del BPM", "Indicazione di andamento successiva a ogni intervallo"]
+    - ["Lingua", "English, Português (Brasil), Español, Français, Italiano; applicata al prossimo avvio"]
+    - ["Uscita", "Il dispositivo audio su cui suonare"]
+  settings_alt_dark: "Le Impostazioni con il tema scuro"
+  settings_alt_light: "Le Impostazioni con il tema chiaro"
+  platforms_rows:
+    - ["macOS", "14.4 o successivo, Apple Silicon"]
+    - ["Linux", "Un <code>.deb</code> per Debian e Ubuntu 24.04+, X11 e Wayland"]
+    - ["Android", "Telefoni e tablet arm64"]
+  platforms_text: "Un solo codice in Qt Quick e C++23. <a href=\"%base%download/\">Scarica →</a>"
+  updates_text: "Su macOS, una volta al giorno Rask Metronom cerca una nuova versione, la scarica in background e la installa quando esci. <strong>Rask Metronom ▸ Check for Updates…</strong> controlla subito e mostra cosa è cambiato. Gli aggiornamenti sono firmati."
+
+guide:
+  eyebrow: "Come si usa"
+  title: "Andamento, tempo musicale e divisione ritmica"
+  lead: "Tre impostazioni formano ogni clic: quanto va veloce il battito, come i battiti si raggruppano in battute e come si divide ogni battito. Ecco cosa significa ciascuna e come si combinano."
+  quick_title: "Per iniziare"
+  quick_steps:
+    - "<strong>Scegli la divisione ritmica</strong> nella fila in alto: %quarter% per un clic per battito, %eighth% per due, e così via."
+    - "<strong>Imposta l’andamento</strong> sulla rotella dei BPM, o salta tra le indicazioni con le doppie frecce."
+    - "<strong>Scegli il tempo musicale</strong> con il pulsante accanto al play — 4/4 se non sei sicuro."
+    - "<strong>Premi play</strong> %play% o <kbd>Spazio</kbd>. Il primo battito di ogni battuta è accentato."
+  quick_after: "Tutto può cambiare mentre suona: un nuovo andamento, tempo musicale o divisione parte dal battito successivo, così il conteggio non si interrompe mai."
+  quick_alt: "La finestra principale: le figure in alto, la rotella dei BPM con l’indicazione di andamento, il metronomo e, in basso, il play, il tempo musicale e la barra dei battiti"
+  tempo_title: "1. Andamento (BPM)"
+  tempo_text: "L’andamento è la velocità del <strong>battito</strong>, in <strong>battiti al minuto</strong>. A 60 BPM c’è un battito al secondo; a 120 BPM, due. Rask Metronom va da 40 a 300 BPM."
+  tempo_callout: "<strong>I BPM contano sempre battiti, non clic.</strong> Quale figura è il battito dipende dal tempo musicale (una semiminima in 4/4, una semiminima puntata in 6/8, vedi sotto). Scegliere crome o semicrome aggiunge clic <em>tra</em> i battiti; l’andamento non cambia."
+  tempo_change_title: "Cambiare l’andamento"
+  tempo_change:
+    - "<strong>La rotella:</strong> trascinala o scorri sopra, un BPM per riga."
+    - "<strong>Le doppie frecce</strong> ai lati saltano all’indicazione di andamento precedente (sinistra) o successiva (destra)."
+    - "<strong>La tastiera:</strong> <kbd>↑</kbd> <kbd>↓</kbd> cambiano di un BPM, <kbd>Pag ↑</kbd> <kbd>Pag ↓</kbd> di un’indicazione."
+  markings_title: "Indicazioni di andamento"
+  markings_text: "La parola sotto “BPM” è l’indicazione di andamento classica per la velocità attuale. Ognuna parte dal BPM qui sotto e arriva fino alla successiva:"
+  tempo_alt: "Girando la rotella dei BPM, saltando a Vivace e Presto con la doppia freccia destra e tornando con quella sinistra"
+  meter_title: "2. Tempo musicale"
+  meter_text: "La musica raggruppa i battiti in <strong>battute</strong>. Il tempo musicale dice come, con due numeri:"
+  meter_list:
+    - "<strong>Il numero in alto</strong> è quanti battiti ci sono in una battuta — da 1 a 12 nell’app."
+    - "<strong>Il numero in basso</strong> è la figura che vale un battito: <strong>2</strong> = %half%, <strong>4</strong> = %quarter%, <strong>8</strong> = %eighth%."
+  meter_after: "Quindi <strong>3/4</strong> sono tre battiti di semiminima per battuta (un valzer: <em>UN</em>-due-tre), e <strong>2/2</strong> (“tempo tagliato”) sono due battiti di minima. Il primo battito di ogni battuta riceve il clic di <strong>accento</strong>, così senti sempre dove inizia la battuta."
+  compound_title: "Tempi composti: 6/8, 9/8 e 12/8"
+  compound_text: "Quando il numero in basso è 8 e quello in alto è 6, 9 o 12, le crome si sentono a <strong>gruppi di tre</strong>. Ogni gruppo è un battito, lungo una %dq% — è così che i musicisti contano una tarantella o un blues in 12/8. Rask Metronom li conta allo stesso modo:"
+  compound_head: ["Tempo musicale", "Battiti per battuta", "Un battito vale", "Si conta"]
+  compound_rows:
+    - ["2/4, 3/4, 4/4, 5/4…", "il numero in alto", "%quarter%", "1 2 3 4"]
+    - ["2/2, 3/2…", "il numero in alto", "%half%", "1 2"]
+    - ["3/8, 5/8, 7/8…", "il numero in alto", "%eighth%", "1 2 3"]
+    - ["6/8", "2", "%dq%", "<em>1</em>-e-a <em>2</em>-e-a"]
+    - ["9/8", "3", "%dq%", "3 gruppi di 3 crome"]
+    - ["12/8", "4", "%dq%", "4 gruppi di 3 crome"]
+  compound_after: "In 6/8, 9/8 e 12/8 i <strong>BPM contano la semiminima puntata</strong>. 6/8 a 60 BPM sono due battiti al secondo, ognuno con tre crome dentro. 3/8 si conta come tre battiti di croma."
+  meter_alt: "Cambiare il tempo musicale mentre suona: 4/4, poi 3/4 con tre gruppi, poi 6/8 con due battiti di semiminima puntata"
+  notes_title: "3. Divisione ritmica: dividere il battito"
+  notes_text: "La divisione ritmica è quanti clic senti <strong>in ogni battito</strong>. È qui che il tempo musicale e le figure si incontrano: una figura viene proposta solo se un numero intero di esse sta in un battito."
+  notes_rule: "<strong>Note per battito = la durata del battito ÷ la durata della figura.</strong>"
+  notes_rule_text: "Una %quarter% vale 2 crome, 4 semicrome o 8 biscrome. Una %half% vale 2 semiminime, 4 crome o 8 semicrome. Una %dq% vale 3 crome o 6 semicrome — ma non un numero intero di semiminime, ed è per questo che la semiminima non viene proposta in 6/8."
+  notes_table_intro: "Questo dà queste scelte per ogni tipo di battito (fino a 8 note per battito):"
+  notes_head: ["Battito (tempo musicale)", "Figure proposte — note per battito"]
+  notes_fallback: "Quando cambi il tempo musicale e la tua figura non va più bene, l’app passa alla figura più lunga che va bene."
+  bar_title: "Leggere la barra dei battiti"
+  bar_text: "La barra dei battiti, in basso nella finestra, disegna la battuta esattamente così: <strong>un gruppo per battito, una cella per nota</strong>. La cella più grande all’inizio di ogni gruppo è il battito stesso; quelle più piccole sono le suddivisioni. Mentre suona, la nota corrente si accende."
+  legend: ["Accento — primo battito della battuta", "Clic del battito", "Suddivisione — clic leggero"]
+  example: "%beats% battiti × %n% = %total% clic per battuta"
+  example_label: "%sig% in %note%: %beats% gruppi di %n% celle"
+  caption_44: "4/4: semiminima → croma → semicroma → biscroma"
+  caption_68: "6/8: semiminima puntata → croma → semicroma"
+  alt_44: "4/4 passando da semiminima a croma, semicroma e biscroma"
+  alt_68: "6/8 passando da semiminima puntata a croma e semicroma"
+  try_title: "Prova"
+  try_text: "Scegli un tempo musicale, una divisione ritmica e un andamento per vedere la battuta che suona l’app e quanti clic sentirai — poi premi play per ascoltarla nel browser."
+  try_beats: "Battiti per battuta"
+  try_note: "Figura del battito"
+  try_noscript: "(Il simulatore richiede JavaScript.)"
+  score_title: "Quando lo spartito conta un’altra figura"
+  score_text: "L’indicazione di andamento dello spartito dice quale figura conta, e non è sempre il battito dell’app. Converti secondo quante di quelle figure stanno in un battito:"
+  score_list:
+    - "<strong>6/8 con ♪ = 180:</strong> una semiminima puntata vale 3 crome, quindi imposta <strong>180 ÷ 3 = 60</strong> BPM e scegli %eighth% per sentire ogni croma."
+    - "<strong>2/2 con ♩ = 160:</strong> una minima vale 2 semiminime, quindi imposta <strong>160 ÷ 2 = 80</strong> BPM e scegli %quarter%."
+    - "<strong>4/4 con ♪ = 140:</strong> imposta <strong>70</strong> BPM con %eighth% — oppure 140 con %quarter% se preferisci sentire le crome come battiti."
+  practice_title: "4. Studiare fino all’andamento"
+  practice_text: "Inizia un passaggio difficile a un andamento che suoni pulito, poi lascia che il metronomo ti spinga:"
+  practice_steps:
+    - "Apri le <strong>Impostazioni</strong> %gear% e attiva l’<strong>Aumento automatico del BPM</strong>."
+    - "Scegli l’<strong>intervallo</strong>: 30 secondi, 1, 2, 5 o 10 minuti."
+    - "Suona. A ogni intervallo l’andamento passa all’<strong>indicazione successiva</strong> — Andante 76 → Moderato 108 → Allegro 120… — fino a Prestissimo. Conta solo mentre il metronomo suona."
+  practice_after: "Per salire più piano, lascia disattivato l’aumento automatico e premi <kbd>↑</kbd> qualche BPM alla volta tra una ripetizione e l’altra."
+  practice_alt: "Attivando l’aumento automatico nelle Impostazioni compare il cursore dell’intervallo, su un minuto"
+  remember_title: "5. La prossima volta"
+  remember_text: "Con <strong>Salva il BPM, il tempo musicale e la divisione ritmica</strong> attivo (predefinito), l’app si apre dove l’hai lasciata. Disattivalo nelle Impostazioni per partire sempre da 120 BPM in 4/4."
+
+download:
+  eyebrow: "Scarica"
+  title: "Scarica Rask Metronom"
+  lead: "Libero e open source."
+  version: "L’ultima versione è la %v."
+  macos_text: "Un’immagine disco con l’app. Aggiornamenti firmati da lì in poi."
+  macos_meta: ["macOS 14.4 o successivo", "Apple Silicon"]
+  linux_text: "Un pacchetto Debian con Qt incluso, installato in <code>/opt/metronom</code>."
+  linux_meta: ["Debian, Ubuntu 24.04+", "x86-64", "X11 e Wayland"]
+  android_text: "Un APK da installare sul telefono o sul tablet."
+  android_meta: ["arm64"]
+  button: "Scarica il %ext%"
+  macos_title: "Installare su macOS"
+  macos_steps:
+    - "Apri il <code>.dmg</code> e trascina <strong>Rask Metronom</strong> in <strong>Applicazioni</strong>."
+    - "L’app non è ancora autenticata da Apple, quindi Gatekeeper blocca il primo avvio. Togli la quarantena una volta:"
+    - "Solo questa volta: Rask Metronom si aggiorna da solo, e gli aggiornamenti si aprono senza questo passaggio."
+  macos_or: "oppure aprila e scegli <strong>Impostazioni di Sistema ▸ Privacy e sicurezza ▸ Apri comunque</strong>."
+  linux_title: "Installare su Linux"
+  linux_after: "Rask Metronom compare nel menu delle applicazioni. Lo schermo resta acceso mentre suona, su X11 e Wayland."
+  android_title: "Installare su Android"
+  android_after: "Apri l’<code>.apk</code> sul dispositivo e consenti l’installazione dal browser o dal gestore di file quando Android lo chiede."
+  source_title: "Compilare dai sorgenti"
+  source_text: "Servono Qt 6.10 o successivo (Quick, Quick Controls 2, Multimedia), CMake e un compilatore C++23."
+  source_after: "Il <a href=\"https://github.com/rask-project/metronom#readme\">README</a> descrive l’architettura, e <a href=\"https://github.com/rask-project/metronom/releases\">tutte le versioni</a> sono su GitHub."
+
+news:
+  eyebrow: "Novità"
+  title: "Le novità di Rask Metronom"
+  lead: "Note di rilascio e storie dal progetto. <a href=\"%root%news/feed.xml\">Abbonati via RSS</a>."
+  english: "Le note di rilascio sono pubblicate in inglese."
+
+notfound:
+  title: "Una pausa dove dovrebbe esserci una pagina"
+  lead: "Questa pagina non esiste."
+  home: "Torna all’inizio"

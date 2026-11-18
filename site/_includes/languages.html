@@ -1,0 +1,14 @@
+{%- comment -%}
+The same page in every language: the pages that share this page's ref (posts, which are in
+English only, link to each language's News).
+{%- endcomment -%}
+{%- assign ref = page.ref | default: "news" -%}
+{%- assign alternates = site.pages | where: "ref", ref -%}
+{%- for l in site.data.languages -%}
+{%- assign alt = alternates | where: "lang", l.code | first -%}
+{%- if include.hreflang -%}
+<link rel="alternate" hreflang="{{ l.code }}" href="{{ alt.url | absolute_url }}">
+{% else -%}
+<a href="{{ alt.url | relative_url }}" hreflang="{{ l.code }}" lang="{{ l.code }}"{% if l.code == lang %} aria-current="true"{% endif %}>{{ l.name }}</a>
+{%- endif -%}
+{%- endfor -%}

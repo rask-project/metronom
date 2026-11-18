@@ -4,6 +4,8 @@
 
 # Rask Metronom
 
+**Website:** <https://rask-project.github.io/metronom/> — features, downloads and a guide to tempo, time signatures and note values.
+
 A cross-platform metronome for desktop (Linux, Windows, macOS) and Android, built with **Qt 6** (Qt Quick / QML) and **C++23**. It uses the Material style on Android and Linux and a native-looking macOS style on macOS.
 
 ## Screenshots

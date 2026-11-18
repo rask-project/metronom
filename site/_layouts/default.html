@@ -1,0 +1,14 @@
+<!doctype html>
+<html lang="{{ page.lang | default: site.lang }}">
+<head>
+{% include head.html %}
+</head>
+<body class="{{ page.body_class }}">
+  <div class="wallpaper" aria-hidden="true"></div>
+  {% include nav.html %}
+  <main id="content">
+{{ content }}
+  </main>
+  {% include footer.html %}
+</body>
+</html>

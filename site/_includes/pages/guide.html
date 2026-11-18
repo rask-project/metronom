@@ -1,0 +1,148 @@
+{%- include i18n.html -%}
+{%- assign g = t.guide -%}
+<div class="page container">
+  <header class="page-header">
+    <p class="eyebrow">{{ g.eyebrow }}</p>
+    <h1>{{ g.title }}</h1>
+    <p class="lead">{{ g.lead }}</p>
+  </header>
+
+  <div class="prose">
+    <section class="guide-grid" id="quick-start">
+      <div>
+        <h2>{{ g.quick_title }}</h2>
+        <ol class="steps">
+          {%- for li in g.quick_steps %}
+          <li>{% include tr.html s=li %}</li>
+          {%- endfor %}
+        </ol>
+        <p>{{ g.quick_after }}</p>
+      </div>
+      {% include shot.html name="main-dark.jpg" w=920 h=1544 window=true alt=g.quick_alt %}
+    </section>
+
+    <h2 id="tempo">{{ g.tempo_title }}</h2>
+    <p>{{ g.tempo_text }}</p>
+    <div class="callout"><p>{{ g.tempo_callout }}</p></div>
+    <h3>{{ g.tempo_change_title }}</h3>
+    <ul>{% for li in g.tempo_change %}<li>{{ li }}</li>{% endfor %}</ul>
+    <h3>{{ g.markings_title }}</h3>
+    <p>{{ g.markings_text }}</p>
+    <ul class="markings">
+      {%- for m in t.markings %}
+      <li><strong>{{ m[0] }}</strong><span>{{ m[1] }}</span></li>
+      {%- endfor %}
+    </ul>
+    {% include shot.html name="bpm.gif" w=460 h=772 window=true alt=g.tempo_alt %}
+
+    <h2 id="time-signature">{{ g.meter_title }}</h2>
+    <p>{{ g.meter_text }}</p>
+    <ul>{% for li in g.meter_list %}<li>{% include tr.html s=li %}</li>{% endfor %}</ul>
+    <p>{{ g.meter_after }}</p>
+
+    <h3 id="compound">{{ g.compound_title }}</h3>
+    <p>{% include tr.html s=g.compound_text %}</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr>{% for th in g.compound_head %}<th>{{ th }}</th>{% endfor %}</tr></thead>
+        <tbody>
+          {%- for row in g.compound_rows %}
+          <tr><td><strong>{{ row[0] }}</strong></td><td>{{ row[1] }}</td><td>{% assign cell = row[2] %}{% include tr.html s=cell %}</td><td>{{ row[3] }}</td></tr>
+          {%- endfor %}
+        </tbody>
+      </table>
+    </div>
+    <p>{{ g.compound_after }}</p>
+    {% include shot.html name="time-signature.gif" w=460 h=772 window=true alt=g.meter_alt %}
+
+    <h2 id="note-value">{{ g.notes_title }}</h2>
+    <p>{{ g.notes_text }}</p>
+    <div class="callout">
+      <p>{{ g.notes_rule }}</p>
+      <p>{% include tr.html s=g.notes_rule_text %}</p>
+    </div>
+    <p>{{ g.notes_table_intro }}</p>
+    {%- comment -%} beat note | time signatures | note:count pairs {%- endcomment -%}
+    {%- assign beats = "half|2/2, 3/2…|half:1 quarter:2 eighth:4 sixteenth:8,quarter|2/4, 3/4, 4/4…|quarter:1 eighth:2 sixteenth:4 thirtysecond:8,eighth|3/8, 5/8, 7/8…|eighth:1 sixteenth:2 thirtysecond:4,dq|6/8, 9/8, 12/8|dq:1 eighth:3 sixteenth:6" | split: "," %}
+    <div class="table-wrap">
+      <table>
+        <thead><tr>{% for th in g.notes_head %}<th>{{ th }}</th>{% endfor %}</tr></thead>
+        <tbody>
+          {%- for beat in beats %}
+          {%- assign b = beat | split: "|" %}
+          {%- assign beat_token = "%" | append: b[0] | append: "%" %}
+          <tr>
+            <td>{% include tr.html s=beat_token %}<br><span class="muted">{{ b[1] }}</span></td>
+            <td>
+              {%- assign pairs = b[2] | split: " " %}
+              {%- for pair in pairs %}
+              {%- assign p = pair | split: ":" %}
+              {%- assign token = "%" | append: p[0] | append: "% " | append: p[1] %}
+              {% include tr.html s=token %}{% unless forloop.last %} · {% endunless %}
+              {%- endfor %}
+            </td>
+          </tr>
+          {%- endfor %}
+        </tbody>
+      </table>
+    </div>
+    <p>{{ g.notes_fallback }}</p>
+
+    <h3 id="beat-bar">{{ g.bar_title }}</h3>
+    <p>{{ g.bar_text }}</p>
+    <ul class="legend">
+      <li><i class="accent"></i>{{ g.legend[0] }}</li>
+      <li><i class="beat-click"></i>{{ g.legend[1] }}</li>
+      <li><i class="sub-click"></i>{{ g.legend[2] }}</li>
+    </ul>
+    {%- assign examples = "4/4:quarter:4:1,4/4:eighth:4:2,3/4:sixteenth:3:4,6/8:eighth:2:3,2/2:quarter:2:2" | split: "," %}
+    {%- for example in examples %}
+    {%- assign e = example | split: ":" %}
+    {%- assign total = e[2] | times: e[3] %}
+    {%- assign note_token = "%" | append: e[1] | append: "%" %}
+    {%- assign count = g.example | replace: "%beats%", e[2] | replace: "%n%", e[3] | replace: "%total%", total %}
+    {%- assign label = g.example_label | replace: "%sig%", e[0] | replace: "%note%", t.notes[e[1]] | replace: "%beats%", e[2] | replace: "%n%", e[3] %}
+    <div class="example">
+      <div class="example-head"><strong>{{ e[0] }} · {% include tr.html s=note_token %}</strong><span>{{ count }}</span></div>
+      {% assign bar_beats = e[2] | plus: 0 %}{% assign bar_notes = e[3] | plus: 0 %}{% include beatbar.html beats=bar_beats notes=bar_notes label=label %}
+    </div>
+    {%- endfor %}
+    <div class="shot-pair">
+      {% include shot.html name="subdivisions.gif" w=460 h=772 window=true alt=g.alt_44 caption=g.caption_44 %}
+      {% include shot.html name="compound.gif" w=460 h=772 window=true alt=g.alt_68 caption=g.caption_68 %}
+    </div>
+
+    <h3 id="explorer">{{ g.try_title }}</h3>
+    <p>{{ g.try_text }}</p>
+    <div class="explorer glass-card" id="beat-explorer" hidden>
+      <div class="explorer-controls">
+        <div class="fraction">
+          <label>{{ g.try_beats }}<select data-numerator></select></label>
+          <span>/</span>
+          <label>{{ g.try_note }}<select data-denominator><option>2</option><option selected>4</option><option>8</option></select></label>
+        </div>
+        <label>BPM<input type="number" min="40" max="300" value="120" data-bpm></label>
+        <button class="button explorer-play" type="button" data-play aria-pressed="false">{% include icon.html name="play" class="icon-play" %}{% include icon.html name="pause" class="icon-stop" %}<span data-play-label>{{ t.js.play }}</span></button>
+      </div>
+      <div class="explorer-notes" data-notes role="group" aria-label="{{ g.try_note }}"></div>
+      <p class="explorer-result" data-result aria-live="polite"></p>
+      <div class="beatbar" data-bar role="img"></div>
+      <script type="application/json" data-labels>{{ t.labels | jsonify }}</script>
+      <script type="application/json" data-names>{{ t.notes | jsonify }}</script>
+    </div>
+    <noscript><p>{{ g.try_noscript }}</p></noscript>
+
+    <h3 id="score-tempo">{{ g.score_title }}</h3>
+    <p>{{ g.score_text }}</p>
+    <ul>{% for li in g.score_list %}<li>{% include tr.html s=li %}</li>{% endfor %}</ul>
+
+    <h2 id="practice">{{ g.practice_title }}</h2>
+    <p>{{ g.practice_text }}</p>
+    <ol class="steps">{% for li in g.practice_steps %}<li>{% include tr.html s=li %}</li>{% endfor %}</ol>
+    <p>{{ g.practice_after }}</p>
+    {% include shot.html name="settings.gif" w=460 h=772 window=true alt=g.practice_alt %}
+
+    <h2 id="remember">{{ g.remember_title }}</h2>
+    <p>{{ g.remember_text }}</p>
+  </div>
+</div>

@@ -1,0 +1,90 @@
+{%- include i18n.html -%}
+{%- assign f = t.features -%}
+{%- comment -%} section id, sidebar key, icon, glyph (a site icon, else a note icon) {%- endcomment -%}
+{%- assign sections = "tempo:tempo:gauge:1,time-signature:meter:meter:1,note-values:notes:eighth-note:0,beat-bar:bar:bars:1,sound:sound:speaker:1,timing:timing:wave:1,auto-increment:rise:rise:1,keyboard:keyboard:keyboard:1,appearance:appearance:appearance:1,settings:settings:gear:1,platforms:platforms:devices:1,updates:updates:update:1" | split: "," -%}
+<div class="page container">
+  <header class="page-header">
+    <p class="eyebrow">{{ f.eyebrow }}</p>
+    <h1>{{ f.title }}</h1>
+    <p class="lead">{% include tr.html s=f.lead %}</p>
+  </header>
+
+  <div class="settings glass-card">
+    <aside class="settings-sidebar" aria-label="{{ f.eyebrow }}">
+      <span class="lights" aria-hidden="true"><i></i><i></i><i></i></span>
+      <ul>
+        {%- for section in sections %}
+        {%- assign s = section | split: ":" %}
+        {%- assign icon = s[2] %}
+        <li><a href="#{{ s[0] }}">{% if s[3] == "1" %}{% include tile.html name=icon glyph=true small=true %}{% else %}{% include tile.html name=icon small=true %}{% endif %}{{ f.sidebar[s[1]] }}</a></li>
+        {%- endfor %}
+      </ul>
+    </aside>
+
+    <div class="settings-content">
+      {%- for section in sections %}
+      {%- assign s = section | split: ":" %}
+      {%- assign key = s[1] %}
+      <section class="settings-section" id="{{ s[0] }}">
+        {%- assign icon = s[2] %}
+        <header>{% if s[3] == "1" %}{% include tile.html name=icon glyph=true %}{% else %}{% include tile.html name=icon %}{% endif %}<h2>{{ f.sidebar[key] }}</h2></header>
+        {%- case key %}
+        {%- when "tempo" %}
+        <p>{{ f.tempo_text }}</p>
+        {% include rows.html rows=f.tempo_rows %}
+        <p>{{ f.tempo_markings }}</p>
+        {% include shot.html name="bpm.gif" w=460 h=772 window=true alt=f.tempo_alt %}
+        {%- when "meter" %}
+        <p>{{ f.meter_text }}</p>
+        <ul>{% for li in f.meter_list %}<li>{{ li }}</li>{% endfor %}</ul>
+        <div class="shot-pair">
+          {% include shot.html name="timesig-dark.jpg" w=920 h=1544 window=true alt=f.meter_alt_dark %}
+          {% include shot.html name="timesig-light.jpg" w=920 h=1544 window=true alt=f.meter_alt_light %}
+        </div>
+        {%- when "notes" %}
+        <p>{{ f.notes_text }}</p>
+        {% include rows.html rows=f.notes_rows %}
+        <p>{{ f.notes_after }}</p>
+        {% include shot.html name="compound.gif" w=460 h=772 window=true alt=f.notes_alt %}
+        {%- when "bar" %}
+        <p>{{ f.bar_text }}</p>
+        {% include beatbar.html beats=4 notes=2 label=f.bar_label %}
+        <p class="after-bar">{{ f.bar_pendulum }}</p>
+        {% include shot.html name="subdivisions.gif" w=460 h=772 window=true alt=f.bar_alt %}
+        {%- when "sound" %}
+        <p>{{ f.sound_text }}</p>
+        {% include rows.html rows=f.sound_rows %}
+        <p>{{ f.sound_output }}</p>
+        {%- when "timing" %}
+        <p>{{ f.timing_text }}</p>
+        <ul>{% for li in f.timing_list %}<li>{{ li }}</li>{% endfor %}</ul>
+        {%- when "rise" %}
+        <p>{{ f.rise_text }}</p>
+        {% include rows.html rows=f.rise_rows %}
+        {% include shot.html name="settings.gif" w=460 h=772 window=true alt=f.rise_alt %}
+        {%- when "keyboard" %}
+        {% include rows.html rows=f.keyboard_rows %}
+        {%- when "appearance" %}
+        <p>{{ f.appearance_text }}</p>
+        <p>{{ f.appearance_native }}</p>
+        <div class="shot-pair">
+          {% include shot.html name="main-dark.jpg" w=920 h=1544 window=true alt=f.appearance_alt_dark %}
+          {% include shot.html name="main-light.jpg" w=920 h=1544 window=true alt=f.appearance_alt_light %}
+        </div>
+        {%- when "settings" %}
+        {% include rows.html rows=f.settings_rows %}
+        <div class="shot-pair">
+          {% include shot.html name="settings-dark.jpg" w=920 h=1544 window=true alt=f.settings_alt_dark %}
+          {% include shot.html name="settings-light.jpg" w=920 h=1544 window=true alt=f.settings_alt_light %}
+        </div>
+        {%- when "platforms" %}
+        {% include rows.html rows=f.platforms_rows %}
+        <p>{% include tr.html s=f.platforms_text %}</p>
+        {%- when "updates" %}
+        <p>{{ f.updates_text }}</p>
+        {%- endcase %}
+      </section>
+      {%- endfor %}
+    </div>
+  </div>
+</div>

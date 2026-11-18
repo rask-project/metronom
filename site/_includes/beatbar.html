@@ -1,0 +1,6 @@
+{%- comment -%} The app's beat bar: beats groups of notes cells (the first beat accented); label for screen readers. {%- endcomment -%}
+<div class="beatbar{% if include.small %} is-small{% endif %}" role="img" aria-label="{{ include.label }}">
+  {%- for b in (1..include.beats) -%}
+  <span class="beat">{% for n in (1..include.notes) %}<i class="note"></i>{% endfor %}</span>
+  {%- endfor -%}
+</div>

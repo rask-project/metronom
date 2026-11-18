@@ -30,9 +30,13 @@ Guidance for AI agents working in this repository.
 - `android/` — Android package sources (manifest, Gradle, `SplashActivity`, icons).
 - `cmake/` — macOS `Info.plist.in`, `PruneBundle.cmake` (install step of `package-macos`) and `Sparkle.cmake`.
 - `docs/releases/<tag>.md` — release notes (GitHub Release and the Sparkle update dialog).
+- `docs/images/` — the site's screenshots and GIFs (macOS window over the desktop).
+- `site/` — the project's website (Jekyll, GitHub Pages: <https://rask-project.github.io/metronom/>); see
+  `site/README.md`. Published by `.github/workflows/pages.yml`. In the app's five languages: its text is in
+  `site/_data/i18n/<lang>.yml`, and a new string goes into every one of them.
 - `resources/` — icons theme, logo, macOS `metronom.icns`, `qtquickcontrols2.conf`, Linux `.desktop` template.
 - `scripts/` — `format-code.sh` (clang-format), `make-macos-icon.sh` (regenerates the `.icns`), `update-appcast.py`
-  (adds a release to the Sparkle appcast; run by `release.yml`).
+  (adds a release to the Sparkle appcast; run by `release.yml`), `site-assets.sh` / `site-serve.sh` (the website).
 - `translations/` — `.ts` files (pt_BR, es_ES, fr_FR, it_IT).
 - `build/` — out-of-source build directories (gitignored), one per Qt Creator kit.
 
@@ -167,7 +171,7 @@ Qt Creator opens the project directly with the matching kit.
   - macOS `CFBundleVersion` = `MAJOR.MINOR.PATCH.<build>`, `CFBundleShortVersionString` = the tag;
   - Android `versionCode` = `((MAJOR * 100 + MINOR) * 100 + PATCH) * 10000 + <build>`, `versionName` = the tag;
   - DEB version = the tag with `-` → `~` (so `1.2.0~beta.1` sorts before `1.2.0`).
-- To release: write `docs/releases/<tag>.md` (what changed, for users), bump `project(... VERSION ...)` in the commit
+- To release: write `docs/releases/<tag>.md` (what changed, for users) and a post in `site/_posts/`, bump `project(... VERSION ...)` in the commit
   the tag points at, tag it (`git tag v1.1.0 && git push origin v1.1.0`), then reconfigure CMake so the new tag is
   picked up.
 

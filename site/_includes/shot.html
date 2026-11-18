@@ -1,0 +1,5 @@
+{%- comment -%} A screenshot from docs/images: name, w, h, alt, optional caption; window=true for the app window over the desktop. {%- endcomment -%}
+<figure class="shot-frame{% if include.window %} is-window{% endif %}">
+  <img class="shot" src="{{ '/assets/screenshots/' | append: include.name | relative_url }}" width="{{ include.w }}" height="{{ include.h }}" alt="{{ include.alt }}" loading="lazy" decoding="async">
+  {%- if include.caption %}<figcaption>{{ include.caption }}</figcaption>{% endif %}
+</figure>

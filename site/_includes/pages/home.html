@@ -1,0 +1,78 @@
+{%- include i18n.html -%}
+{%- assign h = t.home -%}
+{%- assign shots = '/assets/screenshots/' | relative_url -%}
+<section class="hero container">
+  <img class="hero-icon" src="{{ '/assets/logo.png' | relative_url }}" alt="" width="128" height="128">
+  <a class="badge" href="{{ base }}guide/">{% include icon.html name="eighth-note" %}{{ h.badge }}</a>
+  <h1><span class="gradient-text">{{ h.title }}</span></h1>
+  <p class="lead">{{ h.lead }}</p>
+  <div class="hero-actions">
+    <a class="button" href="{{ base }}download/">{{ h.download }}</a>
+    <a class="button button-secondary" href="{{ base }}guide/">{{ h.guide }}</a>
+  </div>
+  <p class="button-note"><span data-version="{{ h.version }}" hidden></span>{{ h.note }}</p>
+
+  <div class="hero-shots">
+    <img class="shot side" src="{{ shots }}main-light.jpg" width="920" height="1544" alt="{{ h.alt_light }}">
+    <img class="shot" src="{{ shots }}playing.gif" width="460" height="772" alt="{{ h.alt_playing }}">
+    <img class="shot side" src="{{ shots }}settings-dark.jpg" width="920" height="1544" alt="{{ h.alt_settings }}">
+  </div>
+</section>
+
+<section class="section container">
+  <div class="section-head">
+    <p class="eyebrow">{{ h.grid_eyebrow }}</p>
+    <h2>{{ h.grid_title }}</h2>
+    <p class="lead">{{ h.grid_lead }}</p>
+  </div>
+  {%- comment -%} card key, icon, glyph (a site icon, else a note icon), link {%- endcomment -%}
+  {%- assign cards = "timing:wave:1:features/#timing,tempo:gauge:1:guide/#tempo,meter:meter:1:guide/#time-signature,notes:sixteenth-note:0:guide/#note-value,sound:speaker:1:features/#sound,bar:bars:1:features/#beat-bar,rise:rise:1:features/#auto-increment,native:window:1:features/#appearance,keyboard:keyboard:1:features/#keyboard" | split: "," %}
+  <div class="feature-grid">
+    {%- for card in cards %}
+    {%- assign c = card | split: ":" %}
+    {%- assign text = h.cards[c[0]] %}
+    <a class="feature-card glass-card" href="{{ base }}{{ c[3] }}">
+      {% assign icon = c[1] %}{% if c[2] == "1" %}{% include tile.html name=icon glyph=true %}{% else %}{% include tile.html name=icon %}{% endif %}
+      <h3>{{ text[0] }}</h3>
+      <p>{{ text[1] }}</p>
+    </a>
+    {%- endfor %}
+  </div>
+</section>
+
+<section class="container">
+  {%- assign showcases = "notes:subdivisions.gif:guide/#note-value,meter:time-signature.gif:guide/#time-signature,tempo:bpm.gif:guide/#tempo,mac:settings.gif:" | split: "," %}
+  {%- for item in showcases %}
+  {%- assign s = item | split: ":" %}
+  {%- assign key = s[0] %}
+  {%- assign eyebrow = key | append: "_eyebrow" %}{% assign title = key | append: "_title" %}{% assign text = key | append: "_text" %}{% assign list = key | append: "_list" %}{% assign link = key | append: "_link" %}{% assign alt = key | append: "_alt" %}
+  <div class="showcase{% cycle '', ' is-flipped' %}">
+    <div class="showcase-text">
+      <p class="eyebrow">{{ h[eyebrow] }}</p>
+      <h2>{{ h[title] }}</h2>
+      <p>{{ h[text] }}</p>
+      <ul>
+        {%- for li in h[list] %}
+        <li>{{ li }}</li>
+        {%- endfor %}
+      </ul>
+      {%- if s[2] %}
+      <p><a href="{{ base }}{{ s[2] }}">{{ h[link] }}</a></p>
+      {%- endif %}
+    </div>
+    {% assign shot = s[1] %}{% assign shot_alt = h[alt] %}{% include shot.html name=shot w=460 h=772 window=true alt=shot_alt %}
+  </div>
+  {%- endfor %}
+</section>
+
+<section class="section container">
+  <div class="cta glass-card">
+    <img src="{{ '/assets/logo.png' | relative_url }}" alt="" width="88" height="88">
+    <h2>{{ h.cta_title }}</h2>
+    <p class="lead">{{ h.cta_lead }}</p>
+    <div class="hero-actions">
+      <a class="button" href="{{ base }}download/">{{ h.download }}</a>
+      <a class="button button-secondary" href="{{ site.github_url }}">{{ h.cta_source }}</a>
+    </div>
+  </div>
+</section>

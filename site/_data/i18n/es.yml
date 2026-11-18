@@ -1,0 +1,310 @@
+# Textos del sitio, español. Las mismas claves que en.yml; los términos siguen translations/metronom_es_ES.ts.
+
+date_format: "%d/%m/%Y"
+
+nav:
+  features: "Funciones"
+  guide: "Cómo usar"
+  news: "Novedades"
+  download: "Descargar"
+  github: "Rask Metronom en GitHub"
+  language: "Idioma"
+
+footer:
+  tagline: "“Metronom” es “metrónomo” en noruego."
+  note: "Hecho con Qt Quick y C++23 para macOS, Linux y Android. Código abierto con Licencia MIT en <a href=\"https://github.com/rask-project/metronom\">GitHub</a>."
+
+notes:
+  half: "blanca"
+  dq: "negra con puntillo"
+  quarter: "negra"
+  eighth: "corchea"
+  sixteenth: "semicorchea"
+  thirtysecond: "fusa"
+labels:
+  half: "Blanca"
+  dq: "Negra con puntillo"
+  quarter: "Negra"
+  eighth: "Corchea"
+  sixteenth: "Semicorchea"
+  thirtysecond: "Fusa"
+
+markings:
+  - ["Largo", "40 · muy lento, amplio"]
+  - ["Larghetto", "60 · algo amplio"]
+  - ["Adagio", "66 · lento, tranquilo"]
+  - ["Andante", "76 · al paso"]
+  - ["Moderato", "108 · moderado"]
+  - ["Allegro", "120 · rápido, alegre"]
+  - ["Vivace", "168 · muy vivo"]
+  - ["Presto", "184 · muy rápido"]
+  - ["Prestissimo", "208 · lo más rápido posible"]
+
+js:
+  copy: "Copiar"
+  copied: "Copiado"
+  play: "Reproducir"
+  stop: "Detener"
+  per_beat: "{n}/pulso"
+  beats: ["pulso", "pulsos"]
+  clicks: ["clic", "clics"]
+  result: "<strong>{sig}</strong> tiene {beats} por compás, y cada pulso vale una <strong>{beat}</strong>{compound}. {label}: <strong>{perBeat} por pulso</strong>, {clicks} por compás. A {bpm} BPM son {perMinute} clics por minuto ({perSecond} por segundo)."
+  compound: " (tres corcheas)"
+  bar_label: "{sig} en {note}: {beats} grupos de {perBeat} celdas"
+  no_audio: "Este navegador no puede reproducir sonido."
+
+home:
+  badge: "¿Empiezas con los compases? Mira cómo usarlo"
+  title: "Lleva el tempo. Siente cada pulso."
+  lead: "Rask Metronom es un metrónomo libre y de código abierto para macOS, Linux y Android: clics con precisión de muestra, compases de 1/2 a 12/8 y subdivisiones que reparten cada pulso como tú lo cuentas."
+  download: "Descargar"
+  guide: "Cómo usar"
+  note: "Libre y de código abierto · macOS 14.4+ · Linux · Android"
+  version: "Versión %v · "
+  alt_light: "Rask Metronom con el tema claro, tocando 4/4 en corcheas a 120 BPM"
+  alt_playing: "Rask Metronom tocando 4/4 a 120 BPM: el péndulo oscila una vez por pulso y la barra de pulsos se ilumina pulso a pulso, con el escritorio desenfocado a través de la ventana"
+  alt_settings: "Los Ajustes con el tema oscuro sobre la ventana desenfocada"
+  grid_eyebrow: "Todo lo que necesita una sesión de estudio"
+  grid_title: "Sencillo por fuera. Preciso por dentro."
+  grid_lead: "Elige un tempo, un compás y una división rítmica, y pulsa play. Lo demás no estorba."
+  cards:
+    timing: ["Precisión de muestra", "Los clics se programan con el reloj de audio, no con un temporizador, así que el pulso nunca se desvía: ni al minuto ni a la hora."]
+    tempo: ["Tempo de 40 a 300 BPM", "Gira la rueda de BPM, ajusta de uno en uno o salta entre las indicaciones clásicas, de Largo a Prestissimo."]
+    meter: ["Compases", "De 1 a 12 pulsos sobre blanca, negra o corchea. 6/8, 9/8 y 12/8 se cuentan en negras con puntillo, como los sienten los músicos."]
+    notes: ["Subdivisiones que siguen el pulso", "Corcheas, semicorcheas o fusas dividen cada pulso, y solo se ofrecen las figuras que encajan en el compás."]
+    sound: ["Tres clics", "Un acento en el primer pulso del compás, un clic medio en los demás pulsos y un clic suave en las subdivisiones."]
+    bar: ["Mira el compás", "La barra de pulsos muestra un grupo por pulso con una celda por nota, y el péndulo oscila una vez por pulso."]
+    rise: ["Acelera mientras estudias", "El aumento automático pasa a la siguiente indicación de tempo cada 30 segundos a 10 minutos, y el pasaje va más rápido mientras lo tocas."]
+    native: ["Nativo en cada plataforma", "Ventana translúcida y desenfocada con controles nativos en macOS; Material en Linux y Android. Temas claro y oscuro en todas."]
+    keyboard: ["Manos en el instrumento", "<kbd>Espacio</kbd> reproduce y detiene, <kbd>↑</kbd> <kbd>↓</kbd> cambian el BPM, <kbd>Re Pág</kbd> <kbd>Av Pág</kbd> saltan entre indicaciones."]
+  notes_eyebrow: "División rítmica"
+  notes_title: "Oye cada corchea. O cada fusa."
+  notes_text: "La división rítmica reparte <em>cada pulso</em>. En 4/4, las corcheas tocan 2 notas por pulso, las semicorcheas 4 y las fusas 8, y la barra de pulsos muestra exactamente eso: una celda por nota."
+  notes_list:
+    - "<strong>El pulso sigue siendo el pulso:</strong> el BPM y el péndulo siguen contando pulsos mientras los clics rellenan el espacio entre ellos."
+    - "<strong>Cámbiala mientras suena:</strong> la nueva división empieza en el siguiente pulso, así que la cuenta nunca se rompe."
+  notes_link: "Cómo se relaciona la división rítmica con el compás →"
+  notes_alt: "Tocando 4/4 a 120 BPM mientras se cambia de negra a corchea, semicorchea y fusa; la barra divide cada pulso en 2, 4 y 8 celdas"
+  meter_eyebrow: "Compases"
+  meter_title: "De un vals a un blues en 12/8."
+  meter_text: "Toca el compás junto al play y gira las ruedas: de 1 a 12 pulsos sobre blanca, negra o corchea."
+  meter_list:
+    - "<strong>Los compases compuestos</strong> —6/8, 9/8 y 12/8— se cuentan en negras con puntillo, cada una con tres corcheas."
+    - "<strong>El primer pulso lleva acento</strong>, así siempre sabes dónde empieza el compás."
+  meter_link: "Cómo leer un compás →"
+  meter_alt: "Cambiando el compás mientras suena: de 4/4 a 3/4 y luego a 6/8, donde las figuras pasan a ser negra con puntillo, corchea y semicorchea"
+  tempo_eyebrow: "Tempo"
+  tempo_title: "El tempo que necesitas, en un gesto."
+  tempo_text: "Arrastra o desplaza la rueda de BPM para ajustes finos. Las flechas dobles saltan a la indicación de tempo anterior o siguiente, y su nombre sigue al BPM."
+  tempo_list:
+    - "<strong>De 40 a 300 BPM</strong>, de Largo a Prestissimo."
+    - "<strong>Con el teclado:</strong> <kbd>↑</kbd> <kbd>↓</kbd> un BPM, <kbd>Re Pág</kbd> <kbd>Av Pág</kbd> una indicación."
+  tempo_link: "El tempo y las indicaciones de tempo →"
+  tempo_alt: "Girando la rueda de BPM, saltando a Vivace y Presto con las flechas dobles y volviendo a Allegro"
+  mac_eyebrow: "En el Mac"
+  mac_title: "Una ventana que deja ver a través."
+  mac_text: "En macOS la ventana es translúcida y desenfocada, con el contenido bajo la barra de título, y los botones, interruptores y la rueda de BPM son controles nativos teñidos con el naranja de la app."
+  mac_list:
+    - "<strong>Claro u oscuro</strong>, independiente del sistema."
+    - "<strong>Se actualiza sola:</strong> las actualizaciones firmadas se descargan en segundo plano y se instalan al salir."
+  mac_alt: "Los Ajustes: al activar el aumento automático aparece su intervalo; luego se cambia entre el tema oscuro y el claro"
+  cta_title: "Prueba Rask Metronom"
+  cta_lead: "Libre y de código abierto, para macOS, Linux y Android."
+  cta_source: "Código en GitHub"
+
+features:
+  eyebrow: "Funciones"
+  title: "Todo lo que hace Rask Metronom"
+  lead: "Un recorrido por la app, ordenado como una ventana de Ajustes. Para la música que hay detrás —tempo, compases y división rítmica— consulta <a href=\"%base%guide/\">Cómo usar</a>."
+  sidebar:
+    tempo: "Tempo"
+    meter: "Compás"
+    notes: "División rítmica"
+    bar: "Barra de pulsos y péndulo"
+    sound: "Sonido"
+    timing: "Precisión"
+    rise: "Aumento automático"
+    keyboard: "Teclado"
+    appearance: "Apariencia"
+    settings: "Ajustes"
+    platforms: "Plataformas"
+    updates: "Actualizaciones"
+  tempo_text: "La rueda de BPM fija el tempo de <strong>40 a 300 pulsaciones por minuto</strong>. Bajo el BPM, el nombre de la indicación de tempo sigue al número."
+  tempo_rows:
+    - ["Arrastrar o desplazar la rueda", "Ajuste fino, un BPM por fila"]
+    - ["%up% Flecha doble izquierda", "La indicación de tempo anterior (más lenta)"]
+    - ["%down% Flecha doble derecha", "La siguiente indicación de tempo (más rápida)"]
+  tempo_markings: "Las indicaciones son Largo 40, Larghetto 60, Adagio 66, Andante 76, Moderato 108, Allegro 120, Vivace 168, Presto 184 y Prestissimo 208."
+  tempo_alt: "Girando la rueda de BPM y saltando entre indicaciones de tempo con las flechas dobles"
+  meter_text: "El compás es el botón junto al play. Abre dos ruedas: los <strong>pulsos por compás</strong> (1 a 12) y la <strong>figura que vale un pulso</strong> (2 = blanca, 4 = negra, 8 = corchea)."
+  meter_list:
+    - "<strong>Los compases compuestos</strong> —6/8, 9/8 y 12/8— se cuentan en negras con puntillo, cada una con tres corcheas: 2, 3 y 4 pulsos por compás. El BPM cuenta la negra con puntillo."
+    - "<strong>Los cambios hechos mientras suena</strong> empiezan en el siguiente pulso, así que la cuenta nunca se rompe."
+  meter_alt_dark: "El diálogo de compás con el tema oscuro, en 4/4"
+  meter_alt_light: "El diálogo de compás con el tema claro, en 4/4"
+  notes_text: "La fila de notas de arriba elige cómo se divide cada pulso. Solo aparecen las figuras que encajan en el pulso del compás actual:"
+  notes_rows:
+    - ["x/2 (pulso de blanca)", "Blanca, negra, corchea, semicorchea"]
+    - ["x/4 (pulso de negra)", "Negra, corchea, semicorchea, fusa"]
+    - ["x/8 (pulso de corchea)", "Corchea, semicorchea, fusa"]
+    - ["6/8, 9/8, 12/8 (negra con puntillo)", "Negra con puntillo, corchea, semicorchea"]
+  notes_after: "Si la figura que tenías no encaja en el nuevo compás, la app elige la más larga que sí encaja. Los iconos usan cabezas de nota rellenas, como en la notación estándar."
+  notes_alt: "Tocando 6/8: cambiando de negra con puntillo a corchea (3 por pulso) y semicorchea (6 por pulso)"
+  bar_text: "Junto al compás, la <strong>barra de pulsos</strong> dibuja el compás entero: un grupo por pulso, una celda por nota de ese pulso. El primer pulso tiene su propio color, y la nota que suena se ilumina."
+  bar_label: "Un compás de 4/4 en corcheas: cuatro grupos de dos celdas, el primero resaltado"
+  bar_pendulum: "El <strong>péndulo</strong> oscila una vez por pulso —no en cada clic—, así el ojo sigue el pulso mientras el oído escucha las subdivisiones."
+  bar_alt: "La barra de pulsos dividiendo cada pulso en 2, 4 y 8 celdas al cambiar la división"
+  sound_text: "Tres clics te dicen dónde estás en el compás sin mirar:"
+  sound_rows:
+    - ["Acento", "El primer pulso del compás: el clic más agudo y fuerte"]
+    - ["Pulso", "Los demás pulsos"]
+    - ["Subdivisión", "Las notas entre los pulsos: un clic suave"]
+  sound_output: "Elige la <strong>salida de audio</strong> en Ajustes: altavoces, auriculares o una interfaz de audio. Cambiar de dispositivo mientras suena continúa sin cortes en la cuenta."
+  timing_text: "Rask Metronom no usa un temporizador para hacer clic. Cada clic se coloca en una muestra exacta del flujo de audio, contada con el reloj de la propia tarjeta de sonido, así que no hay deriva entre el pulso y lo que oyes, a cualquier tempo y durante cualquier tiempo."
+  timing_list:
+    - "Los clics se generan una vez y se mezclan; la ruta de audio no reserva memoria ni usa bloqueos."
+    - "Mientras el metrónomo suena, <strong>la pantalla no se apaga</strong> en macOS, Linux (X11 y Wayland) y Android."
+  rise_text: "Para llevar un pasaje a tempo: activa el <strong>Aumento automático de BPM</strong> en Ajustes y elige un intervalo. Mientras el metrónomo suena, cada intervalo lleva el tempo a la <strong>siguiente indicación</strong> —por ejemplo Moderato 108 → Allegro 120 → Vivace 168— hasta Prestissimo."
+  rise_rows:
+    - ["Intervalo", "30 segundos, 1, 2, 5 o 10 minutos"]
+  rise_alt: "Al activar el aumento automático en Ajustes aparece el control del intervalo"
+  keyboard_rows:
+    - ["<kbd>Espacio</kbd>", "Reproducir / detener"]
+    - ["<kbd>↑</kbd> / <kbd>↓</kbd>", "BPM uno más / uno menos"]
+    - ["<kbd>Re Pág</kbd> / <kbd>Av Pág</kbd>", "Siguiente / anterior indicación de tempo"]
+    - ["<kbd>⌘,</kbd>", "Ajustes (macOS)"]
+    - ["<kbd>⌘W</kbd> o <kbd>⌘Q</kbd>", "Salir (macOS)"]
+  appearance_text: "<strong>Claro u oscuro</strong>, elegido en Ajustes, independiente del sistema. Los diálogos tienen borde y sombra sobre la página desenfocada y algo oscurecida."
+  appearance_native: "En <strong>macOS</strong> la ventana es translúcida y desenfocada, con el contenido bajo la barra de título, y usa controles nativos teñidos con el naranja de la app. En <strong>Linux y Android</strong> usa Material. El diseño se adapta a vertical y horizontal: en un teléfono en horizontal, el metrónomo ocupa la izquierda y los controles se apilan a la derecha."
+  appearance_alt_dark: "La ventana principal con el tema oscuro, tocando 4/4 en corcheas, con el escritorio desenfocado a través de ella"
+  appearance_alt_light: "La ventana principal con el tema claro, tocando 4/4 en corcheas"
+  settings_rows:
+    - ["Modo oscuro", "Tema claro u oscuro"]
+    - ["Guardar el BPM, el compás y la división rítmica", "Los restaura al volver a abrir (activado por defecto)"]
+    - ["Aumento automático de BPM", "Siguiente indicación de tempo en cada intervalo"]
+    - ["Idioma", "English, Português (Brasil), Español, Français, Italiano; se aplica al volver a abrir"]
+    - ["Salida", "El dispositivo de audio en el que sonar"]
+  settings_alt_dark: "Ajustes con el tema oscuro"
+  settings_alt_light: "Ajustes con el tema claro"
+  platforms_rows:
+    - ["macOS", "14.4 o posterior, Apple Silicon"]
+    - ["Linux", "Un <code>.deb</code> para Debian y Ubuntu 24.04+, X11 y Wayland"]
+    - ["Android", "Teléfonos y tabletas arm64"]
+  platforms_text: "Un único código en Qt Quick y C++23. <a href=\"%base%download/\">Descargar →</a>"
+  updates_text: "En macOS, una vez al día Rask Metronom busca una versión nueva, la descarga en segundo plano y la instala al salir. <strong>Rask Metronom ▸ Check for Updates…</strong> la busca al momento y muestra qué cambió. Las actualizaciones están firmadas."
+
+guide:
+  eyebrow: "Cómo usar"
+  title: "Tempo, compás y división rítmica"
+  lead: "Tres ajustes forman cada clic: lo rápido que va el pulso, cómo se agrupan los pulsos en compases y cómo se divide cada pulso. Aquí tienes qué significa cada uno y cómo encajan."
+  quick_title: "Inicio rápido"
+  quick_steps:
+    - "<strong>Elige la división rítmica</strong> en la fila de arriba: %quarter% para un clic por pulso, %eighth% para dos, y así sucesivamente."
+    - "<strong>Ajusta el tempo</strong> en la rueda de BPM, o salta entre indicaciones con las flechas dobles."
+    - "<strong>Elige el compás</strong> con el botón junto al play: 4/4 si no estás seguro."
+    - "<strong>Pulsa play</strong> %play% o <kbd>Espacio</kbd>. El primer pulso de cada compás lleva acento."
+  quick_after: "Todo puede cambiar mientras suena: un nuevo tempo, compás o división empieza en el siguiente pulso, así que la cuenta nunca se rompe."
+  quick_alt: "La ventana principal: las figuras arriba, la rueda de BPM con la indicación de tempo, el metrónomo y, abajo, el play, el compás y la barra de pulsos"
+  tempo_title: "1. Tempo (BPM)"
+  tempo_text: "El tempo es la velocidad del <strong>pulso</strong>, en <strong>pulsaciones por minuto</strong>. A 60 BPM hay un pulso por segundo; a 120 BPM, dos. Rask Metronom va de 40 a 300 BPM."
+  tempo_callout: "<strong>El BPM siempre cuenta pulsos, no clics.</strong> Qué figura es el pulso depende del compás (una negra en 4/4, una negra con puntillo en 6/8, ver más abajo). Elegir corcheas o semicorcheas añade clics <em>entre</em> los pulsos; el tempo no cambia."
+  tempo_change_title: "Cambiar el tempo"
+  tempo_change:
+    - "<strong>La rueda:</strong> arrástrala o desplázate sobre ella, un BPM por fila."
+    - "<strong>Las flechas dobles</strong> de cada lado saltan a la indicación de tempo anterior (izquierda) o siguiente (derecha)."
+    - "<strong>El teclado:</strong> <kbd>↑</kbd> <kbd>↓</kbd> cambian un BPM, <kbd>Re Pág</kbd> <kbd>Av Pág</kbd> saltan una indicación."
+  markings_title: "Indicaciones de tempo"
+  markings_text: "La palabra bajo “BPM” es la indicación clásica, en italiano, para la velocidad actual. Cada una empieza en el BPM de abajo y llega hasta la siguiente:"
+  tempo_alt: "Girando la rueda de BPM, saltando a Vivace y Presto con la flecha doble derecha y volviendo con la izquierda"
+  meter_title: "2. Compás"
+  meter_text: "La música agrupa los pulsos en <strong>compases</strong>. La indicación de compás dice cómo, con dos números:"
+  meter_list:
+    - "<strong>El número de arriba</strong> es cuántos pulsos hay en un compás: de 1 a 12 en la app."
+    - "<strong>El número de abajo</strong> es la figura que vale un pulso: <strong>2</strong> = %half%, <strong>4</strong> = %quarter%, <strong>8</strong> = %eighth%."
+  meter_after: "Así, <strong>3/4</strong> son tres pulsos de negra por compás (un vals: <em>UN</em>-dos-tres), y <strong>2/2</strong> (“compasillo partido”) son dos pulsos de blanca. El primer pulso de cada compás lleva el clic de <strong>acento</strong>, así siempre oyes dónde empieza el compás."
+  compound_title: "Compases compuestos: 6/8, 9/8 y 12/8"
+  compound_text: "Cuando el número de abajo es 8 y el de arriba es 6, 9 o 12, las corcheas se sienten en <strong>grupos de tres</strong>. Cada grupo es un pulso, con la duración de una %dq%: así cuentan los músicos una giga o un blues en 12/8. Rask Metronom los cuenta igual:"
+  compound_head: ["Compás", "Pulsos por compás", "Un pulso vale", "Se cuenta"]
+  compound_rows:
+    - ["2/4, 3/4, 4/4, 5/4…", "el número de arriba", "%quarter%", "1 2 3 4"]
+    - ["2/2, 3/2…", "el número de arriba", "%half%", "1 2"]
+    - ["3/8, 5/8, 7/8…", "el número de arriba", "%eighth%", "1 2 3"]
+    - ["6/8", "2", "%dq%", "<em>1</em>-y-a <em>2</em>-y-a"]
+    - ["9/8", "3", "%dq%", "3 grupos de 3 corcheas"]
+    - ["12/8", "4", "%dq%", "4 grupos de 3 corcheas"]
+  compound_after: "En 6/8, 9/8 y 12/8 el <strong>BPM cuenta la negra con puntillo</strong>. 6/8 a 60 BPM son dos pulsos por segundo, cada uno con tres corcheas dentro. 3/8 se cuenta como tres pulsos de corchea."
+  meter_alt: "Cambiando el compás mientras suena: 4/4, luego 3/4 con tres grupos y luego 6/8 con dos pulsos de negra con puntillo"
+  notes_title: "3. División rítmica: dividir el pulso"
+  notes_text: "La división rítmica es cuántos clics oyes <strong>en cada pulso</strong>. Es donde se encuentran el compás y las figuras: una figura solo se ofrece si cabe un número entero de ellas en un pulso."
+  notes_rule: "<strong>Notas por pulso = la duración del pulso ÷ la duración de la figura.</strong>"
+  notes_rule_text: "Una %quarter% vale 2 corcheas, 4 semicorcheas u 8 fusas. Una %half% vale 2 negras, 4 corcheas u 8 semicorcheas. Una %dq% vale 3 corcheas o 6 semicorcheas, pero no un número entero de negras, y por eso la negra no se ofrece en 6/8."
+  notes_table_intro: "Eso da estas opciones para cada tipo de pulso (hasta 8 notas por pulso):"
+  notes_head: ["Pulso (compás)", "Figuras ofrecidas — notas por pulso"]
+  notes_fallback: "Cuando cambias el compás y tu figura ya no encaja, la app pasa a la figura más larga que sí encaja."
+  bar_title: "Leer la barra de pulsos"
+  bar_text: "La barra de pulsos, abajo en la ventana, dibuja el compás exactamente así: <strong>un grupo por pulso, una celda por nota</strong>. La celda más grande al principio de cada grupo es el propio pulso; las pequeñas son las subdivisiones. Mientras suena, la nota actual se ilumina."
+  legend: ["Acento: primer pulso del compás", "Clic del pulso", "Subdivisión: clic suave"]
+  example: "%beats% pulsos × %n% = %total% clics por compás"
+  example_label: "%sig% en %note%: %beats% grupos de %n% celdas"
+  caption_44: "4/4: negra → corchea → semicorchea → fusa"
+  caption_68: "6/8: negra con puntillo → corchea → semicorchea"
+  alt_44: "4/4 cambiando de negra a corchea, semicorchea y fusa"
+  alt_68: "6/8 cambiando de negra con puntillo a corchea y semicorchea"
+  try_title: "Pruébalo"
+  try_text: "Elige un compás, una división rítmica y un tempo para ver el compás que toca la app y cuántos clics oirás, y pulsa play para oírlo en el navegador."
+  try_beats: "Pulsos por compás"
+  try_note: "Figura del pulso"
+  try_noscript: "(El simulador necesita JavaScript.)"
+  score_title: "Cuando la partitura cuenta otra figura"
+  score_text: "La indicación de tempo de la partitura dice qué figura cuenta, y no siempre es el pulso de la app. Convierte según cuántas de esas figuras caben en un pulso:"
+  score_list:
+    - "<strong>6/8 marcado ♪ = 180:</strong> una negra con puntillo vale 3 corcheas, así que pon <strong>180 ÷ 3 = 60</strong> BPM y elige %eighth% para oír cada corchea."
+    - "<strong>2/2 marcado ♩ = 160:</strong> una blanca vale 2 negras, así que pon <strong>160 ÷ 2 = 80</strong> BPM y elige %quarter%."
+    - "<strong>4/4 marcado ♪ = 140:</strong> pon <strong>70</strong> BPM con %eighth%, o 140 con %quarter% si prefieres sentir las corcheas como pulsos."
+  practice_title: "4. Estudiar hasta llegar al tempo"
+  practice_text: "Empieza un pasaje difícil a un tempo que toques limpio y deja que el metrónomo te empuje:"
+  practice_steps:
+    - "Abre los <strong>Ajustes</strong> %gear% y activa el <strong>Aumento automático de BPM</strong>."
+    - "Elige el <strong>intervalo</strong>: 30 segundos, 1, 2, 5 o 10 minutos."
+    - "Toca. En cada intervalo el tempo pasa a la <strong>siguiente indicación</strong> —Andante 76 → Moderato 108 → Allegro 120…— hasta Prestissimo. Solo cuenta mientras el metrónomo suena."
+  practice_after: "Para subir más despacio, deja el aumento automático desactivado y pulsa <kbd>↑</kbd> unos pocos BPM cada vez entre repeticiones."
+  practice_alt: "Al activar el aumento automático en Ajustes aparece el control del intervalo, en un minuto"
+  remember_title: "5. La próxima vez"
+  remember_text: "Con <strong>Guardar el BPM, el compás y la división rítmica</strong> activado (por defecto), la app se abre donde la dejaste. Desactívalo en Ajustes para empezar siempre a 120 BPM en 4/4."
+
+download:
+  eyebrow: "Descargar"
+  title: "Descarga Rask Metronom"
+  lead: "Libre y de código abierto."
+  version: "La versión más reciente es la %v."
+  macos_text: "Una imagen de disco con la app. Actualizaciones firmadas a partir de ahí."
+  macos_meta: ["macOS 14.4 o posterior", "Apple Silicon"]
+  linux_text: "Un paquete Debian con Qt incluido, instalado en <code>/opt/metronom</code>."
+  linux_meta: ["Debian, Ubuntu 24.04+", "x86-64", "X11 y Wayland"]
+  android_text: "Un APK para instalar en tu teléfono o tableta."
+  android_meta: ["arm64"]
+  button: "Descargar %ext%"
+  macos_title: "Instalar en macOS"
+  macos_steps:
+    - "Abre el <code>.dmg</code> y arrastra <strong>Rask Metronom</strong> a <strong>Aplicaciones</strong>."
+    - "La app aún no está notarizada por Apple, así que Gatekeeper bloquea la primera apertura. Quita la cuarentena una vez:"
+    - "Solo esa vez: Rask Metronom se actualiza solo, y las actualizaciones se abren sin este paso."
+  macos_or: "o ábrela y elige <strong>Ajustes del Sistema ▸ Privacidad y seguridad ▸ Abrir igualmente</strong>."
+  linux_title: "Instalar en Linux"
+  linux_after: "Rask Metronom aparece en el menú de aplicaciones. La pantalla no se apaga mientras suena, en X11 y Wayland."
+  android_title: "Instalar en Android"
+  android_after: "Abre el <code>.apk</code> en el dispositivo y permite instalar desde el navegador o el gestor de archivos cuando Android lo pida."
+  source_title: "Compilar desde el código"
+  source_text: "Necesitas Qt 6.10 o posterior (Quick, Quick Controls 2, Multimedia), CMake y un compilador de C++23."
+  source_after: "El <a href=\"https://github.com/rask-project/metronom#readme\">README</a> describe la arquitectura, y <a href=\"https://github.com/rask-project/metronom/releases\">todas las versiones</a> están en GitHub."
+
+news:
+  eyebrow: "Novedades"
+  title: "Novedades de Rask Metronom"
+  lead: "Notas de versión e historias del proyecto. <a href=\"%root%news/feed.xml\">Suscríbete por RSS</a>."
+  english: "Las notas de versión se publican en inglés."
+
+notfound:
+  title: "Un silencio donde debería haber una página"
+  lead: "Esta página no existe."
+  home: "Ir al inicio"

@@ -1,0 +1,2 @@
+{%- comment -%} A string from _data/i18n with its tokens replaced (see i18n.html). {%- endcomment -%}
+{{- include.s | replace: "%half%", n_half | replace: "%dq%", n_dq | replace: "%quarter%", n_quarter | replace: "%eighth%", n_eighth | replace: "%sixteenth%", n_sixteenth | replace: "%thirtysecond%", n_thirtysecond | replace: "%play%", i_play | replace: "%gear%", i_gear | replace: "%up%", i_up | replace: "%down%", i_down | replace: "%base%", base | replace: "%root%", root -}}

@@ -1,0 +1,5 @@
+source "https://rubygems.org"
+
+# The same Jekyll and plugins GitHub Pages builds with.
+gem "github-pages", group: :jekyll_plugins
+gem "webrick"

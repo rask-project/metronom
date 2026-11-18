@@ -1,0 +1,23 @@
+{%- include i18n.html -%}
+{%- assign n = t.news -%}
+<div class="page container container-narrow">
+  <header class="page-header">
+    <p class="eyebrow">{{ n.eyebrow }}</p>
+    <h1>{{ n.title }}</h1>
+    <p class="lead">{% include tr.html s=n.lead %}</p>
+    {%- if n.english != "" %}
+    <p class="button-note">{{ n.english }}</p>
+    {%- endif %}
+  </header>
+  <ul class="news-list">
+    {%- for post in site.posts %}
+    <li class="news-item">
+      <a class="glass-card" href="{{ post.url | relative_url }}" hreflang="en">
+        <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: t.date_format }}</time>
+        <h2 lang="en">{{ post.title }}</h2>
+        <p lang="en">{{ post.summary | default: post.excerpt | strip_html | truncatewords: 40 }}</p>
+      </a>
+    </li>
+    {%- endfor %}
+  </ul>
+</div>

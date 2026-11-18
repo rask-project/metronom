@@ -1,0 +1,19 @@
+{%- comment -%}
+The page's language: t (its strings), base (its root URL, with a trailing slash), and the HTML
+that tr.html puts in place of the %note% and %icon% tokens. Every page include starts with it.
+{%- endcomment -%}
+{%- assign lang = page.lang | default: site.lang -%}
+{%- assign t = site.data.i18n[lang] -%}
+{%- assign langinfo = site.data.languages | where: "code", lang | first -%}
+{%- assign base = langinfo.prefix | append: "/" | relative_url -%}
+{%- assign root = "/" | relative_url -%}
+{%- capture n_half %}{% include note.html icon="half-note" name=t.notes.half %}{% endcapture -%}
+{%- capture n_dq %}{% include note.html icon="dotted-quarter-note" name=t.notes.dq %}{% endcapture -%}
+{%- capture n_quarter %}{% include note.html icon="quarter-note" name=t.notes.quarter %}{% endcapture -%}
+{%- capture n_eighth %}{% include note.html icon="eighth-note" name=t.notes.eighth %}{% endcapture -%}
+{%- capture n_sixteenth %}{% include note.html icon="sixteenth-note" name=t.notes.sixteenth %}{% endcapture -%}
+{%- capture n_thirtysecond %}{% include note.html icon="thirty-second-note" name=t.notes.thirtysecond %}{% endcapture -%}
+{%- capture i_play %}{% include icon.html name="play" %}{% endcapture -%}
+{%- capture i_gear %}{% include icon.html name="gear" glyph=true %}{% endcapture -%}
+{%- capture i_up %}{% include icon.html name="arrow-up-double" %}{% endcapture -%}
+{%- capture i_down %}{% include icon.html name="arrow-down-double" %}{% endcapture -%}

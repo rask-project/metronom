@@ -1,0 +1,3 @@
+{%- comment -%} A line icon drawn in the current text color: a note or control from resources/icons, or one of the site's glyphs (glyph=true). {%- endcomment -%}
+{%- if include.glyph %}{% assign dir = '/assets/glyphs/' %}{% else %}{% assign dir = '/assets/icons/' %}{% endif -%}
+<span class="glyph{% if include.class %} {{ include.class }}{% endif %}" style="--glyph:url('{{ dir | append: include.name | append: '.svg' | relative_url }}')" aria-hidden="true"></span>
