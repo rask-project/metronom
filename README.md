@@ -8,17 +8,23 @@ A cross-platform metronome for desktop (Linux, Windows, macOS) and Android, buil
 
 ## Screenshots
 
-<p align="center">
-  <img src="docs/screenshots/macos-main-light.png" alt="Main window, light theme" width="280" />
-  <img src="docs/screenshots/macos-main-dark.png" alt="Main window, dark theme" width="280" />
-</p>
+### macOS
 
 <p align="center">
-  <img src="docs/screenshots/macos-settings-light.png" alt="Settings, light theme" width="280" />
-  <img src="docs/screenshots/macos-time-signature-dark.png" alt="Time signature, dark theme" width="280" />
+  <img src="docs/screenshots/macos-main-light.png" alt="macOS: main window, light theme" width="260" />
+  <img src="docs/screenshots/macos-main-dark.png" alt="macOS: main window, dark theme" width="260" />
+  <img src="docs/screenshots/macos-settings-light.png" alt="macOS: settings, light theme" width="260" />
 </p>
 
-<p align="center"><sub>macOS. More in <a href="docs/screenshots">docs/screenshots</a>.</sub></p>
+### Android
+
+<p align="center">
+  <img src="docs/screenshots/android-main-light.png" alt="Android: main screen, light theme" width="220" />
+  <img src="docs/screenshots/android-main-dark.png" alt="Android: main screen, dark theme" width="220" />
+  <img src="docs/screenshots/android-settings-dark.png" alt="Android: settings, dark theme" width="220" />
+</p>
+
+<p align="center"><sub>More, including the time signature dialog, in <a href="docs/screenshots">docs/screenshots</a>.</sub></p>
 
 ## Features
 
