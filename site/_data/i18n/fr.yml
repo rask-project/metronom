@@ -115,8 +115,8 @@ home:
 features:
   eyebrow: "Fonctionnalités"
   title: "Tout ce que fait Rask Metronom"
-  lead: "Une visite de l’app, présentée comme une fenêtre de Paramètres. Pour la musique derrière — tempo, mesures et division rythmique — voyez le <a href=\"%base%guide/\">Mode d’emploi</a>."
-  sidebar:
+  lead: "Une visite de l’app. Pour la musique derrière — tempo, mesures et division rythmique — voyez le <a href=\"%base%guide/\">Mode d’emploi</a>."
+  menu:
     tempo: "Tempo"
     meter: "Mesure"
     notes: "Division rythmique"

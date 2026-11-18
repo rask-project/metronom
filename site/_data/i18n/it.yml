@@ -115,8 +115,8 @@ home:
 features:
   eyebrow: "Funzionalità"
   title: "Tutto ciò che fa Rask Metronom"
-  lead: "Un giro dell’app, organizzato come una finestra di Impostazioni. Per la musica che c’è dietro — andamento, tempi musicali e divisione ritmica — vedi <a href=\"%base%guide/\">Come si usa</a>."
-  sidebar:
+  lead: "Un giro dell’app. Per la musica che c’è dietro — andamento, tempi musicali e divisione ritmica — vedi <a href=\"%base%guide/\">Come si usa</a>."
+  menu:
     tempo: "Andamento"
     meter: "Tempo musicale"
     notes: "Divisione ritmica"

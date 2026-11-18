@@ -144,6 +144,11 @@ a:hover {
     list-style: none;
 }
 
+.menubar-brand,
+.menubar-links a {
+    white-space: nowrap;
+}
+
 .menubar-links a {
     display: block;
     padding: 5px 11px;
@@ -406,29 +411,6 @@ pre code {
     margin: 56px auto 0;
     max-width: 1040px;
     text-align: left;
-}
-
-/* Window buttons (the Features sidebar). */
-.lights {
-    display: flex;
-    gap: 8px;
-    margin-right: 8px;
-}
-
-.lights i {
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    background: #ff5f57;
-    box-shadow: inset 0 0 0 0.5px rgba(0, 0, 0, 0.3);
-}
-
-.lights i:nth-child(2) {
-    background: #febc2e;
-}
-
-.lights i:nth-child(3) {
-    background: #28c840;
 }
 
 /* ---------- Home: sections ---------- */
@@ -777,109 +759,129 @@ tr:last-child td {
     }
 }
 
-/* ---------- Features: a System Settings-style window ---------- */
+/* ---------- Features: a side menu and the sections ---------- */
 
-.settings {
+.features {
     display: grid;
-    grid-template-columns: 240px 1fr;
+    grid-template-columns: 230px minmax(0, 1fr);
+    gap: 48px;
     align-items: start;
-    overflow: clip;
 }
 
-.settings-sidebar {
+.features-menu {
     position: sticky;
-    top: 52px;
-    align-self: start;
-    max-height: calc(100vh - 52px);
-    overflow-y: auto;
-    padding: 18px 10px;
-    border-right: 1px solid var(--hairline);
+    top: 76px;
 }
 
-.settings-sidebar .lights {
-    margin: 0 0 18px 8px;
-}
-
-.settings-sidebar ul {
+.features-menu ul {
+    display: grid;
+    gap: 2px;
     margin: 0;
     padding: 0;
     list-style: none;
 }
 
-.settings-sidebar a {
+.features-menu a {
     display: flex;
     align-items: center;
     gap: 10px;
-    padding: 6px 8px;
-    border-radius: 8px;
-    color: var(--text);
+    padding: 6px 10px 6px 6px;
+    border-radius: 9px;
+    color: var(--text-2);
     font-size: 14px;
+    white-space: nowrap;
 }
 
-.settings-sidebar a:hover {
+.features-menu a:hover {
     background: rgba(255, 255, 255, 0.06);
+    color: var(--text);
     text-decoration: none;
 }
 
-.settings-sidebar a.is-current {
-    background: var(--accent);
+.features-menu a.is-current {
+    background: var(--accent-soft);
+    color: var(--text);
 }
 
-.settings-sidebar img {
-    width: 22px;
-    height: 22px;
+.feature-section {
+    padding-bottom: 40px;
 }
 
-.settings-content {
-    min-width: 0;
-    padding: 12px 40px 40px;
-}
-
-.settings-section {
-    padding-top: 32px;
-}
-
-.settings-section + .settings-section {
-    margin-top: 24px;
+.feature-section + .feature-section {
+    padding-top: 40px;
     border-top: 1px solid var(--hairline);
 }
 
-.settings-section > header {
+.feature-section > header {
     display: flex;
     align-items: center;
     gap: 14px;
     margin-bottom: 18px;
 }
 
-.settings-section > header img {
-    width: 40px;
-    height: 40px;
-}
-
-.settings-section > header h2 {
+.feature-section > header h2 {
     margin: 0;
     font-size: 28px;
 }
 
-.settings-section p,
-.settings-section li {
+.feature-section p,
+.feature-section li {
     color: var(--text-2);
 }
 
-.settings-section ul {
+.feature-section ul {
     padding-left: 1.2em;
 }
 
-.settings-section li {
+.feature-section li {
     margin-bottom: 6px;
 }
 
-.settings-section strong {
+.feature-section strong {
     color: var(--text);
 }
 
-.settings-section figure {
+.feature-section figure {
     margin: 20px 0;
+}
+
+@media (max-width: 860px) {
+    .features {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 24px;
+    }
+
+    .features-menu {
+        top: 52px;
+        z-index: 2;
+        margin-inline: calc(-1 * var(--gutter));
+        padding: 8px var(--gutter);
+        border-bottom: 1px solid var(--hairline);
+        background: var(--glass-strong);
+        -webkit-backdrop-filter: var(--glass-blur);
+        backdrop-filter: var(--glass-blur);
+    }
+
+    .features-menu ul {
+        display: flex;
+        gap: 4px;
+        overflow-x: auto;
+        scrollbar-width: none;
+    }
+
+    .features-menu ul::-webkit-scrollbar {
+        display: none;
+    }
+
+    .features-menu li {
+        flex: none;
+    }
+}
+
+@media (max-width: 720px) {
+    .features-menu {
+        position: static;
+    }
 }
 
 /* A grouped form like the app's FormGroup. */
@@ -911,52 +913,6 @@ tr:last-child td {
 .form-row span:last-child {
     color: var(--text-2);
     text-align: right;
-}
-
-@media (max-width: 860px) {
-    .settings {
-        grid-template-columns: 1fr;
-    }
-
-    .settings-sidebar {
-        top: 52px;
-        z-index: 2;
-        max-height: none;
-        padding: 10px;
-        border-right: 0;
-        border-bottom: 1px solid var(--hairline);
-        background: var(--glass-strong);
-    }
-
-    .settings-sidebar .lights {
-        display: none;
-    }
-
-    .settings-sidebar ul {
-        display: flex;
-        gap: 4px;
-        overflow-x: auto;
-        scrollbar-width: none;
-    }
-
-    .settings-sidebar li {
-        flex: none;
-    }
-
-    .settings-sidebar a {
-        padding-right: 12px;
-        white-space: nowrap;
-    }
-
-    .settings-content {
-        padding: 0 20px 28px;
-    }
-}
-
-@media (max-width: 720px) {
-    .settings-sidebar {
-        position: static;
-    }
 }
 
 /* ---------- Download ---------- */
@@ -1183,11 +1139,6 @@ tr:last-child td {
 
 .feature-card .tile {
     margin-bottom: 14px;
-}
-
-.settings-section > header .tile {
-    width: 40px;
-    height: 40px;
 }
 
 /* Screenshots of the window over the desktop: tall, never wider than the window. */
@@ -1642,7 +1593,7 @@ tr:last-child td {
     color: #1d1006;
 }
 
-@media (max-width: 720px) {
+@media (max-width: 1080px) {
     .language-menu summary span {
         display: none;
     }

@@ -1,4 +1,4 @@
-// Rask Metronom site: download links, copy buttons, the Features sidebar
+// Rask Metronom site: download links, copy buttons, the Features menu
 // and the beat explorer (with its player) on How to use.
 
 (function () {
@@ -84,9 +84,9 @@
         });
     }
 
-    // Highlight the sidebar item of the section in view, like System Settings.
-    function trackSettingsSidebar() {
-        var links = Array.prototype.slice.call(document.querySelectorAll(".settings-sidebar a[href^='#']"));
+    // Highlight the Features menu item of the section in view.
+    function trackFeaturesMenu() {
+        var links = Array.prototype.slice.call(document.querySelectorAll(".features-menu a[href^='#']"));
         if (!links.length || !("IntersectionObserver" in window)) {
             return;
         }
@@ -105,7 +105,7 @@
                 var current = byId[entry.target.id];
                 if (current) {
                     current.classList.add("is-current");
-                    // The sidebar is a horizontal strip on narrow screens:
+                    // The menu is a horizontal strip on narrow screens:
                     // keep the item in view without scrolling the page.
                     var list = current.closest("ul");
                     var offset = current.getBoundingClientRect().left - list.getBoundingClientRect().left;
@@ -414,7 +414,7 @@
     document.addEventListener("DOMContentLoaded", function () {
         resolveDownload();
         addCopyButtons();
-        trackSettingsSidebar();
+        trackFeaturesMenu();
         initExplorer();
     });
 })();

@@ -1,6 +1,6 @@
 {%- include i18n.html -%}
 {%- assign f = t.features -%}
-{%- comment -%} section id, sidebar key, icon, glyph (a site icon, else a note icon) {%- endcomment -%}
+{%- comment -%} section id, menu key, icon, glyph (a site icon, else a note icon) {%- endcomment -%}
 {%- assign sections = "tempo:tempo:gauge:1,time-signature:meter:meter:1,note-values:notes:eighth-note:0,beat-bar:bar:bars:1,sound:sound:speaker:1,timing:timing:wave:1,auto-increment:rise:rise:1,keyboard:keyboard:keyboard:1,appearance:appearance:appearance:1,settings:settings:gear:1,platforms:platforms:devices:1,updates:updates:update:1" | split: "," -%}
 <div class="page container">
   <header class="page-header">
@@ -9,25 +9,25 @@
     <p class="lead">{% include tr.html s=f.lead %}</p>
   </header>
 
-  <div class="settings glass-card">
-    <aside class="settings-sidebar" aria-label="{{ f.eyebrow }}">
-      <span class="lights" aria-hidden="true"><i></i><i></i><i></i></span>
+  <div class="features">
+    <nav class="features-menu" aria-label="{{ f.eyebrow }}">
       <ul>
         {%- for section in sections %}
         {%- assign s = section | split: ":" %}
+        {%- assign key = s[1] %}
         {%- assign icon = s[2] %}
-        <li><a href="#{{ s[0] }}">{% if s[3] == "1" %}{% include tile.html name=icon glyph=true small=true %}{% else %}{% include tile.html name=icon small=true %}{% endif %}{{ f.sidebar[s[1]] }}</a></li>
+        <li><a href="#{{ s[0] }}">{% if s[3] == "1" %}{% include tile.html name=icon glyph=true small=true %}{% else %}{% include tile.html name=icon small=true %}{% endif %}{{ f.menu[key] }}</a></li>
         {%- endfor %}
       </ul>
-    </aside>
+    </nav>
 
-    <div class="settings-content">
+    <div class="features-content">
       {%- for section in sections %}
       {%- assign s = section | split: ":" %}
       {%- assign key = s[1] %}
-      <section class="settings-section" id="{{ s[0] }}">
+      <section class="feature-section" id="{{ s[0] }}">
         {%- assign icon = s[2] %}
-        <header>{% if s[3] == "1" %}{% include tile.html name=icon glyph=true %}{% else %}{% include tile.html name=icon %}{% endif %}<h2>{{ f.sidebar[key] }}</h2></header>
+        <header>{% if s[3] == "1" %}{% include tile.html name=icon glyph=true %}{% else %}{% include tile.html name=icon %}{% endif %}<h2>{{ f.menu[key] }}</h2></header>
         {%- case key %}
         {%- when "tempo" %}
         <p>{{ f.tempo_text }}</p>

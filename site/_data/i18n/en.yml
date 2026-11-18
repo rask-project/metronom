@@ -119,8 +119,8 @@ home:
 features:
   eyebrow: "Features"
   title: "Everything Rask Metronom does"
-  lead: "A tour of the app, laid out like a Settings window. For the music behind it — tempo, time signatures and note values — see <a href=\"%base%guide/\">How to use</a>."
-  sidebar:
+  lead: "A tour of the app. For the music behind it — tempo, time signatures and note values — see <a href=\"%base%guide/\">How to use</a>."
+  menu:
     tempo: "Tempo"
     meter: "Time Signature"
     notes: "Note Values"

@@ -115,8 +115,8 @@ home:
 features:
   eyebrow: "Funciones"
   title: "Todo lo que hace Rask Metronom"
-  lead: "Un recorrido por la app, ordenado como una ventana de Ajustes. Para la música que hay detrás —tempo, compases y división rítmica— consulta <a href=\"%base%guide/\">Cómo usar</a>."
-  sidebar:
+  lead: "Un recorrido por la app. Para la música que hay detrás —tempo, compases y división rítmica— consulta <a href=\"%base%guide/\">Cómo usar</a>."
+  menu:
     tempo: "Tempo"
     meter: "Compás"
     notes: "División rítmica"
