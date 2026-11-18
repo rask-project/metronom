@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.16)
 set(CMAKE_OSX_ARCHITECTURES "arm64" CACHE STRING "macOS target architecture")
 set(CMAKE_OSX_DEPLOYMENT_TARGET "14.4" CACHE STRING "Minimum supported macOS version")
 
-project(Metronom VERSION 3.0.0 LANGUAGES CXX)
+project(Metronom VERSION 3.1.0 LANGUAGES CXX)
 if(APPLE)
     enable_language(OBJCXX)
 endif()
