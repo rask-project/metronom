@@ -4,17 +4,17 @@
 <context>
     <name>AboutDialog</name>
     <message>
-        <location filename="../Controls/AboutDialog.qml" line="41"/>
+        <location filename="../Controls/AboutDialog.qml" line="40"/>
         <source>Version %1</source>
         <translation>Versión %1</translation>
     </message>
     <message>
-        <location filename="../Controls/AboutDialog.qml" line="50"/>
+        <location filename="../Controls/AboutDialog.qml" line="49"/>
         <source>Built with Qt %1, running on Qt %2</source>
         <translation>Compilado con Qt %1, ejecutándose en Qt %2</translation>
     </message>
     <message>
-        <location filename="../Controls/AboutDialog.qml" line="59"/>
+        <location filename="../Controls/AboutDialog.qml" line="58"/>
         <source>MIT License</source>
         <translation>Licencia MIT</translation>
     </message>
@@ -43,7 +43,7 @@
 <context>
     <name>BpmControl</name>
     <message>
-        <location filename="../Metronom/BpmControl.qml" line="65"/>
+        <location filename="../Metronom/BpmControl.qml" line="70"/>
         <source>BPM</source>
         <translation>BPM</translation>
     </message>
@@ -59,6 +59,14 @@
         <location filename="../Metronom/LanguageSelector.qml" line="30"/>
         <source>To change the language, you need to restart the application.</source>
         <translation>Para cambiar el idioma, es necesario reiniciar la aplicación.</translation>
+    </message>
+</context>
+<context>
+    <name>Main</name>
+    <message>
+        <location filename="../Main.qml" line="128"/>
+        <source>Help</source>
+        <translation>Ayuda</translation>
     </message>
 </context>
 <context>
@@ -97,22 +105,22 @@
 <context>
     <name>SettingsDialog</name>
     <message>
-        <location filename="../Controls/SettingsDialog.qml" line="27"/>
+        <location filename="../Controls/SettingsDialog.qml" line="26"/>
         <source>Settings</source>
         <translation>Ajustes</translation>
     </message>
     <message>
-        <location filename="../Controls/SettingsDialog.qml" line="48"/>
+        <location filename="../Controls/SettingsDialog.qml" line="54"/>
         <source>Dark mode</source>
         <translation>Modo oscuro</translation>
     </message>
     <message>
-        <location filename="../Controls/SettingsDialog.qml" line="57"/>
+        <location filename="../Controls/SettingsDialog.qml" line="63"/>
         <source>Save the BPM, time signature and note value</source>
         <translation>Guardar el BPM, el compás y la división rítmica</translation>
     </message>
     <message>
-        <location filename="../Controls/SettingsDialog.qml" line="95"/>
+        <location filename="../Controls/SettingsDialog.qml" line="101"/>
         <source>About Rask Metronom</source>
         <translation>Acerca de Rask Metronom</translation>
     </message>
@@ -128,7 +136,7 @@
 <context>
     <name>Transport</name>
     <message>
-        <location filename="../Metronom/Transport.qml" line="25"/>
+        <location filename="../Metronom/Transport.qml" line="24"/>
         <source>Time signature</source>
         <translation>Compás</translation>
     </message>

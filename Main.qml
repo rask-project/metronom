@@ -120,6 +120,18 @@ Window {
             translucent: nativeWindow.translucent
             leadingInset: nativeWindow.leadingInset
 
+            helpButton: ToolButton {
+                anchors.centerIn: parent
+
+                icon.name: "help"
+
+                ToolTip.text: qsTr("Help")
+                ToolTip.visible: hovered
+                ToolTip.delay: 500
+
+                onClicked: Qt.openUrlExternally(AppInfo.helpUrl)
+            }
+
             settingsButton: ToolButton {
                 anchors.centerIn: parent
 

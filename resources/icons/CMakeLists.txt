@@ -13,6 +13,7 @@ list(APPEND ICONS_SRC
     metronom/svg/arrow-down-double.svg
     metronom/svg/arrow-up-double.svg
     metronom/svg/settings.svg
+    metronom/svg/help.svg
 )
 
 qt_add_resources(${TARGET_NAME} "icons"

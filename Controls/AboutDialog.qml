@@ -65,6 +65,17 @@ Dialog {
             Layout.fillWidth: true
             Layout.topMargin: 8
 
+            text: "<a href=\"%1\">rask-project.github.io/metronom</a>".arg(AppInfo.websiteUrl)
+            textFormat: Text.StyledText
+            linkColor: Theme.accent
+            horizontalAlignment: Text.AlignHCenter
+
+            onLinkActivated: link => Qt.openUrlExternally(link)
+        }
+
+        Label {
+            Layout.fillWidth: true
+
             text: "<a href=\"https://github.com/rask-project/metronom\">github.com/rask-project/metronom</a>"
             textFormat: Text.StyledText
             linkColor: Theme.accent

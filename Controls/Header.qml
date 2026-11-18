@@ -9,6 +9,7 @@ T.ToolBar {
     id: control
 
     required property string title
+    property ToolButton helpButton
     property ToolButton settingsButton
     // macOS: the header shares the title bar and starts after the window buttons.
     property bool translucent: false
@@ -57,9 +58,18 @@ T.ToolBar {
         }
 
         Item {
+            visible: control.helpButton !== null
+
+            Layout.preferredWidth: control.helpButton?.implicitWidth ?? 0
+            Layout.preferredHeight: 48
+
+            children: [control.helpButton]
+        }
+
+        Item {
             visible: control.settingsButton !== null
 
-            Layout.preferredWidth: 48
+            Layout.preferredWidth: control.settingsButton?.implicitWidth ?? 0
             Layout.preferredHeight: 48
 
             children: [control.settingsButton]
