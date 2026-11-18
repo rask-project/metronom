@@ -10,6 +10,8 @@ QtObject {
     readonly property color accent: dark ? "#ffcc80" : "#ff9800"
     // Fills of native controls (switch, slider): saturated on both themes, as the macOS accent colours.
     readonly property color controlAccent: "#ff9800"
+    // Material primary text; the palette does not follow a theme change under Material.
+    readonly property color foreground: dark ? "#ffffff" : "#dd000000"
     // Material Deep Orange 500.
     readonly property color primary: "#ff5722"
 
