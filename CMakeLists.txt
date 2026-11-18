@@ -141,6 +141,7 @@ qt_add_qml_module(${TARGET_NAME}
         Controls/AboutDialog.qml
         Controls/Background.qml
         Controls/BlurOverlay.qml
+        Controls/DialogBackground.qml
         Controls/Header.qml
         Controls/SettingsDialog.qml
         Controls/TimeSignatureDialog.qml

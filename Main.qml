@@ -45,7 +45,7 @@ Window {
 
     // Material only: other styles follow the color scheme set by Appearance.
     M.Material.theme: Appearance.dark ? M.Material.Dark : M.Material.Light
-    palette.accent: Theme.accent
+    palette.accent: Theme.controlAccent
 
     Settings {
         id: appSettings

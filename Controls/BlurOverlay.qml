@@ -2,6 +2,8 @@ import QtQuick
 import QtQuick.Window
 import QtQuick.Effects
 
+import Metronom
+
 Item {
     // The page, not the window's contentItem: that one holds the overlay itself.
     readonly property Item blurSourceItem: Window.window?.blurSourceItem ?? null
@@ -35,5 +37,10 @@ Item {
         blur: 1.0
         blurMax: 32
         autoPaddingEnabled: false
+    }
+
+    Rectangle {
+        anchors.fill: parent
+        color: Theme.dim
     }
 }

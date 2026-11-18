@@ -74,12 +74,7 @@ Dialog {
         }
     }
 
-    background: Background {
-        radius: Theme.dialogRadius
-        opacity: 0.95
-        border.color: Theme.dialogBorder
-        border.width: 1
-    }
+    background: DialogBackground {}
 
     T.Overlay.modal: BlurOverlay {}
 }
