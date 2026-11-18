@@ -1,6 +1,6 @@
 import QtQuick
 import QtCore
-import QtQuick.Controls
+import QtQuick.Controls.Material
 import Metronom
 
 import "Controls"

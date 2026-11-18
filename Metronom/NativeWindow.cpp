@@ -67,6 +67,21 @@ void NativeWindow::setAlpha(qreal alpha)
     apply();
 }
 
+bool NativeWindow::dark() const noexcept
+{
+    return m_dark;
+}
+
+void NativeWindow::setDark(bool dark)
+{
+    if (m_dark == dark) {
+        return;
+    }
+    m_dark = dark;
+    emit darkChanged();
+    apply();
+}
+
 bool NativeWindow::translucent() const noexcept
 {
 #ifdef Q_OS_MACOS
@@ -88,7 +103,7 @@ void NativeWindow::apply()
         return;
     }
     const WId winId = m_window->winId();
-    MacWindowEffects::applyTranslucentWindow(winId, m_color, m_alpha);
+    MacWindowEffects::applyTranslucentWindow(winId, m_color, m_alpha, m_dark);
     MacWindowEffects::setWindowResizable(winId, m_window->minimumSize() != m_window->maximumSize());
 
     const qreal inset = MacWindowEffects::windowButtonsTrailingEdge(winId);

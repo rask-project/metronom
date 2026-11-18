@@ -102,7 +102,7 @@ Dialog {
         Material.roundedScale: Material.LargeScale
 
         opacity: 0.95
-        border.color: Material.theme === Material.Dark ? Qt.darker(Material.accent, 10) : Qt.lighter(Material.accent, 1.8)
+        border.color: Material.theme === Material.Dark ? Qt.darker(Material.accent, 7) : Qt.lighter(Material.accent, 1.9)
         border.width: 1
     }
 

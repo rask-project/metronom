@@ -126,13 +126,14 @@ void raiseContentAboveToolbar(NSWindow *window, NSView *frameView, NSView *conte
 }
 } // namespace
 
-void MacWindowEffects::applyTranslucentWindow(WId winId, const QColor &color, qreal alpha)
+void MacWindowEffects::applyTranslucentWindow(WId winId, const QColor &color, qreal alpha, bool dark)
 {
     NSWindow *const window = windowFromId(winId);
     if (window == nil) {
         return;
     }
 
+    [window setAppearance:[NSAppearance appearanceNamed:dark ? NSAppearanceNameDarkAqua : NSAppearanceNameAqua]];
     [window setTitleVisibility:NSWindowTitleHidden];
     [window setOpaque:NO];
     [window setBackgroundColor:[NSColor colorWithRed:color.redF() green:color.greenF() blue:color.blueF() alpha:alpha]];

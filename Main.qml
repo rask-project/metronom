@@ -1,6 +1,6 @@
 import QtQuick
 import QtCore
-import QtQuick.Controls
+import QtQuick.Controls.Material
 import QtQuick.Templates as T
 import QtQuick.Layouts
 import QtQuick.Effects
@@ -72,6 +72,7 @@ Window {
         window: window
         color: pageBackground.gradientStop2
         alpha: 1.0
+        dark: pageBackground.isDark
     }
 
     StatusBarController {
