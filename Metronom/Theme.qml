@@ -14,6 +14,9 @@ QtObject {
     readonly property color foreground: dark ? "#ffffff" : "#dd000000"
     // Material Deep Orange 500.
     readonly property color primary: "#ff5722"
+    // Timing feedback: Material Green 400 / 200 on time, Red 600 / 200 late, primary early.
+    readonly property color onTime: dark ? "#a5d6a7" : "#66bb6a"
+    readonly property color late: dark ? "#ef9a9a" : "#e53935"
 
     readonly property color backgroundStart: dark ? Qt.darker(accent, 15) : Qt.lighter(accent, 2.00)
     readonly property color backgroundEnd: dark ? Qt.darker(accent, 30) : Qt.lighter(accent, 1.95)
@@ -25,4 +28,15 @@ QtObject {
     readonly property color scrim: Qt.rgba(0, 0, 0, 0.5)
 
     readonly property real dialogRadius: 16
+
+    function timingColor(accuracy: int): color {
+        switch (accuracy) {
+        case TimingAnalyzer.Early:
+            return primary;
+        case TimingAnalyzer.Late:
+            return late;
+        default:
+            return onTime;
+        }
+    }
 }

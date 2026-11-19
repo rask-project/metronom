@@ -73,6 +73,12 @@ Dialog {
                 metronome: control.metronome
             }
 
+            TimingControl {
+                Layout.fillWidth: true
+
+                timing: control.metronome.timing
+            }
+
             LanguageSelector {
                 Layout.fillWidth: true
                 Layout.alignment: Qt.AlignHCenter

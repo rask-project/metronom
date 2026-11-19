@@ -1,5 +1,8 @@
 #include "Metronome.h"
 
+#include "AudioDevices.h"
+#include "AudioOutputInfo.h"
+
 #include <QAudioDevice>
 #include <QAudioFormat>
 #include <QAudioSink>
@@ -14,6 +17,7 @@
 #include <numbers>
 #include <ranges>
 #include <type_traits>
+#include <utility>
 
 namespace
 {
@@ -35,6 +39,7 @@ constexpr int kMaxNumerator = 12;
 constexpr std::array<int, 3> kDenominators{2, 4, 8};
 constexpr int kMaxSubdivisions = 8;
 constexpr int kPositionPollMs = 4;
+constexpr int kCalibrationBpm = 120;
 
 // Note lengths in 1/32 of a whole note, so dotted notes are whole numbers.
 constexpr int kWholeLength = 32;
@@ -140,7 +145,7 @@ std::vector<float> renderClick(const ClickSound &sound, int sampleRate)
 Metronome::Metronome(QObject *parent)
     : QObject(parent)
     , m_devices(QMediaDevices::audioOutputs())
-    , m_currentDevice(defaultDeviceIndex())
+    , m_currentDevice(AudioDevices::chosenOrDefaultIndex(m_devices, QSettings().value("audioOutput").toByteArray()))
 {
     m_autoIncrement = QSettings().value("autoIncrement", false).toBool();
     m_autoIncrementInterval = QSettings().value("autoIncrementInterval", 60).toInt();
@@ -151,19 +156,22 @@ Metronome::Metronome(QObject *parent)
     m_positionTimer.setInterval(kPositionPollMs);
     connect(&m_positionTimer, &QTimer::timeout, this, &Metronome::pollPosition);
 
+    // Queued: finishing may restart the audio, which stops the analyzer that is emitting.
+    connect(&m_timing, &TimingAnalyzer::calibrationFinished, this, &Metronome::finishCalibration, Qt::QueuedConnection);
+    connect(&m_timing, &TimingAnalyzer::enabledChanged, this, &Metronome::restartIfRunning);
+    connect(&m_timing, &TimingAnalyzer::microphoneGranted, this, &Metronome::restartIfRunning);
+    connect(&m_timing, &TimingAnalyzer::inputDeviceSwitched, this, &Metronome::restartIfRunning);
+    connect(&m_mediaDevices, &QMediaDevices::audioOutputsChanged, this, &Metronome::refreshAudioDevices);
+    connect(&m_mediaDevices, &QMediaDevices::audioInputsChanged, this, &Metronome::refreshAudioDevices);
+
     publishTickConfig();
-    rebuildAudio();
+    rebuildAudio(deviceAt(m_currentDevice));
+    m_timing.setOutputDevice(deviceAt(m_currentDevice).id());
 }
 
 Metronome::~Metronome()
 {
     stop();
-}
-
-int Metronome::defaultDeviceIndex() const
-{
-    const auto it = std::ranges::find_if(m_devices, &QAudioDevice::isDefault);
-    return it == m_devices.end() ? 0 : static_cast<int>(std::distance(m_devices.begin(), it));
 }
 
 QAudioDevice Metronome::deviceAt(int index) const
@@ -174,9 +182,9 @@ QAudioDevice Metronome::deviceAt(int index) const
     return m_devices.value(index);
 }
 
-void Metronome::rebuildAudio()
+void Metronome::rebuildAudio(const QAudioDevice &device)
 {
-    const QAudioDevice device = deviceAt(m_currentDevice);
+    m_sinkDeviceId = device.id();
     m_format = chooseFormat(device);
     m_sampleRate = m_format.sampleRate();
     m_channelCount = m_format.channelCount();
@@ -188,15 +196,44 @@ void Metronome::rebuildAudio()
 
 QList<QString> Metronome::audioDeviceNames() const
 {
-    QList<QString> names;
-    names.reserve(m_devices.size());
-    std::ranges::transform(m_devices, std::back_inserter(names), &QAudioDevice::description);
-    return names;
+    return AudioDevices::names(m_devices);
 }
 
 int Metronome::currentAudioDevice() const
 {
     return m_currentDevice;
+}
+
+void Metronome::restartIfRunning()
+{
+    if (!m_running) {
+        return;
+    }
+    stop();
+    start();
+}
+
+void Metronome::refreshAudioDevices()
+{
+    m_timing.refreshInputDevices();
+
+    const QByteArray previousId = deviceAt(m_currentDevice).id();
+    m_devices = QMediaDevices::audioOutputs();
+    m_currentDevice = AudioDevices::chosenOrDefaultIndex(m_devices, QSettings().value("audioOutput").toByteArray());
+    emit audioDevicesChanged();
+    emit currentAudioDeviceChanged();
+
+    if (deviceAt(m_currentDevice).id() == previousId) {
+        return;
+    }
+
+    const bool wasRunning = m_running;
+    stop();
+    rebuildAudio(deviceAt(m_currentDevice));
+    m_timing.setOutputDevice(deviceAt(m_currentDevice).id());
+    if (wasRunning) {
+        start();
+    }
 }
 
 void Metronome::setCurrentAudioDevice(int index)
@@ -215,7 +252,9 @@ void Metronome::setCurrentAudioDevice(int index)
     }
 
     m_currentDevice = index;
-    rebuildAudio();
+    QSettings().setValue("audioOutput", deviceAt(m_currentDevice).id());
+    rebuildAudio(deviceAt(m_currentDevice));
+    m_timing.setOutputDevice(deviceAt(m_currentDevice).id());
 
     emit currentAudioDeviceChanged();
 
@@ -382,19 +421,34 @@ int Metronome::currentSubdivision() const
     return m_currentSubdivision;
 }
 
+// Calibration: one accented click per beat at a fixed tempo, so each click is easy to tell apart.
 void Metronome::publishTickConfig()
 {
+    if (m_calibrating) {
+        m_tickConfig.store(packTickConfig(kCalibrationBpm, 1, 1), std::memory_order_release);
+        return;
+    }
     m_tickConfig.store(packTickConfig(m_bpm, subdivisions(), beatsPerMeasure()), std::memory_order_release);
 }
 
+// A tick is published when its click is written; it is shown once the output delay has passed, when it is heard.
 void Metronome::pollPosition()
 {
+    const auto now = std::chrono::steady_clock::now();
     const std::uint32_t position = m_tickPosition.load(std::memory_order_acquire);
-    if (position == m_lastTickPosition) {
-        return;
+    if (position != m_lastTickPosition) {
+        m_lastTickPosition = position;
+        m_heardPositions.emplace_back(position, now + m_outputDelay);
     }
 
-    m_lastTickPosition = position;
+    while (!m_heardPositions.empty() && m_heardPositions.front().second <= now) {
+        applyPosition(m_heardPositions.front().first);
+        m_heardPositions.pop_front();
+    }
+}
+
+void Metronome::applyPosition(std::uint32_t position)
+{
     m_currentBeat = unpackField(position, 8U, 0xFFU);
     m_currentSubdivision = unpackField(position, 0U, 0xFFU);
     emit ticked();
@@ -426,6 +480,7 @@ template <typename T> void Metronome::fillSamples(QSpan<T> samples) noexcept
 
     const qint64 frameCount = samples.size() / m_channelCount;
     qint64 frame = 0;
+    m_timing.outputCallback(m_framesWritten);
 
     while (frame < frameCount) {
         const qint64 tickFrame = static_cast<qint64>(m_nextTickFrame) - m_framesWritten;
@@ -466,6 +521,14 @@ void Metronome::startTick() noexcept
     const std::vector<float> &beatClick = downbeat ? m_accentClick : m_beatClick;
     m_activeClick = m_audioSubdivision == 0 ? &beatClick : &m_subdivisionClick;
     m_activeClickPos = 0;
+    m_timing.tickPlayed(
+        {.frame = static_cast<qint64>(m_nextTickFrame),
+         .bpm = static_cast<int>(std::lround(60.0 * m_sampleRate / m_beatFrames)),
+         .beatsPerMeasure = m_audioBeatsPerMeasure,
+         .subdivisions = m_audioSubdivisions,
+         .beat = m_audioBeat,
+         .subdivision = m_audioSubdivision}
+    );
 
     ++m_tickSerial;
     m_tickPosition.store(packTickPosition(m_tickSerial, m_audioBeat, m_audioSubdivision), std::memory_order_release);
@@ -481,14 +544,53 @@ void Metronome::startTick() noexcept
     m_nextTickFrame = m_beatStartFrame + m_beatFrames;
 }
 
+// The microphone has to hear the calibration clicks: the device's own speaker plays them, else the system output.
+QAudioDevice Metronome::calibrationOutput() const
+{
+    if (const auto speakerId = AudioOutputInfo::builtInSpeakerId()) {
+        if (const auto index = AudioDevices::indexOf(m_devices, *speakerId)) {
+            return m_devices.value(*index);
+        }
+    }
+    return QMediaDevices::defaultAudioOutput();
+}
+
+// Calibrating on another output than the chosen one (headphones) adds the difference of their reported latencies.
+bool Metronome::useCalibrationOutput()
+{
+    m_timing.setLatencyAdjustment(0.0);
+    if (!m_timing.needsCalibration() || m_calibrationFailed) {
+        return false;
+    }
+
+    const QAudioDevice chosen = deviceAt(m_currentDevice);
+    const QAudioDevice output = calibrationOutput();
+    if (output.isNull() || output.id() == chosen.id()) {
+        return false;
+    }
+
+    const auto chosenLatency = AudioOutputInfo::latencySeconds(chosen.id());
+    const auto outputLatency = AudioOutputInfo::latencySeconds(output.id());
+    if (chosenLatency && outputLatency) {
+        m_timing.setLatencyAdjustment(*chosenLatency - *outputLatency);
+    }
+    rebuildAudio(output);
+    return true;
+}
+
 void Metronome::start()
 {
     if (m_running) {
         return;
     }
 
+    const bool onOtherOutput = useCalibrationOutput();
+
     if (m_format.sampleFormat() != QAudioFormat::Int16 && m_format.sampleFormat() != QAudioFormat::Float) {
         qWarning() << "Unsupported audio sample format";
+        if (onOtherOutput) {
+            rebuildAudio(deviceAt(m_currentDevice));
+        }
         return;
     }
 
@@ -504,6 +606,13 @@ void Metronome::start()
     m_currentBeat = 0;
     m_currentSubdivision = 0;
 
+    m_calibrating = m_timing.start(m_sampleRate, !std::exchange(m_calibrationFailed, false));
+    publishTickConfig();
+    if (onOtherOutput && !m_calibrating) {
+        rebuildAudio(deviceAt(m_currentDevice));
+    }
+    m_calibratingOnOtherOutput = onOtherOutput && m_calibrating;
+
     m_running = true;
     m_screenLock.setInhibited(true);
 
@@ -513,6 +622,11 @@ void Metronome::start()
         m_sink->start([this](QSpan<float> samples) { fillSamples(samples); });
     }
 
+    // What the system reports for the device (macOS); the callback sink adds no buffering of its own.
+    m_outputDelay = std::chrono::duration_cast<std::chrono::steady_clock::duration>(
+        std::chrono::duration<double>(AudioOutputInfo::latencySeconds(m_sinkDeviceId).value_or(0.0))
+    );
+    m_heardPositions.clear();
     m_positionTimer.start();
     emit runningChanged();
     updateAutoIncrementTimer();
@@ -538,6 +652,13 @@ void Metronome::stop()
 
     m_sink->stop();
     m_positionTimer.stop();
+    m_timing.stop();
+    m_calibrating = false;
+    publishTickConfig();
+    if (m_calibratingOnOtherOutput) {
+        m_calibratingOnOtherOutput = false;
+        rebuildAudio(deviceAt(m_currentDevice));
+    }
     emit runningChanged();
     updateAutoIncrementTimer();
 }
@@ -605,6 +726,23 @@ void Metronome::setAutoIncrementInterval(int seconds)
     QSettings().setValue("autoIncrementInterval", seconds);
     emit autoIncrementIntervalChanged();
     updateAutoIncrementTimer();
+}
+
+TimingAnalyzer *Metronome::timing()
+{
+    return &m_timing;
+}
+
+void Metronome::finishCalibration()
+{
+    m_calibrating = false;
+    publishTickConfig();
+    if (!m_calibratingOnOtherOutput) {
+        return;
+    }
+    // Back on the chosen output; a failed calibration is tried again on the next play.
+    m_calibrationFailed = !m_timing.calibrated();
+    restartIfRunning();
 }
 
 void Metronome::updateAutoIncrementTimer()

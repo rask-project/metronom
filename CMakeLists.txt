@@ -176,13 +176,17 @@ if(CMAKE_BUILD_TYPE STREQUAL "Debug")
     string(APPEND METRONOM_BUNDLE_ID ".debug")
 endif()
 
+# The Sparkle keys go in first, so the template Qt reads its permission usage descriptions from
+# (with PlistBuddy) is a valid plist; CMake fills the ${MACOSX_BUNDLE_*} fields afterwards.
+configure_file(cmake/Info.plist.in "${CMAKE_CURRENT_BINARY_DIR}/Info.plist.in" @ONLY)
+
 set_target_properties(${TARGET_NAME} PROPERTIES
     MACOSX_BUNDLE_BUNDLE_NAME "Metronom"
     MACOSX_BUNDLE_GUI_IDENTIFIER ${METRONOM_BUNDLE_ID}
     MACOSX_BUNDLE_BUNDLE_VERSION ${METRONOM_BUNDLE_VERSION}
     MACOSX_BUNDLE_SHORT_VERSION_STRING ${METRONOM_DISPLAY_VERSION}
     MACOSX_BUNDLE_COPYRIGHT "Copyright (c) 2026 Rask Project"
-    MACOSX_BUNDLE_INFO_PLIST "${CMAKE_CURRENT_SOURCE_DIR}/cmake/Info.plist.in"
+    MACOSX_BUNDLE_INFO_PLIST "${CMAKE_CURRENT_BINARY_DIR}/Info.plist.in"
     MACOSX_BUNDLE TRUE
     WIN32_EXECUTABLE TRUE
     QT_ANDROID_PACKAGE_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/android"
@@ -238,6 +242,7 @@ if(APPLE)
     install(CODE "
         set(APP_BUNDLE \"\${CMAKE_INSTALL_PREFIX}/${TARGET_NAME}.app\")
         set(CODESIGN_IDENTITY \"${METRONOM_CODESIGN_IDENTITY}\")
+        set(ENTITLEMENTS \"${CMAKE_CURRENT_SOURCE_DIR}/cmake/metronom.entitlements\")
         include(\"${CMAKE_CURRENT_SOURCE_DIR}/cmake/PruneBundle.cmake\")
     ")
 

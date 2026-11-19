@@ -19,6 +19,12 @@ qt_add_qml_module(metronom_qml
         AppInfo.cpp
         Appearance.h
         Appearance.cpp
+        AudioDevices.h
+        AudioOutputInfo.h
+        AudioOutputInfo.cpp
+        SpscQueue.h
+        TimingAnalyzer.h
+        TimingAnalyzer.cpp
     QML_FILES
         AudioDeviceSelector.qml
         AutoIncrementControl.qml
@@ -27,6 +33,7 @@ qt_add_qml_module(metronom_qml
         Metronom.qml
         NoteValueSelector.qml
         Theme.qml
+        TimingControl.qml
         Transport.qml
 )
 
@@ -34,7 +41,7 @@ if(APPLE)
     target_sources(metronom_qml PRIVATE MacWindowEffects.h MacWindowEffects.mm MacUpdater.h MacUpdater.mm)
     set_source_files_properties(MacWindowEffects.mm MacUpdater.mm PROPERTIES COMPILE_OPTIONS -fobjc-arc)
     target_link_libraries(metronom_qml PRIVATE
-        "-framework IOKit" "-framework CoreFoundation" "-framework AppKit")
+        "-framework IOKit" "-framework CoreFoundation" "-framework AppKit" "-framework CoreAudio")
     # Sparkle.framework is embedded in the bundle's Frameworks directory (top-level CMakeLists.txt).
     get_filename_component(sparkle_framework_dir "${SPARKLE_FRAMEWORK}" DIRECTORY)
     # -iframework: a system framework path, so its headers raise no warnings.

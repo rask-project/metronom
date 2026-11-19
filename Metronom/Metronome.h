@@ -1,10 +1,12 @@
 #pragma once
 
 #include "ScreenLockInhibitor.h"
+#include "TimingAnalyzer.h"
 
 #include <QAudioDevice>
 #include <QAudioFormat>
 #include <QList>
+#include <QMediaDevices>
 #include <QObject>
 #include <QSpan>
 #include <QString>
@@ -12,7 +14,9 @@
 #include <QtQmlIntegration/qqmlintegration.h>
 #include <array>
 #include <atomic>
+#include <chrono>
 #include <cstdint>
+#include <deque>
 #include <memory>
 #include <vector>
 
@@ -39,12 +43,13 @@ class Metronome : public QObject
     Q_PROPERTY(int currentSubdivision READ currentSubdivision NOTIFY ticked)
     Q_PROPERTY(QList<int> tempoMarkings READ tempoMarkings CONSTANT)
     Q_PROPERTY(QString tempoMarking READ tempoMarking NOTIFY bpmChanged)
-    Q_PROPERTY(QList<QString> audioDeviceNames READ audioDeviceNames CONSTANT)
+    Q_PROPERTY(QList<QString> audioDeviceNames READ audioDeviceNames NOTIFY audioDevicesChanged)
     Q_PROPERTY(int currentAudioDevice READ currentAudioDevice WRITE setCurrentAudioDevice NOTIFY
                    currentAudioDeviceChanged)
     Q_PROPERTY(bool autoIncrement READ autoIncrement WRITE setAutoIncrement NOTIFY autoIncrementChanged)
     Q_PROPERTY(int autoIncrementInterval READ autoIncrementInterval WRITE setAutoIncrementInterval NOTIFY
                    autoIncrementIntervalChanged)
+    Q_PROPERTY(TimingAnalyzer *timing READ timing CONSTANT)
 
 public:
     // Values are persisted in the settings: append new ones, never reorder.
@@ -94,6 +99,8 @@ public:
     int autoIncrementInterval() const;
     void setAutoIncrementInterval(int seconds);
 
+    TimingAnalyzer *timing();
+
     Q_INVOKABLE void start();
     Q_INVOKABLE void stop();
     Q_INVOKABLE void toggle();
@@ -101,6 +108,7 @@ public:
     Q_INVOKABLE void decreaseBpm();
     Q_INVOKABLE void nextTempoMarking();
     Q_INVOKABLE void previousTempoMarking();
+    Q_INVOKABLE void refreshAudioDevices();
 
 signals:
     void bpmChanged();
@@ -110,6 +118,7 @@ signals:
     void runningChanged();
     void ticked();
     void currentAudioDeviceChanged();
+    void audioDevicesChanged();
     void autoIncrementChanged();
     void autoIncrementIntervalChanged();
 
@@ -127,9 +136,13 @@ private:
     void startBeat() noexcept;
 
     QAudioDevice deviceAt(int index) const;
-    int defaultDeviceIndex() const;
-    void rebuildAudio();
+    void applyPosition(std::uint32_t position);
+    void rebuildAudio(const QAudioDevice &device);
+    QAudioDevice calibrationOutput() const;
+    bool useCalibrationOutput();
+    void restartIfRunning();
     void updateAutoIncrementTimer();
+    void finishCalibration();
 
     static constexpr int sampleRate = 44100;
     static constexpr std::array<int, 9> tempoMarkingsValues{40, 60, 66, 76, 108, 120, 168, 184, 208};
@@ -154,12 +167,18 @@ private:
     qint64 m_framesWritten = 0;
 
     std::unique_ptr<QAudioSink> m_sink;
+    // Ticks waiting to be shown when they are heard.
+    std::deque<std::pair<std::uint32_t, std::chrono::steady_clock::time_point>> m_heardPositions;
+    std::chrono::steady_clock::duration m_outputDelay{};
+    QByteArray m_sinkDeviceId;
     QList<QAudioDevice> m_devices;
+    QMediaDevices m_mediaDevices;
     QAudioFormat m_format;
     std::vector<float> m_accentClick;
     std::vector<float> m_beatClick;
     std::vector<float> m_subdivisionClick;
     ScreenLockInhibitor m_screenLock;
+    TimingAnalyzer m_timing;
     QTimer m_autoIncrementTimer;
     QTimer m_positionTimer;
 
@@ -186,4 +205,7 @@ private:
     NoteValue m_noteValue = Quarter;
     bool m_running = false;
     bool m_autoIncrement = false;
+    bool m_calibrating = false;
+    bool m_calibratingOnOtherOutput = false;
+    bool m_calibrationFailed = false;
 };

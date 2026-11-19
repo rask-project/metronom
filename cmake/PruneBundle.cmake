@@ -2,8 +2,8 @@
 # into metronom.app but the app never loads, then signs the bundle again
 # (removing files breaks the seal macdeployqt made).
 #
-# Expects APP_BUNDLE (path to metronom.app) and CODESIGN_IDENTITY (empty for
-# an ad-hoc signature).
+# Expects APP_BUNDLE (path to metronom.app), CODESIGN_IDENTITY (empty for
+# an ad-hoc signature) and ENTITLEMENTS (the app's entitlements file).
 #
 # - Quick Controls styles: QtQuick.Controls lists every style as an optional
 #   import, so the QML import scanner deploys all of them. Metronom runs its
@@ -57,10 +57,13 @@ if(CODESIGN_IDENTITY)
 else()
     set(sign_args --sign -)
 endif()
-execute_process(
-    COMMAND codesign --force --deep ${sign_args} "${APP_BUNDLE}"
-    RESULT_VARIABLE sign_result
-)
-if(NOT sign_result EQUAL 0)
-    message(FATAL_ERROR "codesign failed for ${APP_BUNDLE}")
-endif()
+# The app itself is signed again, without --deep, so only it gets the entitlements.
+foreach(extra_args IN ITEMS "--deep" "--entitlements;${ENTITLEMENTS}")
+    execute_process(
+        COMMAND codesign --force ${extra_args} ${sign_args} "${APP_BUNDLE}"
+        RESULT_VARIABLE sign_result
+    )
+    if(NOT sign_result EQUAL 0)
+        message(FATAL_ERROR "codesign failed for ${APP_BUNDLE}")
+    endif()
+endforeach()

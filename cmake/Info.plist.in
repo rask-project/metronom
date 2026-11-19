@@ -42,5 +42,8 @@
 
 	<key>NSSupportsAutomaticGraphicsSwitching</key>
 	<true/>
-${METRONOM_SPARKLE_PLIST_KEYS}</dict>
+
+	<key>NSMicrophoneUsageDescription</key>
+	<string>The microphone listens to you playing, to compare your timing with the metronome.</string>
+@METRONOM_SPARKLE_PLIST_KEYS@</dict>
 </plist>
