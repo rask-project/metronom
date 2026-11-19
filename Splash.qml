@@ -95,7 +95,11 @@ Window {
         property: "opacity"
         to: 0
         duration: 500
-        onFinished: splash.visible = false
+        // The main window can only be activated once this modal splash is gone.
+        onFinished: {
+            splash.visible = false;
+            mainLoader.item.requestActivate();
+        }
     }
 
     function start() {
