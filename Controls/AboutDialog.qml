@@ -28,7 +28,7 @@ Dialog {
         Label {
             Layout.fillWidth: true
 
-            text: "Rask Metronom"
+            text: "Metronom"
             font.pixelSize: 22
             font.bold: true
             horizontalAlignment: Text.AlignHCenter
