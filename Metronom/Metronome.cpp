@@ -383,12 +383,12 @@ qint32 Metronome::currentSubdivision() const
 
 void Metronome::publishTickConfig()
 {
-    m_tickConfig.store(packTickConfig(m_bpm, subdivisions(), beatsPerMeasure()), std::memory_order_release);
+    m_tickConfig.store(packTickConfig(m_bpm, subdivisions(), beatsPerMeasure()));
 }
 
 void Metronome::pollPosition()
 {
-    const quint32 position{m_tickPosition.load(std::memory_order_acquire)};
+    const quint32 position{m_tickPosition.load()};
     if (position == m_lastTickPosition) {
         return;
     }
@@ -443,7 +443,7 @@ template <typename T> void Metronome::fillSamples(QSpan<T> samples) noexcept
 // Settings are latched at each beat, so a change never breaks the beat grid.
 void Metronome::startBeat() noexcept
 {
-    const quint32 config{m_tickConfig.load(std::memory_order_acquire)};
+    const quint32 config{m_tickConfig.load()};
     const qint32 bpm{unpackField(config, 16U, 0xFFFFU)};
     m_audioSubdivisions = unpackField(config, 8U, 0xFFU);
     m_audioBeatsPerMeasure = unpackField(config, 0U, 0xFFU);
@@ -467,7 +467,7 @@ void Metronome::startTick() noexcept
     m_activeClickPos = 0;
 
     ++m_tickSerial;
-    m_tickPosition.store(packTickPosition(m_tickSerial, m_audioBeat, m_audioSubdivision), std::memory_order_release);
+    m_tickPosition.store(packTickPosition(m_tickSerial, m_audioBeat, m_audioSubdivision));
 
     ++m_audioSubdivision;
     if (m_audioSubdivision < m_audioSubdivisions) {
@@ -498,7 +498,7 @@ void Metronome::start()
     m_audioBeat = 0;
     m_audioSubdivision = 0;
     m_tickSerial = 0;
-    m_tickPosition.store(0, std::memory_order_relaxed);
+    m_tickPosition.store(0);
     m_lastTickPosition = 0;
     m_currentBeat = 0;
     m_currentSubdivision = 0;

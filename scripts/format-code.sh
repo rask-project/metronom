@@ -8,7 +8,7 @@ else
     CLANG_FORMAT_EXEC="clang-format"
 fi
 
-if [ $# -eq 0 ]; then
+if [[ $# -eq 0 ]]; then
     ADDITIONAL_ARGS=(-i)
 else
     ADDITIONAL_ARGS=("$@")

@@ -34,12 +34,19 @@ HEADER = """<?xml version="1.0" encoding="utf-8"?>
 FOOTER = """  </channel>
 </rss>
 """
-ITEM_RE = re.compile(r"[ \t]*<item>.*?</item>\n?", re.DOTALL)
+ITEM_RE = re.compile(r"    <item>.*?</item>\n?", re.DOTALL)
 BUILD_RE = re.compile(r"<sparkle:version>([^<]*)</sparkle:version>")
 
 
 def build_key(build: str) -> tuple:
     return tuple(int(part) if part.isdigit() else 0 for part in build.split("."))
+
+
+def safe_path(path: pathlib.Path) -> pathlib.Path:
+    """Return ``path`` resolved to an absolute path; reject ``..`` traversal."""
+    if ".." in path.parts:
+        raise ValueError(f"path traversal not allowed: {path}")
+    return path.resolve()
 
 
 def make_item(args: argparse.Namespace) -> str:
@@ -79,6 +86,13 @@ def main() -> int:
     parser.add_argument("--minimum-system", default="14.4", help="minimum macOS version")
     parser.add_argument("--keep", type=int, default=30, help="items to keep")
     args = parser.parse_args()
+    try:
+        args.appcast = safe_path(args.appcast)
+        if args.notes is not None:
+            args.notes = safe_path(args.notes)
+    except ValueError as error:
+        print(f"error: {error}", file=sys.stderr)
+        return 1
 
     existing = args.appcast.read_text(encoding="utf-8") if args.appcast.exists() else ""
     items = [item.rstrip("\n") + "\n" for item in ITEM_RE.findall(existing)]

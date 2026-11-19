@@ -1,7 +1,6 @@
 _site/
 .jekyll-cache/
 .sass-cache/
-Gemfile.lock
 vendor/
 # Copied from the repository by scripts/site-assets.sh (docs/images, the logo, resources/icons).
 assets/screenshots/

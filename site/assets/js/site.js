@@ -78,7 +78,7 @@
                     setTimeout(function () {
                         button.textContent = STRINGS.copy || "Copy";
                     }, 1600);
-                });
+                }).catch(function () {});
             });
             block.appendChild(button);
         });

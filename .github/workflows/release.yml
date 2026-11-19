@@ -8,7 +8,7 @@ on:
     tags: ["v*"]
 
 permissions:
-  contents: write # create the release, upload assets, push the appcast
+  contents: read
 
 concurrency:
   group: release
@@ -23,6 +23,8 @@ jobs:
     name: Publish GitHub Release
     needs: build
     runs-on: ubuntu-24.04
+    permissions:
+      contents: write # create the release, upload assets
     steps:
       - uses: actions/checkout@v7
         with:
@@ -65,6 +67,8 @@ jobs:
     name: Publish the macOS update (Sparkle appcast)
     needs: publish
     runs-on: macos-26
+    permissions:
+      contents: write # push the appcast
     steps:
       - uses: actions/checkout@v7
 
@@ -98,7 +102,7 @@ jobs:
           SPARKLE_SHA256=$(sed -n 's/^set(METRONOM_SPARKLE_SHA256 \(.*\))$/\1/p' cmake/Sparkle.cmake)
           SPARKLE="$RUNNER_TEMP/sparkle"
           mkdir -p "$SPARKLE"
-          curl -fsSL -o "$SPARKLE.tar.xz" \
+          curl -fsSL --proto '=https' -o "$SPARKLE.tar.xz" \
             "https://github.com/sparkle-project/Sparkle/releases/download/$SPARKLE_VERSION/Sparkle-$SPARKLE_VERSION.tar.xz"
           echo "$SPARKLE_SHA256  $SPARKLE.tar.xz" | shasum -a 256 -c -
           tar -xf "$SPARKLE.tar.xz" -C "$SPARKLE"
