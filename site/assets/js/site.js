@@ -1,4 +1,4 @@
-// Rask Metronom site: download links, copy buttons, the Features menu
+// Metronom site: download links, copy buttons, the Features menu
 // and the beat explorer (with its player) on How to use.
 
 (function () {

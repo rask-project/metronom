@@ -1,4 +1,4 @@
-/* Rask Metronom site: macOS look, dark, with the app's orange accent. */
+/* Metronom site: macOS look, dark, with the app's orange accent. */
 
 :root {
     color-scheme: dark;
@@ -1114,7 +1114,7 @@ tr:last-child td {
     }
 }
 
-/* ---------- Rask Metronom ---------- */
+/* ---------- Metronom ---------- */
 
 /* An icon tile: a line icon on the app's orange, like an app icon. */
 .tile {

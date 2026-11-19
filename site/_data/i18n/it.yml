@@ -7,7 +7,7 @@ nav:
   guide: "Come si usa"
   news: "Novità"
   download: "Scarica"
-  github: "Rask Metronom su GitHub"
+  github: "Metronom su GitHub"
   language: "Lingua"
 
 footer:
@@ -56,13 +56,13 @@ js:
 home:
   badge: "Nuovo ai tempi musicali? Leggi come si usa"
   title: "Tieni il tempo. Senti ogni battito."
-  lead: "Rask Metronom è un metronomo libero e open source per macOS, Linux e Android: clic precisi al campione, tempi musicali da 1/2 a 12/8 e suddivisioni che dividono ogni battito come lo conti tu."
+  lead: "Metronom è un metronomo libero e open source per macOS, Linux e Android: clic precisi al campione, tempi musicali da 1/2 a 12/8 e suddivisioni che dividono ogni battito come lo conti tu."
   download: "Scarica"
   guide: "Come si usa"
   note: "Libero e open source · macOS 14.4+ · Linux · Android"
   version: "Versione %v · "
-  alt_light: "Rask Metronom con il tema chiaro, in 4/4 a crome a 120 BPM"
-  alt_playing: "Rask Metronom in 4/4 a 120 BPM: il pendolo oscilla una volta per battito e la barra dei battiti si accende battito dopo battito, con la scrivania sfocata attraverso la finestra"
+  alt_light: "Metronom con il tema chiaro, in 4/4 a crome a 120 BPM"
+  alt_playing: "Metronom in 4/4 a 120 BPM: il pendolo oscilla una volta per battito e la barra dei battiti si accende battito dopo battito, con la scrivania sfocata attraverso la finestra"
   alt_settings: "Le Impostazioni con il tema scuro sopra la finestra sfocata"
   grid_eyebrow: "Tutto ciò che serve per studiare"
   grid_title: "Semplice in superficie. Preciso sotto."
@@ -108,13 +108,13 @@ home:
     - "<strong>Chiaro o scuro</strong>, indipendente dal sistema."
     - "<strong>Si aggiorna da sola:</strong> gli aggiornamenti firmati si scaricano in background e si installano quando esci."
   mac_alt: "Le Impostazioni: attivando l’aumento automatico compare il suo intervallo, poi si passa dal tema scuro a quello chiaro"
-  cta_title: "Prova Rask Metronom"
+  cta_title: "Prova Metronom"
   cta_lead: "Libero e open source, per macOS, Linux e Android."
   cta_source: "Codice su GitHub"
 
 features:
   eyebrow: "Funzionalità"
-  title: "Tutto ciò che fa Rask Metronom"
+  title: "Tutto ciò che fa Metronom"
   lead: "Un giro dell’app. Per la musica che c’è dietro — andamento, tempi musicali e divisione ritmica — vedi <a href=\"%base%guide/\">Come si usa</a>."
   menu:
     tempo: "Andamento"
@@ -160,7 +160,7 @@ features:
     - ["Battito", "Gli altri battiti"]
     - ["Suddivisione", "Le note tra i battiti — un clic leggero"]
   sound_output: "Scegli l’<strong>uscita audio</strong> nelle Impostazioni: altoparlanti, cuffie o un’interfaccia audio. Cambiare dispositivo mentre suona continua senza buchi nel conteggio."
-  timing_text: "Rask Metronom non usa un timer per i clic. Ogni clic è posto su un campione esatto del flusso audio, contato sull’orologio della scheda audio stessa: nessuna deriva tra il battito e ciò che senti, a qualsiasi andamento e per qualsiasi durata."
+  timing_text: "Metronom non usa un timer per i clic. Ogni clic è posto su un campione esatto del flusso audio, contato sull’orologio della scheda audio stessa: nessuna deriva tra il battito e ciò che senti, a qualsiasi andamento e per qualsiasi durata."
   timing_list:
     - "I clic sono generati una volta e mixati; il percorso audio non alloca memoria e non usa lock."
     - "Mentre il metronomo suona, <strong>lo schermo resta acceso</strong> su macOS, Linux (X11 e Wayland) e Android."
@@ -191,7 +191,7 @@ features:
     - ["Linux", "Un <code>.deb</code> per Debian e Ubuntu 24.04+, X11 e Wayland"]
     - ["Android", "Telefoni e tablet arm64"]
   platforms_text: "Un solo codice in Qt Quick e C++23. <a href=\"%base%download/\">Scarica →</a>"
-  updates_text: "Su macOS, una volta al giorno Rask Metronom cerca una nuova versione, la scarica in background e la installa quando esci. <strong>Rask Metronom ▸ Check for Updates…</strong> controlla subito e mostra cosa è cambiato. Gli aggiornamenti sono firmati."
+  updates_text: "Su macOS, una volta al giorno Metronom cerca una nuova versione, la scarica in background e la installa quando esci. <strong>Metronom ▸ Check for Updates…</strong> controlla subito e mostra cosa è cambiato. Gli aggiornamenti sono firmati."
 
 guide:
   eyebrow: "Come si usa"
@@ -206,7 +206,7 @@ guide:
   quick_after: "Tutto può cambiare mentre suona: un nuovo andamento, tempo musicale o divisione parte dal battito successivo, così il conteggio non si interrompe mai."
   quick_alt: "La finestra principale: le figure in alto, la rotella dei BPM con l’indicazione di andamento, il metronomo e, in basso, il play, il tempo musicale e la barra dei battiti"
   tempo_title: "1. Andamento (BPM)"
-  tempo_text: "L’andamento è la velocità del <strong>battito</strong>, in <strong>battiti al minuto</strong>. A 60 BPM c’è un battito al secondo; a 120 BPM, due. Rask Metronom va da 40 a 300 BPM."
+  tempo_text: "L’andamento è la velocità del <strong>battito</strong>, in <strong>battiti al minuto</strong>. A 60 BPM c’è un battito al secondo; a 120 BPM, due. Metronom va da 40 a 300 BPM."
   tempo_callout: "<strong>I BPM contano sempre battiti, non clic.</strong> Quale figura è il battito dipende dal tempo musicale (una semiminima in 4/4, una semiminima puntata in 6/8, vedi sotto). Scegliere crome o semicrome aggiunge clic <em>tra</em> i battiti; l’andamento non cambia."
   tempo_change_title: "Cambiare l’andamento"
   tempo_change:
@@ -223,7 +223,7 @@ guide:
     - "<strong>Il numero in basso</strong> è la figura che vale un battito: <strong>2</strong> = %half%, <strong>4</strong> = %quarter%, <strong>8</strong> = %eighth%."
   meter_after: "Quindi <strong>3/4</strong> sono tre battiti di semiminima per battuta (un valzer: <em>UN</em>-due-tre), e <strong>2/2</strong> (“tempo tagliato”) sono due battiti di minima. Il primo battito di ogni battuta riceve il clic di <strong>accento</strong>, così senti sempre dove inizia la battuta."
   compound_title: "Tempi composti: 6/8, 9/8 e 12/8"
-  compound_text: "Quando il numero in basso è 8 e quello in alto è 6, 9 o 12, le crome si sentono a <strong>gruppi di tre</strong>. Ogni gruppo è un battito, lungo una %dq% — è così che i musicisti contano una tarantella o un blues in 12/8. Rask Metronom li conta allo stesso modo:"
+  compound_text: "Quando il numero in basso è 8 e quello in alto è 6, 9 o 12, le crome si sentono a <strong>gruppi di tre</strong>. Ogni gruppo è un battito, lungo una %dq% — è così che i musicisti contano una tarantella o un blues in 12/8. Metronom li conta allo stesso modo:"
   compound_head: ["Tempo musicale", "Battiti per battuta", "Un battito vale", "Si conta"]
   compound_rows:
     - ["2/4, 3/4, 4/4, 5/4…", "il numero in alto", "%quarter%", "1 2 3 4"]
@@ -274,7 +274,7 @@ guide:
 
 download:
   eyebrow: "Scarica"
-  title: "Scarica Rask Metronom"
+  title: "Scarica Metronom"
   lead: "Libero e open source."
   version: "L’ultima versione è la %v."
   macos_text: "Un’immagine disco con l’app. Aggiornamenti firmati da lì in poi."
@@ -286,12 +286,12 @@ download:
   button: "Scarica il %ext%"
   macos_title: "Installare su macOS"
   macos_steps:
-    - "Apri il <code>.dmg</code> e trascina <strong>Rask Metronom</strong> in <strong>Applicazioni</strong>."
+    - "Apri il <code>.dmg</code> e trascina <strong>Metronom</strong> in <strong>Applicazioni</strong>."
     - "L’app non è ancora autenticata da Apple, quindi Gatekeeper blocca il primo avvio. Togli la quarantena una volta:"
-    - "Solo questa volta: Rask Metronom si aggiorna da solo, e gli aggiornamenti si aprono senza questo passaggio."
+    - "Solo questa volta: Metronom si aggiorna da solo, e gli aggiornamenti si aprono senza questo passaggio."
   macos_or: "oppure aprila e scegli <strong>Impostazioni di Sistema ▸ Privacy e sicurezza ▸ Apri comunque</strong>."
   linux_title: "Installare su Linux"
-  linux_after: "Rask Metronom compare nel menu delle applicazioni. Lo schermo resta acceso mentre suona, su X11 e Wayland."
+  linux_after: "Metronom compare nel menu delle applicazioni. Lo schermo resta acceso mentre suona, su X11 e Wayland."
   android_title: "Installare su Android"
   android_after: "Apri l’<code>.apk</code> sul dispositivo e consenti l’installazione dal browser o dal gestore di file quando Android lo chiede."
   source_title: "Compilare dai sorgenti"
@@ -300,7 +300,7 @@ download:
 
 news:
   eyebrow: "Novità"
-  title: "Le novità di Rask Metronom"
+  title: "Le novità di Metronom"
   lead: "Note di rilascio e storie dal progetto. <a href=\"%root%news/feed.xml\">Abbonati via RSS</a>."
   english: "Le note di rilascio sono pubblicate in inglese."
 

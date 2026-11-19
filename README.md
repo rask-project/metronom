@@ -1,8 +1,8 @@
 <p align="center">
-  <img src="resources/logo.png" alt="Rask Metronom logo" width="256" />
+  <img src="resources/logo.png" alt="Metronom logo" width="256" />
 </p>
 
-# Rask Metronom
+# Metronom
 
 **Website:** <https://rask-project.github.io/metronom/> — features, downloads and a guide to tempo, time signatures and note values.
 

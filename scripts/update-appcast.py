@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Add a release to Rask Metronom's Sparkle appcast (the feed "Check for Updates…" reads).
+"""Add a release to Metronom's Sparkle appcast (the feed "Check for Updates…" reads).
 
 The release workflow runs it for every tag and pushes the result to the
 `appcast` branch, served at
@@ -26,9 +26,9 @@ import sys
 HEADER = """<?xml version="1.0" encoding="utf-8"?>
 <rss version="2.0" xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle">
   <channel>
-    <title>Rask Metronom</title>
+    <title>Metronom</title>
     <link>https://github.com/rask-project/metronom/releases</link>
-    <description>Rask Metronom releases</description>
+    <description>Metronom releases</description>
     <language>en</language>
 """
 FOOTER = """  </channel>
@@ -46,7 +46,7 @@ def make_item(args: argparse.Namespace) -> str:
     esc = html.escape
     lines = [
         "    <item>",
-        f"      <title>Rask Metronom {esc(args.version)}</title>",
+        f"      <title>Metronom {esc(args.version)}</title>",
         f"      <link>{esc(args.link)}</link>" if args.link else None,
         f"      <sparkle:version>{esc(args.build)}</sparkle:version>",
         f"      <sparkle:shortVersionString>{esc(args.version)}</sparkle:shortVersionString>",

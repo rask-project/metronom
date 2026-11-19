@@ -56,7 +56,7 @@ jobs:
           if [ -n "$PREVIOUS" ]; then FLAGS+=(--notes-start-tag "$PREVIOUS"); fi
           if [[ "$GITHUB_REF_NAME" == *-* ]]; then FLAGS=(--prerelease --latest=false); fi
           gh release create "$GITHUB_REF_NAME" out/* "${FLAGS[@]}" \
-            --title "Rask Metronom ${GITHUB_REF_NAME#v}" \
+            --title "Metronom ${GITHUB_REF_NAME#v}" \
             --notes-file "$RUNNER_TEMP/notes.md" --generate-notes
 
   appcast:
@@ -123,5 +123,5 @@ jobs:
             --link "https://github.com/$GITHUB_REPOSITORY/releases/tag/$GITHUB_REF_NAME" \
             "${CHANNEL[@]}"
           git -C "$FEED" add appcast.xml
-          git -C "$FEED" commit -m "Rask Metronom $VERSION"
+          git -C "$FEED" commit -m "Metronom $VERSION"
           git -C "$FEED" push origin appcast

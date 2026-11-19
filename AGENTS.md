@@ -4,7 +4,7 @@ Guidance for AI agents working in this repository.
 
 ## Project
 
-- Rask Metronom — a metronome app in **Qt 6 / QML** (Qt Quick + Material style).
+- Metronom — a metronome app in **Qt 6 / QML** (Qt Quick + Material style).
 - Toolchain: C++23, Qt ≥ 6.10 (developed on 6.11/6.12), CMake ≥ 3.16 + Ninja.
 - Target platforms: **Android, macOS and Linux** (X11 and Wayland). Every change must keep all three building.
 

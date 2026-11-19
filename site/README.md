@@ -1,4 +1,4 @@
-# Rask Metronom site
+# Metronom site
 
 The project's home page, built by Jekyll and published to GitHub Pages
 (https://rask-project.github.io/metronom/) by `.github/workflows/pages.yml`
@@ -47,7 +47,7 @@ Add `_posts/YYYY-MM-DD-slug.md`:
 
 ```markdown
 ---
-title: "Rask Metronom 3.1.0: …"
+title: "Metronom 3.1.0: …"
 summary: "One sentence for the News list and the page's lead."
 release: v3.1.0   # optional: links the GitHub release
 ---
