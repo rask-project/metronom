@@ -101,7 +101,8 @@
     {%- assign total = e[2] | times: e[3] %}
     {%- assign note_token = "%" | append: e[1] | append: "%" %}
     {%- assign count = g.example | replace: "%beats%", e[2] | replace: "%n%", e[3] | replace: "%total%", total %}
-    {%- assign label = g.example_label | replace: "%sig%", e[0] | replace: "%note%", t.notes[e[1]] | replace: "%beats%", e[2] | replace: "%n%", e[3] %}
+    {%- assign note = e[1] %}
+    {%- assign label = g.example_label | replace: "%sig%", e[0] | replace: "%note%", t.notes[note] | replace: "%beats%", e[2] | replace: "%n%", e[3] %}
     <div class="example">
       <div class="example-head"><strong>{{ e[0] }} · {% include tr.html s=note_token %}</strong><span>{{ count }}</span></div>
       {% assign bar_beats = e[2] | plus: 0 %}{% assign bar_notes = e[3] | plus: 0 %}{% include beatbar.html beats=bar_beats notes=bar_notes label=label %}

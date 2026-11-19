@@ -30,7 +30,8 @@
   <div class="feature-grid">
     {%- for card in cards %}
     {%- assign c = card | split: ":" %}
-    {%- assign text = h.cards[c[0]] %}
+    {%- assign key = c[0] %}
+    {%- assign text = h.cards[key] %}
     <a class="feature-card glass-card" href="{{ base }}{{ c[3] }}">
       {% assign icon = c[1] %}{% if c[2] == "1" %}{% include tile.html name=icon glyph=true %}{% else %}{% include tile.html name=icon %}{% endif %}
       <h3>{{ text[0] }}</h3>
