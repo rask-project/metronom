@@ -12,7 +12,7 @@ import "Controls"
 Window {
     id: window
 
-    title: "Rask Metronom"
+    title: "Metronom"
 
     readonly property bool isLandscape: width > height && width >= layout.anchors.leftMargin + layout.anchors.rightMargin + bpmControl.implicitWidth + Math.max(noteValueSelector.implicitWidth, transport.implicitWidth)
     readonly property Item blurSourceItem: backgroundPage
@@ -269,7 +269,7 @@ Window {
     Action {
         id: aboutAction
 
-        text: "About Rask Metronom"
+        text: "About Metronom"
         onTriggered: aboutDialog.open()
     }
 
@@ -284,7 +284,7 @@ Window {
     Action {
         id: quitAction
 
-        text: "Quit Rask Metronom"
+        text: "Quit Metronom"
         shortcut: StandardKey.Quit
         onTriggered: Qt.quit()
     }

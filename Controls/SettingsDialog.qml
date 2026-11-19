@@ -98,7 +98,7 @@ Dialog {
             ItemDelegate {
                 Layout.fillWidth: true
 
-                text: qsTr("About Rask Metronom")
+                text: qsTr("About Metronom")
 
                 onClicked: control.aboutRequested()
             }

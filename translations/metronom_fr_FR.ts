@@ -121,8 +121,8 @@
     </message>
     <message>
         <location filename="../Controls/SettingsDialog.qml" line="101"/>
-        <source>About Rask Metronom</source>
-        <translation>À propos de Rask Metronom</translation>
+        <source>About Metronom</source>
+        <translation>À propos de Metronom</translation>
     </message>
 </context>
 <context>

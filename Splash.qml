@@ -15,7 +15,7 @@ Window {
     height: splash.isAndroid ? null : 420
 
     color: "transparent"
-    title: "Rask Metronom"
+    title: "Metronom"
 
     modality: Qt.ApplicationModal
     flags: Qt.SplashScreen | Qt.FramelessWindowHint
@@ -61,7 +61,7 @@ Window {
             }
 
             Label {
-                text: "Rask Metronom"
+                text: "Metronom"
                 font.pixelSize: 24
                 font.bold: true
 
