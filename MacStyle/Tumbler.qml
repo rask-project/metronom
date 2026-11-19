@@ -44,8 +44,9 @@ T.Tumbler {
         Rectangle {
             x: control.leftPadding
             y: control.topPadding + (control.availableHeight - height) / 2
+
             width: control.availableWidth
-            height: control.__delegateHeight
+            height: control.__delegateHeight * 1.2
 
             radius: 8
             color: Qt.alpha(control.palette.windowText, 0.07)

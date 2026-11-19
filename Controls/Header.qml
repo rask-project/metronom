@@ -49,7 +49,6 @@ T.ToolBar {
 
             text: control.title
             font.pixelSize: 20
-            // font.bold: true
             font.weight: Font.Medium
 
             verticalAlignment: Qt.AlignVCenter
