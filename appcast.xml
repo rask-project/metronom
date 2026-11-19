@@ -1,10 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <rss version="2.0" xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle">
   <channel>
-    <title>Rask Metronom</title>
+    <title>Metronom</title>
     <link>https://github.com/rask-project/metronom/releases</link>
-    <description>Rask Metronom releases</description>
+    <description>Metronom releases</description>
     <language>en</language>
+    <item>
+      <title>Metronom 3.1.1</title>
+      <link>https://github.com/rask-project/metronom/releases/tag/v3.1.1</link>
+      <sparkle:version>3.1.1.1000</sparkle:version>
+      <sparkle:shortVersionString>3.1.1</sparkle:shortVersionString>
+      <sparkle:minimumSystemVersion>14.4</sparkle:minimumSystemVersion>
+      <pubDate>Thu, 19 Nov 2026 12:42:31 GMT</pubDate>
+      <description sparkle:format="markdown"><![CDATA[## What's new
+
+Metronom 3.1.1 is now called just **Metronom** and polishes the time signature picker on macOS.
+
+- **New name:** "Rask" is gone from the app's name — in the window title, the menu bar, About, the Linux
+  applications menu, the Android launcher, the macOS disk image and the website.
+- **Time signature on macOS:** the highlight behind the selected number is taller, so it frames the number instead
+  of clipping it.
+]]></description>
+      <enclosure url="https://github.com/rask-project/metronom/releases/download/v3.1.1/Metronom-3.1.1-macos-arm64.zip" length="57349632" type="application/octet-stream" sparkle:edSignature="pjMtt82YhBMgnrAjfhh2YuL0g5SwO3bWRHXyacFE5vHZjjhDxPIixfAK0BMxzMdw3dhHorrRNytJcyT5faXDCw=="/>
+    </item>
     <item>
       <title>Rask Metronom 3.1.0</title>
       <link>https://github.com/rask-project/metronom/releases/tag/v3.1.0</link>
