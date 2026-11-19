@@ -69,8 +69,8 @@ void ScreenLockInhibitor::setInhibited(bool inhibited)
 
 namespace
 {
-constexpr int dbusTimeoutMs = 2000;
-constexpr uint32_t portalInhibitIdle = 8;
+constexpr qint32 dbusTimeoutMs = 2000;
+constexpr quint32 portalInhibitIdle = 8;
 constexpr const char *reason = "Metronome is playing";
 } // namespace
 
@@ -90,7 +90,7 @@ void ScreenLockInhibitor::setScreenSaverInhibited(bool inhibited)
             "Inhibit"
         );
         message.setArguments({QCoreApplication::applicationName(), QString::fromLatin1(reason)});
-        const QDBusReply<uint32_t> reply = bus.call(message, QDBus::Block, dbusTimeoutMs);
+        const QDBusReply<quint32> reply = bus.call(message, QDBus::Block, dbusTimeoutMs);
         m_screenSaverCookie = reply.isValid() ? reply.value() : 0;
         return;
     }

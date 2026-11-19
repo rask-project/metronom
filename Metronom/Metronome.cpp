@@ -9,7 +9,6 @@
 #include <algorithm>
 #include <array>
 #include <cmath>
-#include <cstdint>
 #include <iterator>
 #include <numbers>
 #include <ranges>
@@ -29,15 +28,15 @@ constexpr ClickSound kBeatClick{.freq = 2200.0, .durationSeconds = 0.009, .decay
 constexpr ClickSound
     kSubdivisionClick{.freq = 1600.0, .durationSeconds = 0.006, .decaySeconds = 0.0015, .amplitude = 0.3};
 
-constexpr int kMinBpm = 40;
-constexpr int kMaxBpm = 300;
-constexpr int kMaxNumerator = 12;
-constexpr std::array<int, 3> kDenominators{2, 4, 8};
-constexpr int kMaxSubdivisions = 8;
-constexpr int kPositionPollMs = 4;
+constexpr qint32 kMinBpm = 40;
+constexpr qint32 kMaxBpm = 300;
+constexpr qint32 kMaxNumerator = 12;
+constexpr std::array<qint32, 3> kDenominators{2, 4, 8};
+constexpr qint32 kMaxSubdivisions = 8;
+constexpr qint32 kPositionPollMs = 4;
 
 // Note lengths in 1/32 of a whole note, so dotted notes are whole numbers.
-constexpr int kWholeLength = 32;
+constexpr qint32 kWholeLength = 32;
 constexpr std::array<Metronome::NoteValue, 6> kNoteValuesByLength{
     Metronome::Half,
     Metronome::DottedQuarter,
@@ -47,7 +46,7 @@ constexpr std::array<Metronome::NoteValue, 6> kNoteValuesByLength{
     Metronome::ThirtySecond
 };
 
-constexpr int noteLength(Metronome::NoteValue noteValue) noexcept
+constexpr qint32 noteLength(Metronome::NoteValue noteValue) noexcept
 {
     switch (noteValue) {
     case Metronome::Half:
@@ -66,21 +65,21 @@ constexpr int noteLength(Metronome::NoteValue noteValue) noexcept
     return kWholeLength;
 }
 
-constexpr std::uint32_t packTickConfig(int bpm, int subdivisions, int beatsPerMeasure) noexcept
+constexpr quint32 packTickConfig(qint32 bpm, qint32 subdivisions, qint32 beatsPerMeasure) noexcept
 {
-    return (static_cast<std::uint32_t>(bpm) << 16U) | (static_cast<std::uint32_t>(subdivisions) << 8U) |
-           static_cast<std::uint32_t>(beatsPerMeasure);
+    return (static_cast<quint32>(bpm) << 16U) | (static_cast<quint32>(subdivisions) << 8U) |
+           static_cast<quint32>(beatsPerMeasure);
 }
 
-constexpr std::uint32_t packTickPosition(std::uint16_t serial, int beat, int subdivision) noexcept
+constexpr quint32 packTickPosition(quint16 serial, qint32 beat, qint32 subdivision) noexcept
 {
-    return (static_cast<std::uint32_t>(serial) << 16U) | (static_cast<std::uint32_t>(beat) << 8U) |
-           static_cast<std::uint32_t>(subdivision);
+    return (static_cast<quint32>(serial) << 16U) | (static_cast<quint32>(beat) << 8U) |
+           static_cast<quint32>(subdivision);
 }
 
-constexpr int unpackField(std::uint32_t packed, unsigned shift, std::uint32_t mask) noexcept
+constexpr qint32 unpackField(quint32 packed, quint32 shift, quint32 mask) noexcept
 {
-    return static_cast<int>((packed >> shift) & mask);
+    return static_cast<qint32>((packed >> shift) & mask);
 }
 
 template <typename T> T fromNormalized(float value) noexcept
@@ -89,18 +88,18 @@ template <typename T> T fromNormalized(float value) noexcept
         return std::clamp(value, -1.0f, 1.0f);
     }
 
-    const int clamped = std::clamp(static_cast<int>(std::lround(value * 32767.0f)), -32768, 32767);
+    const qint32 clamped = std::clamp(static_cast<qint32>(std::lround(value * 32767.0f)), -32768, 32767);
     return static_cast<qint16>(clamped);
 }
 
 QAudioFormat chooseFormat(const QAudioDevice &device)
 {
-    static constexpr std::array<int, 7> sampleRates{44100, 48000, 44000, 32000, 22050, 16000, 8000};
-    static constexpr std::array<int, 2> channelCounts{2, 1};
+    static constexpr std::array<qint32, 7> sampleRates{44100, 48000, 44000, 32000, 22050, 16000, 8000};
+    static constexpr std::array<qint32, 2> channelCounts{2, 1};
     static constexpr std::array<QAudioFormat::SampleFormat, 2> sampleFormats{QAudioFormat::Int16, QAudioFormat::Float};
 
-    for (const int rate : sampleRates) {
-        for (const int channels : channelCounts) {
+    for (const qint32 rate : sampleRates) {
+        for (const qint32 channels : channelCounts) {
             for (const auto sampleFormat : sampleFormats) {
                 QAudioFormat format;
                 format.setSampleRate(rate);
@@ -117,13 +116,13 @@ QAudioFormat chooseFormat(const QAudioDevice &device)
     return device.preferredFormat();
 }
 
-std::vector<float> renderClick(const ClickSound &sound, int sampleRate)
+QList<float> renderClick(const ClickSound &sound, qint32 sampleRate)
 {
-    const int samples = static_cast<int>(sampleRate * sound.durationSeconds);
-    std::vector<float> click(samples);
-    uint32_t seed = 1;
+    const auto samples = static_cast<qsizetype>(sampleRate * sound.durationSeconds);
+    QList<float> click(samples);
+    quint32 seed = 1;
 
-    for (int i = 0; i < samples; ++i) {
+    for (qsizetype i = 0; i < samples; ++i) {
         const double t = static_cast<double>(i) / sampleRate;
         const double envelope = std::exp(-t / sound.decaySeconds);
         seed = (seed * 1664525u) + 1013904223u;
@@ -160,13 +159,13 @@ Metronome::~Metronome()
     stop();
 }
 
-int Metronome::defaultDeviceIndex() const
+qint32 Metronome::defaultDeviceIndex() const
 {
     const auto it = std::ranges::find_if(m_devices, &QAudioDevice::isDefault);
-    return it == m_devices.end() ? 0 : static_cast<int>(std::distance(m_devices.begin(), it));
+    return it == m_devices.end() ? 0 : static_cast<qint32>(std::distance(m_devices.begin(), it));
 }
 
-QAudioDevice Metronome::deviceAt(int index) const
+QAudioDevice Metronome::deviceAt(qint32 index) const
 {
     if (m_devices.isEmpty()) {
         return QMediaDevices::defaultAudioOutput();
@@ -194,12 +193,12 @@ QList<QString> Metronome::audioDeviceNames() const
     return names;
 }
 
-int Metronome::currentAudioDevice() const
+qint32 Metronome::currentAudioDevice() const
 {
     return m_currentDevice;
 }
 
-void Metronome::setCurrentAudioDevice(int index)
+void Metronome::setCurrentAudioDevice(qint32 index)
 {
     if (index < 0 || index >= m_devices.size()) {
         return;
@@ -224,14 +223,14 @@ void Metronome::setCurrentAudioDevice(int index)
     }
 }
 
-int Metronome::bpm() const
+qint32 Metronome::bpm() const
 {
     return m_bpm;
 }
 
-void Metronome::setBpm(int bpm)
+void Metronome::setBpm(qint32 bpm)
 {
-    const int clamped = std::clamp(bpm, kMinBpm, kMaxBpm);
+    const qint32 clamped = std::clamp(bpm, kMinBpm, kMaxBpm);
     if (clamped == m_bpm) {
         return;
     }
@@ -241,22 +240,22 @@ void Metronome::setBpm(int bpm)
     emit bpmChanged();
 }
 
-int Metronome::minBpm() const
+qint32 Metronome::minBpm() const
 {
     return kMinBpm;
 }
 
-int Metronome::maxBpm() const
+qint32 Metronome::maxBpm() const
 {
     return kMaxBpm;
 }
 
-int Metronome::numerator() const
+qint32 Metronome::numerator() const
 {
     return m_numerator;
 }
 
-void Metronome::setNumerator(int numerator)
+void Metronome::setNumerator(qint32 numerator)
 {
     if (numerator < 1 || numerator > kMaxNumerator || numerator == m_numerator) {
         return;
@@ -266,12 +265,12 @@ void Metronome::setNumerator(int numerator)
     applyTimeSignature();
 }
 
-int Metronome::denominator() const
+qint32 Metronome::denominator() const
 {
     return m_denominator;
 }
 
-void Metronome::setDenominator(int denominator)
+void Metronome::setDenominator(qint32 denominator)
 {
     if (denominator == m_denominator || !std::ranges::contains(kDenominators, denominator)) {
         return;
@@ -281,14 +280,14 @@ void Metronome::setDenominator(int denominator)
     applyTimeSignature();
 }
 
-QList<int> Metronome::numerators() const
+QList<qint32> Metronome::numerators() const
 {
-    QList<int> values;
+    QList<qint32> values;
     std::ranges::copy(std::views::iota(1, kMaxNumerator + 1), std::back_inserter(values));
     return values;
 }
 
-QList<int> Metronome::denominators() const
+QList<qint32> Metronome::denominators() const
 {
     return {kDenominators.begin(), kDenominators.end()};
 }
@@ -299,26 +298,26 @@ bool Metronome::isCompound() const
     return m_denominator == 8 && m_numerator > 3 && m_numerator % 3 == 0;
 }
 
-int Metronome::beatsPerMeasure() const
+qint32 Metronome::beatsPerMeasure() const
 {
     return isCompound() ? m_numerator / 3 : m_numerator;
 }
 
-int Metronome::beatLength() const
+qint32 Metronome::beatLength() const
 {
-    const int unitLength = kWholeLength / m_denominator;
+    const qint32 unitLength = kWholeLength / m_denominator;
     return isCompound() ? unitLength * 3 : unitLength;
 }
 
-int Metronome::subdivisionsFor(NoteValue noteValue) const
+qint32 Metronome::subdivisionsFor(NoteValue noteValue) const
 {
-    const int length = noteLength(noteValue);
-    const int beat = beatLength();
+    const qint32 length = noteLength(noteValue);
+    const qint32 beat = beatLength();
     if (length > beat || beat % length != 0) {
         return 0;
     }
 
-    const int subdivisions = beat / length;
+    const qint32 subdivisions = beat / length;
     return subdivisions <= kMaxSubdivisions ? subdivisions : 0;
 }
 
@@ -352,9 +351,9 @@ void Metronome::setNoteValue(NoteValue noteValue)
     emit subdivisionsChanged();
 }
 
-QList<int> Metronome::availableNoteValues() const
+QList<qint32> Metronome::availableNoteValues() const
 {
-    QList<int> values;
+    QList<qint32> values;
     std::ranges::copy(
         kNoteValuesByLength | std::views::filter([this](NoteValue value) { return subdivisionsFor(value) > 0; }),
         std::back_inserter(values)
@@ -362,7 +361,7 @@ QList<int> Metronome::availableNoteValues() const
     return values;
 }
 
-int Metronome::subdivisions() const
+qint32 Metronome::subdivisions() const
 {
     return subdivisionsFor(m_noteValue);
 }
@@ -372,12 +371,12 @@ bool Metronome::running() const
     return m_running;
 }
 
-int Metronome::currentBeat() const
+qint32 Metronome::currentBeat() const
 {
     return m_currentBeat;
 }
 
-int Metronome::currentSubdivision() const
+qint32 Metronome::currentSubdivision() const
 {
     return m_currentSubdivision;
 }
@@ -389,7 +388,7 @@ void Metronome::publishTickConfig()
 
 void Metronome::pollPosition()
 {
-    const std::uint32_t position = m_tickPosition.load(std::memory_order_acquire);
+    const quint32 position = m_tickPosition.load(std::memory_order_acquire);
     if (position == m_lastTickPosition) {
         return;
     }
@@ -400,21 +399,21 @@ void Metronome::pollPosition()
     emit ticked();
 }
 
-template <typename T> void Metronome::mixActiveClick(QSpan<T> samples, qint64 from, qint64 to) noexcept
+template <typename T> void Metronome::mixActiveClick(QSpan<T> samples, qsizetype from, qsizetype to) noexcept
 {
     if (m_activeClick == nullptr) {
         return;
     }
 
-    const std::vector<float> &click = *m_activeClick;
-    const auto count = std::min(to - from, static_cast<qint64>(click.size() - m_activeClickPos));
+    const QList<float> &click = *m_activeClick;
+    const qsizetype count = std::min(to - from, click.size() - m_activeClickPos);
 
-    for (qint64 i = 0; i < count; ++i) {
-        const T value = fromNormalized<T>(click[m_activeClickPos + static_cast<std::size_t>(i)]);
+    for (qsizetype i = 0; i < count; ++i) {
+        const T value = fromNormalized<T>(click[m_activeClickPos + i]);
         std::ranges::fill(samples.subspan((from + i) * m_channelCount, m_channelCount), value);
     }
 
-    m_activeClickPos += static_cast<std::size_t>(count);
+    m_activeClickPos += count;
     if (m_activeClickPos >= click.size()) {
         m_activeClick = nullptr;
     }
@@ -424,12 +423,12 @@ template <typename T> void Metronome::fillSamples(QSpan<T> samples) noexcept
 {
     std::ranges::fill(samples, fromNormalized<T>(0.0f));
 
-    const qint64 frameCount = samples.size() / m_channelCount;
-    qint64 frame = 0;
+    const qsizetype frameCount = samples.size() / m_channelCount;
+    qsizetype frame = 0;
 
     while (frame < frameCount) {
         const qint64 tickFrame = static_cast<qint64>(m_nextTickFrame) - m_framesWritten;
-        const qint64 end = std::clamp(tickFrame, frame, frameCount);
+        const auto end = static_cast<qsizetype>(std::clamp<qint64>(tickFrame, frame, frameCount));
         mixActiveClick(samples, frame, end);
         frame = end;
 
@@ -444,8 +443,8 @@ template <typename T> void Metronome::fillSamples(QSpan<T> samples) noexcept
 // Settings are latched at each beat, so a change never breaks the beat grid.
 void Metronome::startBeat() noexcept
 {
-    const std::uint32_t config = m_tickConfig.load(std::memory_order_acquire);
-    const int bpm = unpackField(config, 16U, 0xFFFFU);
+    const quint32 config = m_tickConfig.load(std::memory_order_acquire);
+    const qint32 bpm = unpackField(config, 16U, 0xFFFFU);
     m_audioSubdivisions = unpackField(config, 8U, 0xFFU);
     m_audioBeatsPerMeasure = unpackField(config, 0U, 0xFFU);
     m_beatFrames = 60.0 * m_sampleRate / bpm;
@@ -463,7 +462,7 @@ void Metronome::startTick() noexcept
     }
 
     const bool downbeat = m_audioBeat == 0;
-    const std::vector<float> &beatClick = downbeat ? m_accentClick : m_beatClick;
+    const QList<float> &beatClick = downbeat ? m_accentClick : m_beatClick;
     m_activeClick = m_audioSubdivision == 0 ? &beatClick : &m_subdivisionClick;
     m_activeClickPos = 0;
 
@@ -552,9 +551,9 @@ void Metronome::decreaseBpm()
     setBpm(m_bpm - 1);
 }
 
-QList<int> Metronome::tempoMarkings() const
+QList<qint32> Metronome::tempoMarkings() const
 {
-    return QList<int>(std::begin(tempoMarkingsValues), std::end(tempoMarkingsValues));
+    return QList<qint32>(std::begin(tempoMarkingsValues), std::end(tempoMarkingsValues));
 }
 
 void Metronome::nextTempoMarking()
@@ -590,12 +589,12 @@ void Metronome::setAutoIncrement(bool enabled)
     updateAutoIncrementTimer();
 }
 
-int Metronome::autoIncrementInterval() const
+qint32 Metronome::autoIncrementInterval() const
 {
     return m_autoIncrementInterval;
 }
 
-void Metronome::setAutoIncrementInterval(int seconds)
+void Metronome::setAutoIncrementInterval(qint32 seconds)
 {
     if (m_autoIncrementInterval == seconds) {
         return;
@@ -622,6 +621,6 @@ QString Metronome::tempoMarking() const
 
     const auto begin = std::ranges::begin(tempoMarkingsValues);
     const auto it = std::ranges::upper_bound(tempoMarkingsValues, m_bpm);
-    const int index = (it == begin) ? 0 : static_cast<int>(it - begin) - 1;
+    const qint32 index = (it == begin) ? 0 : static_cast<qint32>(it - begin) - 1;
     return QString::fromUtf8(tempoMarkingNames[index]);
 }

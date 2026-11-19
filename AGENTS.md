@@ -96,6 +96,11 @@ Qt Creator opens the project directly with the matching kit.
 - **Exceptions are forbidden** — no `throw`, `try` or `catch`.
 - **Error handling:** fallible operations return `std::expected<T, E>` with a concrete error type (or `bool`/
   `std::optional` when there is nothing to report).
+- **Types:** use Qt's typedefs, never the `<cstdint>` ones: `qint8`…`qint64` / `quint8`…`quint64` for fixed width,
+  `qsizetype` for sizes and indices (not `std::size_t`), `qreal` for geometry. Integers are `qint32` instead of
+  `int`, `Q_PROPERTY` and `QList<qint32>` included (QML still sees `int`); only `main(int argc, …)` keeps `int`.
+  Lists are `QList`, not `std::vector`. Platform API types (`jint`, `CGFloat`, `NSInteger`, …) stay at the API
+  boundary.
 - **Algorithms:** prefer `std::ranges` / `<algorithm>` over hand-written loops.
 - **Control flow:** early return over nesting; flatten `if`/`else` chains with guard clauses.
 - **Performance:** `emplace_back` over `push_back`, move over copy, no needless temporaries; mark `noexcept` where it

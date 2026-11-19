@@ -2,8 +2,6 @@
 
 #include <QtGlobal>
 
-#include <cstdint>
-
 #if defined(Q_OS_LINUX) && !defined(Q_OS_ANDROID)
 #include <QString>
 #endif
@@ -21,13 +19,13 @@ public:
 
 private:
 #ifdef Q_OS_MACOS
-    uint32_t m_assertionId = 0;
+    quint32 m_assertionId = 0;
 #elif defined(Q_OS_LINUX) && !defined(Q_OS_ANDROID)
     void setScreenSaverInhibited(bool inhibited);
     void setPortalInhibited(bool inhibited);
 
     QString m_portalRequest;
-    uint32_t m_screenSaverCookie = 0;
+    quint32 m_screenSaverCookie = 0;
 #endif
     bool m_inhibited = false;
 };

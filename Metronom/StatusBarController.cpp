@@ -29,7 +29,7 @@ void StatusBarController::setLightStatusBar(bool light)
             return;
         }
 
-        const int sdk = QJniObject::getStaticField<jint>("android/os/Build$VERSION", "SDK_INT");
+        const qint32 sdk = QJniObject::getStaticField<jint>("android/os/Build$VERSION", "SDK_INT");
         if (sdk >= 30) {
             const QJniObject controller =
                 window.callObjectMethod("getInsetsController", "()Landroid/view/WindowInsetsController;");

@@ -12,9 +12,7 @@
 #include <QtQmlIntegration/qqmlintegration.h>
 #include <array>
 #include <atomic>
-#include <cstdint>
 #include <memory>
-#include <vector>
 
 class QAudioSink;
 
@@ -23,27 +21,27 @@ class Metronome : public QObject
     Q_OBJECT
     QML_ELEMENT
 
-    Q_PROPERTY(int bpm READ bpm WRITE setBpm NOTIFY bpmChanged)
-    Q_PROPERTY(int minBpm READ minBpm CONSTANT)
-    Q_PROPERTY(int maxBpm READ maxBpm CONSTANT)
-    Q_PROPERTY(int numerator READ numerator WRITE setNumerator NOTIFY timeSignatureChanged)
-    Q_PROPERTY(int denominator READ denominator WRITE setDenominator NOTIFY timeSignatureChanged)
-    Q_PROPERTY(QList<int> numerators READ numerators CONSTANT)
-    Q_PROPERTY(QList<int> denominators READ denominators CONSTANT)
-    Q_PROPERTY(int beatsPerMeasure READ beatsPerMeasure NOTIFY timeSignatureChanged)
+    Q_PROPERTY(qint32 bpm READ bpm WRITE setBpm NOTIFY bpmChanged)
+    Q_PROPERTY(qint32 minBpm READ minBpm CONSTANT)
+    Q_PROPERTY(qint32 maxBpm READ maxBpm CONSTANT)
+    Q_PROPERTY(qint32 numerator READ numerator WRITE setNumerator NOTIFY timeSignatureChanged)
+    Q_PROPERTY(qint32 denominator READ denominator WRITE setDenominator NOTIFY timeSignatureChanged)
+    Q_PROPERTY(QList<qint32> numerators READ numerators CONSTANT)
+    Q_PROPERTY(QList<qint32> denominators READ denominators CONSTANT)
+    Q_PROPERTY(qint32 beatsPerMeasure READ beatsPerMeasure NOTIFY timeSignatureChanged)
     Q_PROPERTY(NoteValue noteValue READ noteValue WRITE setNoteValue NOTIFY noteValueChanged)
-    Q_PROPERTY(QList<int> availableNoteValues READ availableNoteValues NOTIFY timeSignatureChanged)
-    Q_PROPERTY(int subdivisions READ subdivisions NOTIFY subdivisionsChanged)
+    Q_PROPERTY(QList<qint32> availableNoteValues READ availableNoteValues NOTIFY timeSignatureChanged)
+    Q_PROPERTY(qint32 subdivisions READ subdivisions NOTIFY subdivisionsChanged)
     Q_PROPERTY(bool running READ running NOTIFY runningChanged)
-    Q_PROPERTY(int currentBeat READ currentBeat NOTIFY ticked)
-    Q_PROPERTY(int currentSubdivision READ currentSubdivision NOTIFY ticked)
-    Q_PROPERTY(QList<int> tempoMarkings READ tempoMarkings CONSTANT)
+    Q_PROPERTY(qint32 currentBeat READ currentBeat NOTIFY ticked)
+    Q_PROPERTY(qint32 currentSubdivision READ currentSubdivision NOTIFY ticked)
+    Q_PROPERTY(QList<qint32> tempoMarkings READ tempoMarkings CONSTANT)
     Q_PROPERTY(QString tempoMarking READ tempoMarking NOTIFY bpmChanged)
     Q_PROPERTY(QList<QString> audioDeviceNames READ audioDeviceNames CONSTANT)
-    Q_PROPERTY(int currentAudioDevice READ currentAudioDevice WRITE setCurrentAudioDevice NOTIFY
+    Q_PROPERTY(qint32 currentAudioDevice READ currentAudioDevice WRITE setCurrentAudioDevice NOTIFY
                    currentAudioDeviceChanged)
     Q_PROPERTY(bool autoIncrement READ autoIncrement WRITE setAutoIncrement NOTIFY autoIncrementChanged)
-    Q_PROPERTY(int autoIncrementInterval READ autoIncrementInterval WRITE setAutoIncrementInterval NOTIFY
+    Q_PROPERTY(qint32 autoIncrementInterval READ autoIncrementInterval WRITE setAutoIncrementInterval NOTIFY
                    autoIncrementIntervalChanged)
 
 public:
@@ -61,38 +59,38 @@ public:
     explicit Metronome(QObject *parent = nullptr);
     ~Metronome() override;
 
-    int bpm() const;
-    void setBpm(int bpm);
-    int minBpm() const;
-    int maxBpm() const;
+    qint32 bpm() const;
+    void setBpm(qint32 bpm);
+    qint32 minBpm() const;
+    qint32 maxBpm() const;
 
-    int numerator() const;
-    void setNumerator(int numerator);
-    int denominator() const;
-    void setDenominator(int denominator);
-    QList<int> numerators() const;
-    QList<int> denominators() const;
-    int beatsPerMeasure() const;
+    qint32 numerator() const;
+    void setNumerator(qint32 numerator);
+    qint32 denominator() const;
+    void setDenominator(qint32 denominator);
+    QList<qint32> numerators() const;
+    QList<qint32> denominators() const;
+    qint32 beatsPerMeasure() const;
 
     NoteValue noteValue() const;
     void setNoteValue(NoteValue noteValue);
-    QList<int> availableNoteValues() const;
-    int subdivisions() const;
+    QList<qint32> availableNoteValues() const;
+    qint32 subdivisions() const;
 
     bool running() const;
-    int currentBeat() const;
-    int currentSubdivision() const;
-    QList<int> tempoMarkings() const;
+    qint32 currentBeat() const;
+    qint32 currentSubdivision() const;
+    QList<qint32> tempoMarkings() const;
     QString tempoMarking() const;
 
     QList<QString> audioDeviceNames() const;
-    int currentAudioDevice() const;
-    void setCurrentAudioDevice(int index);
+    qint32 currentAudioDevice() const;
+    void setCurrentAudioDevice(qint32 index);
 
     bool autoIncrement() const;
     void setAutoIncrement(bool enabled);
-    int autoIncrementInterval() const;
-    void setAutoIncrementInterval(int seconds);
+    qint32 autoIncrementInterval() const;
+    void setAutoIncrementInterval(qint32 seconds);
 
     Q_INVOKABLE void start();
     Q_INVOKABLE void stop();
@@ -115,24 +113,24 @@ signals:
 
 private:
     bool isCompound() const;
-    int beatLength() const;
-    int subdivisionsFor(NoteValue noteValue) const;
+    qint32 beatLength() const;
+    qint32 subdivisionsFor(NoteValue noteValue) const;
     void applyTimeSignature();
     void publishTickConfig();
     void pollPosition();
 
     template <typename T> void fillSamples(QSpan<T> samples) noexcept;
-    template <typename T> void mixActiveClick(QSpan<T> samples, qint64 from, qint64 to) noexcept;
+    template <typename T> void mixActiveClick(QSpan<T> samples, qsizetype from, qsizetype to) noexcept;
     void startTick() noexcept;
     void startBeat() noexcept;
 
-    QAudioDevice deviceAt(int index) const;
-    int defaultDeviceIndex() const;
+    QAudioDevice deviceAt(qint32 index) const;
+    qint32 defaultDeviceIndex() const;
     void rebuildAudio();
     void updateAutoIncrementTimer();
 
-    static constexpr int sampleRate = 44100;
-    static constexpr std::array<int, 9> tempoMarkingsValues{40, 60, 66, 76, 108, 120, 168, 184, 208};
+    static constexpr qint32 sampleRate = 44100;
+    static constexpr std::array<qint32, 9> tempoMarkingsValues{40, 60, 66, 76, 108, 120, 168, 184, 208};
     static constexpr std::array<const char *, 9> tempoMarkingNames{
         "Largo",
         "Larghetto",
@@ -146,8 +144,8 @@ private:
     };
 
     // Audio thread: active click and scheduler state.
-    const std::vector<float> *m_activeClick = nullptr;
-    std::size_t m_activeClickPos = 0;
+    const QList<float> *m_activeClick = nullptr;
+    qsizetype m_activeClickPos = 0;
     double m_nextTickFrame = 0.0;
     double m_beatStartFrame = 0.0;
     double m_beatFrames = 0.0;
@@ -156,33 +154,33 @@ private:
     std::unique_ptr<QAudioSink> m_sink;
     QList<QAudioDevice> m_devices;
     QAudioFormat m_format;
-    std::vector<float> m_accentClick;
-    std::vector<float> m_beatClick;
-    std::vector<float> m_subdivisionClick;
+    QList<float> m_accentClick;
+    QList<float> m_beatClick;
+    QList<float> m_subdivisionClick;
     ScreenLockInhibitor m_screenLock;
     QTimer m_autoIncrementTimer;
     QTimer m_positionTimer;
 
     // Shared between threads: settings for the audio thread and the last tick it played.
-    std::atomic<std::uint32_t> m_tickConfig{0};
-    std::atomic<std::uint32_t> m_tickPosition{0};
-    std::uint32_t m_lastTickPosition = 0;
+    std::atomic<quint32> m_tickConfig{0};
+    std::atomic<quint32> m_tickPosition{0};
+    quint32 m_lastTickPosition = 0;
 
-    int m_audioBeatsPerMeasure = 1;
-    int m_audioSubdivisions = 1;
-    int m_audioBeat = 0;
-    int m_audioSubdivision = 0;
+    qint32 m_audioBeatsPerMeasure = 1;
+    qint32 m_audioSubdivisions = 1;
+    qint32 m_audioBeat = 0;
+    qint32 m_audioSubdivision = 0;
 
-    int m_currentDevice = 0;
-    int m_sampleRate = sampleRate;
-    int m_channelCount = 2;
-    int m_bpm = 120;
-    int m_numerator = 4;
-    int m_denominator = 4;
-    int m_currentBeat = 0;
-    int m_currentSubdivision = 0;
-    int m_autoIncrementInterval = 60;
-    std::uint16_t m_tickSerial = 0;
+    qint32 m_currentDevice = 0;
+    qint32 m_sampleRate = sampleRate;
+    qint32 m_channelCount = 2;
+    qint32 m_bpm = 120;
+    qint32 m_numerator = 4;
+    qint32 m_denominator = 4;
+    qint32 m_currentBeat = 0;
+    qint32 m_currentSubdivision = 0;
+    qint32 m_autoIncrementInterval = 60;
+    quint16 m_tickSerial = 0;
     NoteValue m_noteValue = Quarter;
     bool m_running = false;
     bool m_autoIncrement = false;
