@@ -14,3 +14,50 @@ jobs:
   build:
     uses: ./.github/workflows/build.yml
     secrets: inherit
+
+  # C++ / Objective-C++ analysis on SonarCloud. Configures with
+  # -DCMAKE_EXPORT_COMPILE_COMMANDS=ON so the C++ analyzer gets a compilation
+  # database, builds (so the generated moc units exist), then scans.
+  sonar:
+    name: SonarCloud
+    runs-on: ubuntu-24.04
+    env:
+      QT_VERSION: "6.12.0"
+      AQT_VERSION: "==3.3.*"
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - name: Install Qt
+        uses: jurplel/install-qt-action@v4
+        with:
+          version: ${{ env.QT_VERSION }}
+          host: linux
+          target: desktop
+          arch: linux_gcc_64
+          modules: qtmultimedia
+          aqtversion: ${{ env.AQT_VERSION }}
+          cache: true
+
+      - name: Install build dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            ninja-build libgl-dev libegl-dev libxkbcommon-dev libfontconfig1-dev libdbus-1-dev
+
+      - name: Configure (export the compilation database)
+        run: |
+          cmake -S . -B build/sonar -G Ninja \
+            -DCMAKE_PREFIX_PATH="$QT_ROOT_DIR" \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
+
+      - name: Build
+        run: cmake --build build/sonar
+
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarqube-scan-action@v8
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
