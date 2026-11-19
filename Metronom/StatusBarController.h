@@ -20,5 +20,5 @@ signals:
     void lightStatusBarChanged();
 
 private:
-    bool m_lightStatusBar = false;
+    bool m_lightStatusBar{false};
 };

@@ -49,8 +49,8 @@ private:
     void apply();
 
     QPointer<QWindow> m_window;
-    qreal m_alpha = 0.8;
-    qreal m_leadingInset = 0.0;
-    QColor m_color = Qt::black;
-    bool m_dark = false;
+    qreal m_alpha{0.8};
+    qreal m_leadingInset{0.0};
+    QColor m_color{Qt::black};
+    bool m_dark{false};
 };

@@ -129,7 +129,7 @@ private:
     void rebuildAudio();
     void updateAutoIncrementTimer();
 
-    static constexpr qint32 sampleRate = 44100;
+    static constexpr qint32 sampleRate{44100};
     static constexpr std::array<qint32, 9> tempoMarkingsValues{40, 60, 66, 76, 108, 120, 168, 184, 208};
     static constexpr std::array<const char *, 9> tempoMarkingNames{
         "Largo",
@@ -144,12 +144,12 @@ private:
     };
 
     // Audio thread: active click and scheduler state.
-    const QList<float> *m_activeClick = nullptr;
-    qsizetype m_activeClickPos = 0;
-    double m_nextTickFrame = 0.0;
-    double m_beatStartFrame = 0.0;
-    double m_beatFrames = 0.0;
-    qint64 m_framesWritten = 0;
+    const QList<float> *m_activeClick{nullptr};
+    qsizetype m_activeClickPos{0};
+    double m_nextTickFrame{0.0};
+    double m_beatStartFrame{0.0};
+    double m_beatFrames{0.0};
+    qint64 m_framesWritten{0};
 
     std::unique_ptr<QAudioSink> m_sink;
     QList<QAudioDevice> m_devices;
@@ -164,24 +164,24 @@ private:
     // Shared between threads: settings for the audio thread and the last tick it played.
     std::atomic<quint32> m_tickConfig{0};
     std::atomic<quint32> m_tickPosition{0};
-    quint32 m_lastTickPosition = 0;
+    quint32 m_lastTickPosition{0};
 
-    qint32 m_audioBeatsPerMeasure = 1;
-    qint32 m_audioSubdivisions = 1;
-    qint32 m_audioBeat = 0;
-    qint32 m_audioSubdivision = 0;
+    qint32 m_audioBeatsPerMeasure{1};
+    qint32 m_audioSubdivisions{1};
+    qint32 m_audioBeat{0};
+    qint32 m_audioSubdivision{0};
 
-    qint32 m_currentDevice = 0;
-    qint32 m_sampleRate = sampleRate;
-    qint32 m_channelCount = 2;
-    qint32 m_bpm = 120;
-    qint32 m_numerator = 4;
-    qint32 m_denominator = 4;
-    qint32 m_currentBeat = 0;
-    qint32 m_currentSubdivision = 0;
-    qint32 m_autoIncrementInterval = 60;
-    quint16 m_tickSerial = 0;
-    NoteValue m_noteValue = Quarter;
-    bool m_running = false;
-    bool m_autoIncrement = false;
+    qint32 m_currentDevice{0};
+    qint32 m_sampleRate{sampleRate};
+    qint32 m_channelCount{2};
+    qint32 m_bpm{120};
+    qint32 m_numerator{4};
+    qint32 m_denominator{4};
+    qint32 m_currentBeat{0};
+    qint32 m_currentSubdivision{0};
+    qint32 m_autoIncrementInterval{60};
+    quint16 m_tickSerial{0};
+    NoteValue m_noteValue{Quarter};
+    bool m_running{false};
+    bool m_autoIncrement{false};
 };

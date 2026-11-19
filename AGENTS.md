@@ -101,6 +101,11 @@ Qt Creator opens the project directly with the matching kit.
   `int`, `Q_PROPERTY` and `QList<qint32>` included (QML still sees `int`); only `main(int argc, …)` keeps `int`.
   Lists are `QList`, not `std::vector`. Platform API types (`jint`, `CGFloat`, `NSInteger`, …) stay at the API
   boundary.
+- **Initialization:** brace-initialize every variable — data members, constants, locals and `for` counters
+  (`bool m_running{false};`, `const qint32 bpm{unpackField(...)};`, `for (qsizetype i{0}; ...)`): braces reject
+  narrowing conversions. `=` only where the grammar requires it (default arguments, enumerators). Exception: a
+  container constructor that takes a size or other non-element arguments keeps parentheses (`QList<float> click(n);`),
+  since braces would pick the `std::initializer_list` constructor and build a one-element list.
 - **Algorithms:** prefer `std::ranges` / `<algorithm>` over hand-written loops.
 - **Control flow:** early return over nesting; flatten `if`/`else` chains with guard clauses.
 - **Performance:** `emplace_back` over `push_back`, move over copy, no needless temporaries; mark `noexcept` where it

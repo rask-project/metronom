@@ -23,12 +23,12 @@ int main(int argc, char *argv[])
     QGuiApplication app(argc, argv);
     QGuiApplication::setWindowIcon(QIcon(":/resources/logo.png"));
 
-    const QString chosenLanguage = QSettings().value("language").toString();
-    const QLocale locale = chosenLanguage.isEmpty() ? QLocale::system() : QLocale(chosenLanguage);
+    const QString chosenLanguage{QSettings().value("language").toString()};
+    const QLocale locale{chosenLanguage.isEmpty() ? QLocale::system() : QLocale(chosenLanguage)};
     QLocale::setDefault(locale);
 
     QTranslator translator;
-    const QString qmPath = QStringLiteral(":/i18n/metronom_") + locale.name() + QStringLiteral(".qm");
+    const QString qmPath{QStringLiteral(":/i18n/metronom_") + locale.name() + QStringLiteral(".qm")};
     if (translator.load(qmPath)) {
         app.installTranslator(&translator);
         qInfo().noquote() << "Translation loaded:" << locale.name();

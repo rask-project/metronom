@@ -34,7 +34,7 @@ void ScreenLockInhibitor::setInhibited(bool inhibited)
 #elifdef Q_OS_MACOS
     if (inhibited) {
         if (m_assertionId == 0) {
-            IOPMAssertionID assertionId = 0;
+            IOPMAssertionID assertionId{0};
             if (IOPMAssertionCreateWithName(
                     kIOPMAssertPreventUserIdleDisplaySleep,
                     kIOPMAssertionLevelOn,
@@ -50,13 +50,14 @@ void ScreenLockInhibitor::setInhibited(bool inhibited)
     }
 #elifdef Q_OS_ANDROID
     QNativeInterface::QAndroidApplication::runOnAndroidMainThread([inhibited]() {
-        const QJniObject activity = QtAndroidPrivate::activity();
-        const QJniObject window = activity.callObjectMethod("getWindow", "()Landroid/view/Window;");
+        const QJniObject activity{QtAndroidPrivate::activity()};
+        const QJniObject window{activity.callObjectMethod("getWindow", "()Landroid/view/Window;")};
         if (!window.isValid()) {
             return;
         }
-        const jint keepScreenOn =
-            QJniObject::getStaticField<jint>("android/view/WindowManager$LayoutParams", "FLAG_KEEP_SCREEN_ON");
+        const jint keepScreenOn{
+            QJniObject::getStaticField<jint>("android/view/WindowManager$LayoutParams", "FLAG_KEEP_SCREEN_ON")
+        };
         window.callMethod(inhibited ? "addFlags" : "clearFlags", "(I)V", keepScreenOn);
     });
 #else
@@ -69,28 +70,28 @@ void ScreenLockInhibitor::setInhibited(bool inhibited)
 
 namespace
 {
-constexpr qint32 dbusTimeoutMs = 2000;
-constexpr quint32 portalInhibitIdle = 8;
-constexpr const char *reason = "Metronome is playing";
+constexpr qint32 dbusTimeoutMs{2000};
+constexpr quint32 portalInhibitIdle{8};
+constexpr const char *reason{"Metronome is playing"};
 } // namespace
 
 // KDE Plasma and most X11 desktops.
 void ScreenLockInhibitor::setScreenSaverInhibited(bool inhibited)
 {
-    const QDBusConnection bus = QDBusConnection::sessionBus();
+    const QDBusConnection bus{QDBusConnection::sessionBus()};
     if (!bus.isConnected()) {
         return;
     }
 
     if (inhibited) {
-        QDBusMessage message = QDBusMessage::createMethodCall(
+        QDBusMessage message{QDBusMessage::createMethodCall(
             "org.freedesktop.ScreenSaver",
             "/org/freedesktop/ScreenSaver",
             "org.freedesktop.ScreenSaver",
             "Inhibit"
-        );
+        )};
         message.setArguments({QCoreApplication::applicationName(), QString::fromLatin1(reason)});
-        const QDBusReply<quint32> reply = bus.call(message, QDBus::Block, dbusTimeoutMs);
+        const QDBusReply<quint32> reply{bus.call(message, QDBus::Block, dbusTimeoutMs)};
         m_screenSaverCookie = reply.isValid() ? reply.value() : 0;
         return;
     }
@@ -98,12 +99,12 @@ void ScreenLockInhibitor::setScreenSaverInhibited(bool inhibited)
     if (m_screenSaverCookie == 0) {
         return;
     }
-    QDBusMessage message = QDBusMessage::createMethodCall(
+    QDBusMessage message{QDBusMessage::createMethodCall(
         "org.freedesktop.ScreenSaver",
         "/org/freedesktop/ScreenSaver",
         "org.freedesktop.ScreenSaver",
         "UnInhibit"
-    );
+    )};
     message.setArguments({m_screenSaverCookie});
     bus.call(message, QDBus::Block, dbusTimeoutMs);
     m_screenSaverCookie = 0;
@@ -112,22 +113,22 @@ void ScreenLockInhibitor::setScreenSaverInhibited(bool inhibited)
 // GNOME, Flatpak and any desktop with xdg-desktop-portal.
 void ScreenLockInhibitor::setPortalInhibited(bool inhibited)
 {
-    const QDBusConnection bus = QDBusConnection::sessionBus();
+    const QDBusConnection bus{QDBusConnection::sessionBus()};
     if (!bus.isConnected()) {
         return;
     }
 
     if (inhibited) {
-        QDBusMessage message = QDBusMessage::createMethodCall(
+        QDBusMessage message{QDBusMessage::createMethodCall(
             "org.freedesktop.portal.Desktop",
             "/org/freedesktop/portal/desktop",
             "org.freedesktop.portal.Inhibit",
             "Inhibit"
-        );
+        )};
         message.setArguments(
             {QString(), portalInhibitIdle, QVariantMap{{QStringLiteral("reason"), QString::fromLatin1(reason)}}}
         );
-        const QDBusReply<QDBusObjectPath> reply = bus.call(message, QDBus::Block, dbusTimeoutMs);
+        const QDBusReply<QDBusObjectPath> reply{bus.call(message, QDBus::Block, dbusTimeoutMs)};
         m_portalRequest = reply.isValid() ? reply.value().path() : QString();
         return;
     }
@@ -135,12 +136,12 @@ void ScreenLockInhibitor::setPortalInhibited(bool inhibited)
     if (m_portalRequest.isEmpty()) {
         return;
     }
-    const QDBusMessage message = QDBusMessage::createMethodCall(
+    const QDBusMessage message{QDBusMessage::createMethodCall(
         "org.freedesktop.portal.Desktop",
         m_portalRequest,
         "org.freedesktop.portal.Request",
         "Close"
-    );
+    )};
     bus.call(message, QDBus::Block, dbusTimeoutMs);
     m_portalRequest.clear();
 }

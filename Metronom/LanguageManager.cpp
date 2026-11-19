@@ -5,7 +5,7 @@
 
 LanguageManager::LanguageManager(QObject *parent) : QObject(parent)
 {
-    const QString saved = QSettings().value(settingsKey).toString();
+    const QString saved{QSettings().value(settingsKey).toString()};
     m_current = saved;
     m_applied = saved.isEmpty() ? systemCode() : saved;
 }

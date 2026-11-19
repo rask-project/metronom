@@ -42,16 +42,18 @@ Qt::ColorScheme Appearance::savedColorScheme()
 {
     QSettings settings;
     if (settings.contains(legacySettingsKey)) {
-        const qint32 legacy = settings.value(legacySettingsKey).toInt();
+        const qint32 legacy{settings.value(legacySettingsKey).toInt()};
         settings.remove(legacySettingsKey);
-        const Qt::ColorScheme migrated = legacy == 0   ? Qt::ColorScheme::Light
-                                         : legacy == 1 ? Qt::ColorScheme::Dark
-                                                       : Qt::ColorScheme::Unknown;
+        const Qt::ColorScheme migrated{
+            legacy == 0   ? Qt::ColorScheme::Light
+            : legacy == 1 ? Qt::ColorScheme::Dark
+                          : Qt::ColorScheme::Unknown
+        };
         settings.setValue(settingsKey, std::to_underlying(migrated));
         return migrated;
     }
 
-    const qint32 saved = settings.value(settingsKey).toInt();
+    const qint32 saved{settings.value(settingsKey).toInt()};
     if (saved == std::to_underlying(Qt::ColorScheme::Light)) {
         return Qt::ColorScheme::Light;
     }

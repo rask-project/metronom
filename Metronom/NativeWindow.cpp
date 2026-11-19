@@ -102,11 +102,11 @@ void NativeWindow::apply()
     if (m_window == nullptr) {
         return;
     }
-    const WId winId = m_window->winId();
+    const WId winId{m_window->winId()};
     MacWindowEffects::applyTranslucentWindow(winId, m_color, m_alpha, m_dark);
     MacWindowEffects::setWindowResizable(winId, m_window->minimumSize() != m_window->maximumSize());
 
-    const qreal inset = MacWindowEffects::windowButtonsTrailingEdge(winId);
+    const qreal inset{MacWindowEffects::windowButtonsTrailingEdge(winId)};
     if (qFuzzyCompare(m_leadingInset, inset)) {
         return;
     }

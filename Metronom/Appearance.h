@@ -28,9 +28,9 @@ signals:
 private:
     static Qt::ColorScheme savedColorScheme();
 
-    static constexpr const char *settingsKey = "colorScheme";
+    static constexpr const char *settingsKey{"colorScheme"};
     // Material theme of versions up to 2.0.0: 0 light, 1 dark, 2 system.
-    static constexpr const char *legacySettingsKey = "theme";
+    static constexpr const char *legacySettingsKey{"theme"};
 
-    Qt::ColorScheme m_colorScheme = Qt::ColorScheme::Unknown;
+    Qt::ColorScheme m_colorScheme{Qt::ColorScheme::Unknown};
 };

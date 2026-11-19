@@ -25,7 +25,7 @@ bool AppInfo::nativeMenuBar() noexcept
 
 QUrl AppInfo::websiteUrl()
 {
-    static constexpr auto site = "https://rask-project.github.io/metronom/";
+    static constexpr auto site{"https://rask-project.github.io/metronom/"};
     // QLocale() is the language main.cpp loaded the translation for.
     switch (QLocale().language()) {
     case QLocale::Portuguese:

@@ -23,7 +23,7 @@ NSWindow *windowFromId(WId winId)
     if (QGuiApplication::platformName() != QLatin1String("cocoa")) {
         return nil;
     }
-    NSView *const view = (__bridge NSView *) std::bit_cast<void *>(winId);
+    NSView *const view{(__bridge NSView *) std::bit_cast<void *>(winId)};
     return [view window];
 }
 } // namespace
@@ -44,22 +44,22 @@ NSWindow *windowFromId(WId winId)
 
 - (NSView *)hitTest:(NSPoint)point
 {
-    NSView *const parentView = [self superview];
-    NSWindow *const window = self.targetWindow;
-    NSView *const targetView = self.targetView;
+    NSView *const parentView{[self superview]};
+    NSWindow *const window{self.targetWindow};
+    NSView *const targetView{self.targetView};
     if (parentView == nil || window == nil || targetView == nil) {
         return nil;
     }
 
-    auto const buttonType = std::ranges::find_if(windowButtonTypes, [window, parentView, point](NSWindowButton type) {
-        NSButton *const button = [window standardWindowButton:type];
+    auto const buttonType{std::ranges::find_if(windowButtonTypes, [window, parentView, point](NSWindowButton type) {
+        NSButton *const button{[window standardWindowButton:type]};
         return button != nil && NSPointInRect(point, [button convertRect:[button bounds] toView:parentView]);
-    });
+    })};
     if (buttonType != windowButtonTypes.end()) {
         return [window standardWindowButton:*buttonType];
     }
 
-    NSRect const forwardingRect = [self convertRect:[self bounds] toView:parentView];
+    NSRect const forwardingRect{[self convertRect:[self bounds] toView:parentView]};
     if (!NSPointInRect(point, NSInsetRect(forwardingRect, 12.0, 12.0))) {
         return nil;
     }
@@ -72,7 +72,7 @@ namespace
 {
 void installBlur(NSWindow *window, NSView *frameView, NSView *contentView, qreal alpha)
 {
-    NSVisualEffectView *effectView = objc_getAssociatedObject(window, &effectViewKey);
+    NSVisualEffectView *effectView{objc_getAssociatedObject(window, &effectViewKey)};
     if (effectView == nil) {
         // The frame view also covers the title bar, so the blur extends under it.
         effectView = [[NSVisualEffectView alloc] initWithFrame:[frameView bounds]];
@@ -92,7 +92,7 @@ void installToolbar(NSWindow *window)
         return;
     }
     // An empty toolbar gives the taller unified title bar with vertically centred buttons.
-    NSToolbar *const toolbar = [[NSToolbar alloc] initWithIdentifier:@"MetronomEmptyToolbar"];
+    NSToolbar *const toolbar{[[NSToolbar alloc] initWithIdentifier:@"MetronomEmptyToolbar"]};
     [toolbar setDisplayMode:NSToolbarDisplayModeIconOnly];
     objc_setAssociatedObject(window, &toolbarKey, toolbar, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     [window setToolbar:toolbar];
@@ -105,7 +105,7 @@ void raiseContentAboveToolbar(NSWindow *window, NSView *frameView, NSView *conte
     [frameView addSubview:contentView positioned:NSWindowAbove relativeTo:nil];
 
     std::ranges::for_each(windowButtonTypes, [window, frameView](NSWindowButton type) {
-        NSView *container = [window standardWindowButton:type];
+        NSView *container{[window standardWindowButton:type]};
         while ([container superview] != nil && [container superview] != frameView) {
             container = [container superview];
         }
@@ -114,7 +114,7 @@ void raiseContentAboveToolbar(NSWindow *window, NSView *frameView, NSView *conte
         }
     });
 
-    MetronomInputForwardingView *inputView = objc_getAssociatedObject(window, &inputForwardingViewKey);
+    MetronomInputForwardingView *inputView{objc_getAssociatedObject(window, &inputForwardingViewKey)};
     if (inputView == nil) {
         inputView = [[MetronomInputForwardingView alloc] initWithFrame:[frameView bounds]];
         [inputView setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
@@ -128,7 +128,7 @@ void raiseContentAboveToolbar(NSWindow *window, NSView *frameView, NSView *conte
 
 void MacWindowEffects::applyTranslucentWindow(WId winId, const QColor &color, qreal alpha, bool dark)
 {
-    NSWindow *const window = windowFromId(winId);
+    NSWindow *const window{windowFromId(winId)};
     if (window == nil) {
         return;
     }
@@ -138,8 +138,8 @@ void MacWindowEffects::applyTranslucentWindow(WId winId, const QColor &color, qr
     [window setOpaque:NO];
     [window setBackgroundColor:[NSColor colorWithRed:color.redF() green:color.greenF() blue:color.blueF() alpha:alpha]];
 
-    NSView *const contentView = [window contentView];
-    NSView *const frameView = [contentView superview];
+    NSView *const contentView{[window contentView]};
+    NSView *const frameView{[contentView superview]};
     if (frameView == nil) {
         return;
     }
@@ -151,17 +151,17 @@ void MacWindowEffects::applyTranslucentWindow(WId winId, const QColor &color, qr
 
 qreal MacWindowEffects::windowButtonsTrailingEdge(WId winId)
 {
-    NSWindow *const window = windowFromId(winId);
+    NSWindow *const window{windowFromId(winId)};
     if (window == nil) {
         return 0.0;
     }
 
-    NSView *const contentView = [window contentView];
+    NSView *const contentView{[window contentView]};
     [[contentView superview] layoutSubtreeIfNeeded];
 
-    CGFloat edge = 0.0;
+    CGFloat edge{0.0};
     std::ranges::for_each(windowButtonTypes, [window, contentView, &edge](NSWindowButton type) {
-        NSButton *const button = [window standardWindowButton:type];
+        NSButton *const button{[window standardWindowButton:type]};
         if (button == nil || [button isHidden]) {
             return;
         }
@@ -172,10 +172,10 @@ qreal MacWindowEffects::windowButtonsTrailingEdge(WId winId)
 
 void MacWindowEffects::setWindowResizable(WId winId, bool resizable)
 {
-    NSWindow *const window = windowFromId(winId);
+    NSWindow *const window{windowFromId(winId)};
     if (window == nil) {
         return;
     }
-    const NSWindowStyleMask mask = [window styleMask];
+    const NSWindowStyleMask mask{[window styleMask]};
     [window setStyleMask:resizable ? (mask | NSWindowStyleMaskResizable) : (mask & ~NSWindowStyleMaskResizable)];
 }
