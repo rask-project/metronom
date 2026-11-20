@@ -193,8 +193,9 @@ jobs:
           VERSION=$(scripts/ci-version.sh)
           SUFFIX=$([ -n "$ANDROID_KEYSTORE_BASE64" ] && echo "" || echo "-debug")
           mkdir -p out
-          APK=$(find build/ci -path '*/outputs/apk/*' -name '*.apk' | head -n 1)
-          AAB=$(find build/ci -path '*/outputs/bundle/*' -name '*.aab' | head -n 1)
+          # Gradle also builds the debug variants: take the release ones when there are.
+          APK=$(find build/ci -path '*/outputs/apk/*' -name '*.apk' | grep -m1 /release/ || find build/ci -path '*/outputs/apk/*' -name '*.apk' | head -n 1)
+          AAB=$(find build/ci -path '*/outputs/bundle/*' -name '*.aab' | grep -m1 /release/ || find build/ci -path '*/outputs/bundle/*' -name '*.aab' | head -n 1)
           cp "$APK" "out/Metronom-$VERSION-android-arm64-v8a$SUFFIX.apk"
           cp "$AAB" "out/Metronom-$VERSION-android-arm64-v8a$SUFFIX.aab"
           ls -l out
