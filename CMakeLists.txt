@@ -171,7 +171,7 @@ add_subdirectory(resources/icons)
 
 # Debug builds get their own id so they don't share macOS permissions and
 # preferences caches with the installed app.
-set(METRONOM_BUNDLE_ID com.github.rask-project.metronom)
+set(METRONOM_BUNDLE_ID io.github.rask-project.metronom)
 if(CMAKE_BUILD_TYPE STREQUAL "Debug")
     string(APPEND METRONOM_BUNDLE_ID ".debug")
 endif()

@@ -12,7 +12,7 @@
 
 int main(int argc, char *argv[])
 {
-    QCoreApplication::setOrganizationDomain(QStringLiteral("com.github.rask-project"));
+    QCoreApplication::setOrganizationDomain(QStringLiteral("rask-project.github.io"));
     QCoreApplication::setOrganizationName(QStringLiteral("rask-project"));
     QCoreApplication::setApplicationName(QStringLiteral("Metronom"));
     QCoreApplication::setApplicationVersion(

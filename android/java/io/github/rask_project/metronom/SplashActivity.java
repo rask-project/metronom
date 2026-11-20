@@ -1,4 +1,4 @@
-package com.github.rask;
+package io.github.rask_project.metronom;
 
 import android.app.Activity;
 import android.content.Intent;
