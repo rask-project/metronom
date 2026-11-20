@@ -19,7 +19,8 @@ T.ToolBar {
     implicitHeight: Math.max(implicitBackgroundHeight + topInset + bottomInset, implicitContentHeight + topPadding + bottomPadding)
 
     padding: Qt.platform.os === "android" ? 16 : 8
-    leftPadding: control.padding + control.leadingInset
+    leftPadding: control.padding + control.leadingInset + (control.translucent ? 0 : SafeArea.margins.left)
+    rightPadding: control.padding + (control.translucent ? 0 : SafeArea.margins.right)
     topPadding: control.translucent ? 0 : SafeArea.margins.top + 8
     bottomPadding: control.translucent ? 0 : SafeArea.margins.bottom + 8
 

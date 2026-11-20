@@ -14,7 +14,9 @@ Window {
 
     title: "Metronom"
 
-    readonly property bool isLandscape: width > height && width >= layout.anchors.leftMargin + layout.anchors.rightMargin + bpmControl.implicitWidth + Math.max(noteValueSelector.implicitWidth, transport.implicitWidth)
+    readonly property bool isLandscape: width > height && layout.width >= noteValueSelector.implicitWidth + layout.columnSpacing + transport.implicitWidth
+    // Portrait screens too short for a metronome above the transport put the two side by side.
+    readonly property bool compactPortrait: !isLandscape && layout.height - noteValueSelector.implicitHeight - bpmControl.Layout.minimumHeight - transport.implicitHeight - 2 * layout.rowSpacing < 200
     readonly property Item blurSourceItem: backgroundPage
     readonly property bool isAndroid: Qt.platform.os === "android"
     readonly property bool dialogOpen: settingsDialog.visible || aboutDialog.visible || timeSignatureDialog.visible
@@ -145,10 +147,10 @@ Window {
             id: layout
 
             anchors.fill: parent
-            anchors.leftMargin: 16
-            anchors.topMargin: 16
-            anchors.rightMargin: 16
-            anchors.bottomMargin: 16
+            anchors.leftMargin: 16 + parent.SafeArea.margins.left
+            anchors.topMargin: 16 + parent.SafeArea.margins.top
+            anchors.rightMargin: 16 + parent.SafeArea.margins.right
+            anchors.bottomMargin: 16 + parent.SafeArea.margins.bottom
 
             columns: window.isLandscape ? 2 : 1
             uniformCellHeights: false
@@ -174,38 +176,46 @@ Window {
                 metronome: metronome
             }
 
-            Item {
-                id: metronomArea
+            // The metronome above the transport; beside it on compact portrait screens.
+            GridLayout {
+                id: playArea
 
-                // Landscape: the metronome on the left, the controls stacked on the right.
                 Layout.row: window.isLandscape ? 0 : 2
                 Layout.column: 0
-                Layout.rowSpan: window.isLandscape ? 3 : 1
+                Layout.rowSpan: window.isLandscape ? 2 : 1
                 Layout.fillWidth: true
                 Layout.fillHeight: true
 
-                Metronom {
-                    id: metronom
+                columns: window.compactPortrait ? 2 : 1
 
-                    height: Math.min(parent.height * 0.7, parent.width * 0.9)
-                    width: height
-                    anchors.centerIn: parent
+                Item {
+                    id: metronomArea
 
-                    metronome: metronome
+                    Layout.fillWidth: !window.compactPortrait
+                    Layout.fillHeight: true
+                    Layout.preferredWidth: playArea.width * 0.3
+
+                    Metronom {
+                        id: metronom
+
+                        height: Math.min(parent.height * 0.9, parent.width * 0.9)
+                        width: height
+                        anchors.centerIn: parent
+
+                        metronome: metronome
+                    }
                 }
-            }
 
-            Transport {
-                id: transport
+                Transport {
+                    id: transport
 
-                Layout.row: window.isLandscape ? 2 : 3
-                Layout.column: window.isLandscape ? 1 : 0
-                Layout.fillWidth: true
-                Layout.minimumWidth: implicitWidth
-                Layout.alignment: Qt.AlignHCenter
-                metronome: metronome
+                    Layout.fillWidth: true
+                    Layout.minimumWidth: implicitWidth
+                    Layout.alignment: Qt.AlignVCenter
+                    metronome: metronome
 
-                onTimeSignatureClicked: timeSignatureDialog.open()
+                    onTimeSignatureClicked: timeSignatureDialog.open()
+                }
             }
 
             states: [
@@ -214,9 +224,9 @@ Window {
                     when: window.isLandscape
 
                     PropertyChanges {
-                        target: metronomArea
+                        target: playArea
                         Layout.fillWidth: false
-                        Layout.preferredWidth: layout.width * 0.4
+                        Layout.preferredWidth: Math.max(layout.width * 0.4, transport.implicitWidth)
                     }
 
                     PropertyChanges {
