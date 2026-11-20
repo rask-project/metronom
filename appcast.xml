@@ -6,6 +6,33 @@
     <description>Metronom releases</description>
     <language>en</language>
     <item>
+      <title>Metronom 3.2.0</title>
+      <link>https://github.com/rask-project/metronom/releases/tag/v3.2.0</link>
+      <sparkle:version>3.2.0.1000</sparkle:version>
+      <sparkle:shortVersionString>3.2.0</sparkle:shortVersionString>
+      <sparkle:minimumSystemVersion>14.4</sparkle:minimumSystemVersion>
+      <pubDate>Fri, 20 Nov 2026 15:03:00 GMT</pubDate>
+      <description sparkle:format="markdown"><![CDATA[## What's new
+
+Metronom 3.2.0 gets the Android app ready for the Play Store: it keeps playing in the background and fits
+every screen.
+
+- **Plays in the background:** on Android the metronome keeps going when you switch apps or turn the screen off.
+  Its notification shows the tempo and the time signature, with the note value as its icon, and has Stop and
+  Resume; tapping it brings the app back where you left it. Closing the app from the recent apps stops it.
+- **Fits the screen:** on a short phone the metronome sits beside the play button and the beat bar, on a taller
+  one it stands above them, and in landscape the controls move to the right. Nothing hides under the status or
+  navigation bars any more.
+- **Beat bar:** it now sits under the play and time signature buttons, and its marks shrink instead of
+  disappearing in long bars such as 12/4 or with thirty-second notes.
+- **New app ID:** the Android package is now `io.github.rask_project.metronom`. It installs as a new app; an
+  earlier APK can be uninstalled.
+- **Privacy policy:** the website has a [privacy policy](https://rask-project.github.io/metronom/privacy/) —
+  Metronom collects no data.
+]]></description>
+      <enclosure url="https://github.com/rask-project/metronom/releases/download/v3.2.0/Metronom-3.2.0-macos-arm64.zip" length="57360279" type="application/octet-stream" sparkle:edSignature="U+suh+56c0KBuBgKXmpgqOELFjZ49z3SwOfvbKk9C8CosOCUWFn0xvTQ5Dn3Sc9H/ZksFDbBc39x1PPRqssqCg=="/>
+    </item>
+    <item>
       <title>Metronom 3.1.1</title>
       <link>https://github.com/rask-project/metronom/releases/tag/v3.1.1</link>
       <sparkle:version>3.1.1.1000</sparkle:version>
