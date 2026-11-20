@@ -149,6 +149,9 @@ Metronome::Metronome(QObject *parent)
     m_positionTimer.setTimerType(Qt::PreciseTimer);
     m_positionTimer.setInterval(kPositionPollMs);
     connect(&m_positionTimer, &QTimer::timeout, this, &Metronome::pollPosition);
+    connect(this, &Metronome::bpmChanged, this, &Metronome::updatePlaybackContent);
+    connect(this, &Metronome::timeSignatureChanged, this, &Metronome::updatePlaybackContent);
+    connect(this, &Metronome::noteValueChanged, this, &Metronome::updatePlaybackContent);
 
     publishTickConfig();
     rebuildAudio();
@@ -505,6 +508,8 @@ void Metronome::start()
 
     m_running = true;
     m_screenLock.setInhibited(true);
+    updatePlaybackContent();
+    m_playbackService.setPlaying(true);
 
     if (m_format.sampleFormat() == QAudioFormat::Int16) {
         m_sink->start([this](QSpan<qint16> samples) { fillSamples(samples); });
@@ -534,11 +539,22 @@ void Metronome::stop()
 
     m_running = false;
     m_screenLock.setInhibited(false);
+    m_playbackService.setPlaying(false);
 
     m_sink->stop();
     m_positionTimer.stop();
     emit runningChanged();
     updateAutoIncrementTimer();
+}
+
+void Metronome::updatePlaybackContent()
+{
+    m_playbackService.setContent(
+        QStringLiteral("%1 BPM · %2/%3").arg(m_bpm).arg(m_numerator).arg(m_denominator),
+        static_cast<qint32>(m_noteValue),
+        tr("Resume"),
+        tr("Stop")
+    );
 }
 
 void Metronome::increaseBpm()

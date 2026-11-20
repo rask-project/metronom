@@ -15,6 +15,9 @@ Guidance for AI agents working in this repository.
 - `Metronom/` — static QML module `metronom_qml` (URI `Metronom`): the C++ types and their QML controls.
   - `Metronome` — audio engine (`QAudioSink`), beat scheduling, auto-increment.
   - `ScreenLockInhibitor` — keeps the screen awake while playing (see *Platform code*).
+  - `PlaybackService` — Android foreground service (`android/java/.../MetronomeService.java`) that keeps the
+    metronome playing in the background: a notification with Stop/Resume whose icon is the current note value
+    (`android/res/drawable/ic_note_*.xml`); no-op elsewhere.
   - `StatusBarController` — Android status bar appearance.
   - `LanguageManager` — UI language selection (QSettings `language`).
   - `NativeWindow` — translucent, blurred window with the content under the title bar (macOS; no-op elsewhere).
@@ -196,6 +199,8 @@ Qt Creator opens the project directly with the matching kit.
   read.
 - `release.yml` (job `appcast`) signs the macOS zip with the `SPARKLE_ED_PRIVATE_KEY` secret and adds it to
   `appcast.xml` on the `appcast` branch, with `docs/releases/<tag>.md` as the notes. Without the secret it only warns.
+- The `QtActivity` declares `android.app.background_running`: without it Qt blocks its event loop in the background
+  and the notification's Stop (or any queued call) waits until the app returns.
 - Android JNI calls that touch the activity/window run on the Android UI thread via
   `QNativeInterface::QAndroidApplication::runOnAndroidMainThread`.
 

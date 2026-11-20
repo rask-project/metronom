@@ -1,8 +1,9 @@
 <?xml version='1.0'?>
 <manifest android:installLocation="auto" android:versionCode="-- %%INSERT_VERSION_CODE%% --" android:versionName="-- %%INSERT_VERSION_NAME%% --" package="io.github.rask_project.metronom" xmlns:android="http://schemas.android.com/apk/res/android">
-    <!-- %%INSERT_PERMISSIONS -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK"/>
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
     <supports-screens android:anyDensity="true" android:largeScreens="true" android:normalScreens="true" android:smallScreens="true"/>
-    <!--%%INSERT_FEATURES-->
     <application android:allowBackup="false" android:enableOnBackInvokedCallback="false" android:fullBackupOnly="false" android:hardwareAccelerated="true" android:icon="-- %%INSERT_APP_ICON%% --" android:label="-- %%INSERT_APP_NAME%% --" android:name="org.qtproject.qt.android.bindings.QtApplication" android:usesCleartextTraffic="false">
         <activity android:exported="true" android:label="-- %%INSERT_APP_NAME%% --" android:name=".SplashActivity" android:theme="@style/splashStartTheme">
             <intent-filter>
@@ -13,7 +14,9 @@
         <activity android:configChanges="orientation|uiMode|screenLayout|screenSize|smallestScreenSize|layoutDirection|locale|fontScale|keyboard|keyboardHidden|navigation|mcc|mnc|density" android:exported="true" android:label="" android:launchMode="singleTop" android:name="org.qtproject.qt.android.bindings.QtActivity" android:screenOrientation="unspecified" android:theme="@style/mainTheme">
             <meta-data android:name="android.app.lib_name" android:value="-- %%INSERT_APP_LIB_NAME%% --"/>
             <meta-data android:name="android.app.arguments" android:value="-- %%INSERT_APP_ARGUMENTS%% --"/>
+            <meta-data android:name="android.app.background_running" android:value="true"/>
         </activity>
+        <service android:exported="false" android:foregroundServiceType="mediaPlayback" android:name=".MetronomeService"/>
         <provider android:authorities="${applicationId}.qtprovider" android:exported="false" android:grantUriPermissions="true" android:name="androidx.core.content.FileProvider">
             <meta-data android:name="android.support.FILE_PROVIDER_PATHS" android:resource="@xml/qtprovider_paths"/>
         </provider>

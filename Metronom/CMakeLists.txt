@@ -7,6 +7,8 @@ qt_add_qml_module(metronom_qml
     SOURCES
         Metronome.h
         Metronome.cpp
+        PlaybackService.h
+        PlaybackService.cpp
         ScreenLockInhibitor.h
         ScreenLockInhibitor.cpp
         StatusBarController.h

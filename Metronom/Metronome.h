@@ -1,5 +1,6 @@
 #pragma once
 
+#include "PlaybackService.h"
 #include "ScreenLockInhibitor.h"
 
 #include <QAudioDevice>
@@ -128,6 +129,7 @@ private:
     qint32 defaultDeviceIndex() const;
     void rebuildAudio();
     void updateAutoIncrementTimer();
+    void updatePlaybackContent();
 
     static constexpr qint32 sampleRate{44100};
     static constexpr std::array<qint32, 9> tempoMarkingsValues{40, 60, 66, 76, 108, 120, 168, 184, 208};
@@ -157,6 +159,7 @@ private:
     QList<float> m_accentClick;
     QList<float> m_beatClick;
     QList<float> m_subdivisionClick;
+    PlaybackService m_playbackService{[this] { start(); }, [this] { stop(); }};
     ScreenLockInhibitor m_screenLock;
     QTimer m_autoIncrementTimer;
     QTimer m_positionTimer;

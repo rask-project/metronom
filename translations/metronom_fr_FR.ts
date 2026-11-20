@@ -64,9 +64,22 @@
 <context>
     <name>Main</name>
     <message>
-        <location filename="../Main.qml" line="128"/>
+        <location filename="../Main.qml" line="130"/>
         <source>Help</source>
         <translation>Aide</translation>
+    </message>
+</context>
+<context>
+    <name>Metronome</name>
+    <message>
+        <location filename="../Metronom/Metronome.cpp" line="553"/>
+        <source>Resume</source>
+        <translation>Reprendre</translation>
+    </message>
+    <message>
+        <location filename="../Metronom/Metronome.cpp" line="554"/>
+        <source>Stop</source>
+        <translation>Arrêter</translation>
     </message>
 </context>
 <context>
@@ -136,7 +149,7 @@
 <context>
     <name>Transport</name>
     <message>
-        <location filename="../Metronom/Transport.qml" line="24"/>
+        <location filename="../Metronom/Transport.qml" line="29"/>
         <source>Time signature</source>
         <translation>Mesure</translation>
     </message>
