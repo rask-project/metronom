@@ -128,6 +128,7 @@ features:
     appearance: "Aparência"
     settings: "Configurações"
     platforms: "Plataformas"
+    android: "Android"
     updates: "Atualizações"
   tempo_text: "A roda de BPM define o andamento de <strong>40 a 300 batidas por minuto</strong>. Abaixo do BPM, o nome da indicação de andamento acompanha o número."
   tempo_rows:
@@ -191,6 +192,13 @@ features:
     - ["Linux", "Um <code>.deb</code> para Debian e Ubuntu 24.04+, X11 e Wayland"]
     - ["Android", "Celulares e tablets arm64"]
   platforms_text: "Um só código em Qt Quick e C++23. <a href=\"%base%download/\">Download →</a>"
+  android_text: "No Android, o Metronom continua tocando quando você troca de app ou apaga a tela."
+  android_list:
+    - "<strong>Uma notificação enquanto toca</strong> mostra o andamento e o compasso, com a divisão rítmica como ícone, para você saber de relance o que está tocando."
+    - "<strong>Parar e Continuar</strong> direto na notificação. Tocar nela traz o app de volta onde você estava; fechar o app pelos recentes para o metrônomo."
+    - "<strong>Se ajusta à tela:</strong> num celular baixo o metrônomo fica ao lado do play e da barra de tempos, num mais alto fica acima deles, e na horizontal os controles vão para a direita."
+  android_alt_notification: "A notificação tocando, com Parar, e pausada, com Continuar; o ícone é a divisão rítmica"
+  android_alt_playing: "Metronom tocando em colcheias num celular Android"
   updates_text: "No macOS, uma vez por dia o Metronom procura uma versão nova, baixa em segundo plano e instala quando você sai. <strong>Metronom ▸ Check for Updates…</strong> verifica na hora e mostra o que mudou. As atualizações são assinadas."
 
 guide:
@@ -308,3 +316,18 @@ notfound:
   title: "Uma pausa onde devia haver uma página"
   lead: "Esta página não existe."
   home: "Ir para o início"
+
+privacy:
+  link: "Privacidade"
+  eyebrow: "Privacidade"
+  title: "Política de Privacidade"
+  lead: "O Metronom não coleta dados pessoais. Nada do que você faz no app sai do seu aparelho."
+  updated: "Última atualização: 20 de novembro de 2026"
+  sections:
+    - ["O que o app coleta", "Nada. Não há conta, análise de uso, publicidade, relatório de falhas nem rastreamento de qualquer tipo. O app para Android nem pede acesso à internet."]
+    - ["O que fica no seu aparelho", "Suas configurações — andamento, compasso, divisão rítmica, tema, idioma e saída de áudio — são salvas no aparelho, só para restaurá-las na próxima vez que você abrir o app. Desinstalar o app as apaga. No Android, elas ficam fora dos backups do aparelho."]
+    - ["Permissões no Android", "<strong>Notificações:</strong> para mostrar a notificação com o andamento, o compasso e Parar/Continuar enquanto o metrônomo toca.", "<strong>Serviço em primeiro plano (reprodução de mídia):</strong> para o metrônomo continuar tocando quando você troca de app ou apaga a tela. Ele termina quando você para o metrônomo pela notificação e a dispensa, ou fecha o app pelos recentes."]
+    - ["Links e atualizações", "O botão Ajuda abre este site no seu navegador. O site é hospedado no GitHub Pages, e a página Download consulta a API do GitHub para saber a última versão; a <a href=\"https://docs.github.com/site-policy/privacy-policies/github-general-privacy-statement\">declaração de privacidade do GitHub</a> vale para essas consultas.", "No macOS, uma vez por dia o Metronom procura uma versão nova no GitHub. A verificação não envia dados pessoais, só a requisição que qualquer navegador faria para baixar um arquivo."]
+    - ["Crianças", "O Metronom é adequado para todas as idades e não coleta dados de ninguém, inclusive de crianças."]
+    - ["Alterações", "Se esta política mudar, a nova versão será publicada nesta página com uma nova data."]
+    - ["Contato", "Dúvidas sobre privacidade são bem-vindas como uma <a href=\"https://github.com/rask-project/metronom/issues\">issue no GitHub</a>."]

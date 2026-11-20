@@ -1151,6 +1151,16 @@ tr:last-child td {
     border-radius: 18px;
 }
 
+/* Phone captures (a notification) stay at about their own size. */
+.feature-section .shot-frame:not(.is-window) {
+    max-width: 520px;
+    margin-inline: auto;
+}
+
+.feature-section .shot-frame + .shot-frame {
+    margin-top: 20px;
+}
+
 .shot-pair {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 360px));

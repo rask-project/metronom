@@ -1,7 +1,7 @@
 {%- include i18n.html -%}
 {%- assign f = t.features -%}
 {%- comment -%} section id, menu key, icon, glyph (a site icon, else a note icon) {%- endcomment -%}
-{%- assign sections = "tempo:tempo:gauge:1,time-signature:meter:meter:1,note-values:notes:eighth-note:0,beat-bar:bar:bars:1,sound:sound:speaker:1,timing:timing:wave:1,auto-increment:rise:rise:1,keyboard:keyboard:keyboard:1,appearance:appearance:appearance:1,settings:settings:gear:1,platforms:platforms:devices:1,updates:updates:update:1" | split: "," -%}
+{%- assign sections = "tempo:tempo:gauge:1,time-signature:meter:meter:1,note-values:notes:eighth-note:0,beat-bar:bar:bars:1,sound:sound:speaker:1,timing:timing:wave:1,auto-increment:rise:rise:1,keyboard:keyboard:keyboard:1,appearance:appearance:appearance:1,settings:settings:gear:1,android:android:sixteenth-note:0,platforms:platforms:devices:1,updates:updates:update:1" | split: "," -%}
 <div class="page container">
   <header class="page-header">
     <p class="eyebrow">{{ f.eyebrow }}</p>
@@ -77,6 +77,11 @@
           {% include shot.html name="settings-dark.jpg" w=920 h=1544 window=true alt=f.settings_alt_dark %}
           {% include shot.html name="settings-light.jpg" w=920 h=1544 window=true alt=f.settings_alt_light %}
         </div>
+        {%- when "android" %}
+        <p>{{ f.android_text }}</p>
+        <ul>{% for li in f.android_list %}<li>{{ li }}</li>{% endfor %}</ul>
+        {% include shot.html name="android-notification.png" w=680 h=576 alt=f.android_alt_notification %}
+        {% include shot.html name="android-playing.gif" w=460 h=984 window=true alt=f.android_alt_playing %}
         {%- when "platforms" %}
         {% include rows.html rows=f.platforms_rows %}
         <p>{% include tr.html s=f.platforms_text %}</p>

@@ -132,6 +132,7 @@ features:
     appearance: "Appearance"
     settings: "Settings"
     platforms: "Platforms"
+    android: "Android"
     updates: "Updates"
   tempo_text: "The BPM wheel sets the tempo from <strong>40 to 300 beats per minute</strong>. Under the BPM, the name of the tempo marking follows the number."
   tempo_rows:
@@ -195,6 +196,13 @@ features:
     - ["Linux", "A <code>.deb</code> for Debian and Ubuntu 24.04+, X11 and Wayland"]
     - ["Android", "arm64 phones and tablets"]
   platforms_text: "One code base in Qt Quick and C++23. <a href=\"%base%download/\">Download →</a>"
+  android_text: "On Android, Metronom keeps playing when you switch apps or turn the screen off."
+  android_list:
+    - "<strong>A notification while it plays</strong> shows the tempo and the time signature, with the note value as its icon, so you can tell what is playing at a glance."
+    - "<strong>Stop and Resume</strong> right from the notification. Tapping it brings the app back where you left it; closing the app from the recent apps stops the metronome."
+    - "<strong>Fits the screen:</strong> on a short phone the metronome sits beside the play button and the beat bar, on a taller one it stands above them, and in landscape the controls move to the right."
+  android_alt_notification: "The notification while playing, with Stop, and while paused, with Resume; its icon is the note value"
+  android_alt_playing: "Metronom playing in eighth notes on an Android phone"
   updates_text: "On macOS, once a day Metronom looks for a newer release, downloads it in the background and installs it when you quit. <strong>Metronom ▸ Check for Updates…</strong> checks right away and shows what changed. Updates are signed."
 
 guide:
@@ -312,3 +320,18 @@ notfound:
   title: "A rest where a page should be"
   lead: "That page is not here."
   home: "Go home"
+
+privacy:
+  link: "Privacy"
+  eyebrow: "Privacy"
+  title: "Privacy Policy"
+  lead: "Metronom collects no personal data. Nothing you do in the app leaves your device."
+  updated: "Last updated: November 20, 2026"
+  sections:
+    - ["What the app collects", "Nothing. There is no account, no analytics, no advertising, no crash reporting and no tracking of any kind. The Android app does not even ask for internet access."]
+    - ["What stays on your device", "Your settings — tempo, time signature, note value, theme, language and audio output — are saved on the device, only to restore them the next time you open the app. Uninstalling the app deletes them. On Android they are left out of device backups."]
+    - ["Android permissions", "<strong>Notifications:</strong> to show the notification with the tempo, the time signature and Stop/Resume while the metronome plays.", "<strong>Foreground service (media playback):</strong> to keep the metronome playing when you switch apps or turn the screen off. It stops when you stop the metronome from the notification and dismiss it, or close the app from the recent apps."]
+    - ["Links and updates", "The Help button opens this website in your browser. The site is hosted on GitHub Pages, and its Download page asks the GitHub API for the latest release; <a href=\"https://docs.github.com/site-policy/privacy-policies/github-general-privacy-statement\">GitHub’s privacy statement</a> applies to those requests.", "On macOS, once a day Metronom checks GitHub for a newer version. The check sends no personal data, only the request any browser would make to download a file."]
+    - ["Children", "Metronom is suitable for all ages and collects no data from anyone, children included."]
+    - ["Changes", "If this policy changes, the new version will be published on this page with a new date."]
+    - ["Contact", "Questions about privacy are welcome as an <a href=\"https://github.com/rask-project/metronom/issues\">issue on GitHub</a>."]

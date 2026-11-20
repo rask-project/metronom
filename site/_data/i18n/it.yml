@@ -128,6 +128,7 @@ features:
     appearance: "Aspetto"
     settings: "Impostazioni"
     platforms: "Piattaforme"
+    android: "Android"
     updates: "Aggiornamenti"
   tempo_text: "La rotella dei BPM imposta l’andamento da <strong>40 a 300 battiti al minuto</strong>. Sotto i BPM, il nome dell’indicazione di andamento segue il numero."
   tempo_rows:
@@ -191,6 +192,13 @@ features:
     - ["Linux", "Un <code>.deb</code> per Debian e Ubuntu 24.04+, X11 e Wayland"]
     - ["Android", "Telefoni e tablet arm64"]
   platforms_text: "Un solo codice in Qt Quick e C++23. <a href=\"%base%download/\">Scarica →</a>"
+  android_text: "Su Android, Metronom continua a suonare quando cambi app o spegni lo schermo."
+  android_list:
+    - "<strong>Una notifica mentre suona</strong> mostra il tempo e il metro, con la figura come icona, così vedi subito cosa sta suonando."
+    - "<strong>Ferma e Riprendi</strong> direttamente dalla notifica. Toccandola torni all’app dove l’avevi lasciata; chiudere l’app dalle app recenti ferma il metronomo."
+    - "<strong>Si adatta allo schermo:</strong> su un telefono basso il metronomo sta accanto al tasto play e alla barra dei movimenti, su uno più alto sta sopra, e in orizzontale i controlli passano a destra."
+  android_alt_notification: "La notifica mentre suona, con Ferma, e in pausa, con Riprendi; l’icona è la figura"
+  android_alt_playing: "Metronom che suona in crome su un telefono Android"
   updates_text: "Su macOS, una volta al giorno Metronom cerca una nuova versione, la scarica in background e la installa quando esci. <strong>Metronom ▸ Check for Updates…</strong> controlla subito e mostra cosa è cambiato. Gli aggiornamenti sono firmati."
 
 guide:
@@ -308,3 +316,18 @@ notfound:
   title: "Una pausa dove dovrebbe esserci una pagina"
   lead: "Questa pagina non esiste."
   home: "Torna all’inizio"
+
+privacy:
+  link: "Privacy"
+  eyebrow: "Privacy"
+  title: "Informativa sulla privacy"
+  lead: "Metronom non raccoglie dati personali. Niente di ciò che fai nell’app lascia il tuo dispositivo."
+  updated: "Ultimo aggiornamento: 20 novembre 2026"
+  sections:
+    - ["Cosa raccoglie l’app", "Niente. Nessun account, nessuna statistica d’uso, nessuna pubblicità, nessuna segnalazione di arresti anomali né tracciamento di alcun tipo. L’app Android non chiede nemmeno l’accesso a internet."]
+    - ["Cosa resta sul tuo dispositivo", "Le tue impostazioni — tempo, metro, figura, tema, lingua e uscita audio — sono salvate sul dispositivo, solo per ripristinarle la prossima volta che apri l’app. Disinstallare l’app le elimina. Su Android sono escluse dai backup del dispositivo."]
+    - ["Autorizzazioni Android", "<strong>Notifiche:</strong> per mostrare la notifica con il tempo, il metro e Ferma/Riprendi mentre il metronomo suona.", "<strong>Servizio in primo piano (riproduzione multimediale):</strong> per far continuare il metronomo quando cambi app o spegni lo schermo. Termina quando fermi il metronomo dalla notifica e la chiudi, o chiudi l’app dalle app recenti."]
+    - ["Link e aggiornamenti", "Il pulsante Aiuto apre questo sito nel browser. Il sito è ospitato su GitHub Pages e la sua pagina Scarica interroga l’API di GitHub per conoscere l’ultima versione; a queste richieste si applica l’<a href=\"https://docs.github.com/site-policy/privacy-policies/github-general-privacy-statement\">informativa sulla privacy di GitHub</a>.", "Su macOS, una volta al giorno Metronom cerca una nuova versione su GitHub. Il controllo non invia dati personali, solo la richiesta che farebbe qualsiasi browser per scaricare un file."]
+    - ["Bambini", "Metronom è adatto a tutte le età e non raccoglie dati di nessuno, bambini compresi."]
+    - ["Modifiche", "Se questa informativa cambia, la nuova versione sarà pubblicata su questa pagina con una nuova data."]
+    - ["Contatti", "Le domande sulla privacy sono benvenute come <a href=\"https://github.com/rask-project/metronom/issues\">issue su GitHub</a>."]

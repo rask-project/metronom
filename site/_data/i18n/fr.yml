@@ -128,6 +128,7 @@ features:
     appearance: "Apparence"
     settings: "Paramètres"
     platforms: "Plateformes"
+    android: "Android"
     updates: "Mises à jour"
   tempo_text: "La roue des BPM règle le tempo de <strong>40 à 300 battements par minute</strong>. Sous le BPM, le nom de l’indication de tempo suit le nombre."
   tempo_rows:
@@ -191,6 +192,13 @@ features:
     - ["Linux", "Un <code>.deb</code> pour Debian et Ubuntu 24.04+, X11 et Wayland"]
     - ["Android", "Téléphones et tablettes arm64"]
   platforms_text: "Une seule base de code en Qt Quick et C++23. <a href=\"%base%download/\">Télécharger →</a>"
+  android_text: "Sur Android, Metronom continue de jouer quand vous changez d’app ou éteignez l’écran."
+  android_list:
+    - "<strong>Une notification pendant la lecture</strong> affiche le tempo et la mesure, avec la valeur de note comme icône, pour savoir d’un coup d’œil ce qui joue."
+    - "<strong>Arrêter et Reprendre</strong> directement depuis la notification. La toucher vous ramène dans l’app là où vous étiez ; fermer l’app depuis les apps récentes arrête le métronome."
+    - "<strong>S’adapte à l’écran :</strong> sur un téléphone court, le métronome se place à côté du bouton lecture et de la barre des temps, sur un plus grand il est au-dessus, et en paysage les contrôles passent à droite."
+  android_alt_notification: "La notification pendant la lecture, avec Arrêter, et en pause, avec Reprendre ; son icône est la valeur de note"
+  android_alt_playing: "Metronom jouant en croches sur un téléphone Android"
   updates_text: "Sur macOS, une fois par jour, Metronom cherche une nouvelle version, la télécharge en arrière-plan et l’installe quand vous quittez. <strong>Metronom ▸ Check for Updates…</strong> vérifie tout de suite et montre ce qui a changé. Les mises à jour sont signées."
 
 guide:
@@ -308,3 +316,18 @@ notfound:
   title: "Un silence là où devrait être une page"
   lead: "Cette page n’existe pas."
   home: "Retour à l’accueil"
+
+privacy:
+  link: "Confidentialité"
+  eyebrow: "Confidentialité"
+  title: "Politique de confidentialité"
+  lead: "Metronom ne collecte aucune donnée personnelle. Rien de ce que vous faites dans l’app ne quitte votre appareil."
+  updated: "Dernière mise à jour : 20 novembre 2026"
+  sections:
+    - ["Ce que l’app collecte", "Rien. Pas de compte, pas de statistiques d’usage, pas de publicité, pas de rapports de plantage ni de pistage d’aucune sorte. L’app Android ne demande même pas l’accès à internet."]
+    - ["Ce qui reste sur votre appareil", "Vos réglages — tempo, mesure, valeur de note, thème, langue et sortie audio — sont enregistrés sur l’appareil, uniquement pour les retrouver à la prochaine ouverture de l’app. Désinstaller l’app les supprime. Sur Android, ils sont exclus des sauvegardes de l’appareil."]
+    - ["Autorisations Android", "<strong>Notifications :</strong> pour afficher la notification avec le tempo, la mesure et Arrêter/Reprendre pendant que le métronome joue.", "<strong>Service de premier plan (lecture multimédia) :</strong> pour que le métronome continue de jouer quand vous changez d’app ou éteignez l’écran. Il s’arrête quand vous arrêtez le métronome depuis la notification et la fermez, ou fermez l’app depuis les apps récentes."]
+    - ["Liens et mises à jour", "Le bouton Aide ouvre ce site dans votre navigateur. Le site est hébergé sur GitHub Pages, et sa page Télécharger interroge l’API GitHub pour connaître la dernière version ; la <a href=\"https://docs.github.com/site-policy/privacy-policies/github-general-privacy-statement\">déclaration de confidentialité de GitHub</a> s’applique à ces requêtes.", "Sur macOS, une fois par jour, Metronom cherche une nouvelle version sur GitHub. Cette vérification n’envoie aucune donnée personnelle, seulement la requête que ferait n’importe quel navigateur pour télécharger un fichier."]
+    - ["Enfants", "Metronom convient à tous les âges et ne collecte de données sur personne, enfants compris."]
+    - ["Modifications", "Si cette politique change, la nouvelle version sera publiée sur cette page avec une nouvelle date."]
+    - ["Contact", "Les questions sur la confidentialité sont les bienvenues dans une <a href=\"https://github.com/rask-project/metronom/issues\">issue sur GitHub</a>."]

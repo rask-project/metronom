@@ -23,11 +23,21 @@ A cross-platform metronome for desktop (Linux, Windows, macOS) and Android, buil
 <p align="center">
   <img src="docs/screenshots/android-main-light.png" alt="Android: main screen, light theme" width="220" />
   <img src="docs/screenshots/android-main-dark.png" alt="Android: main screen, dark theme" width="220" />
-  <img src="docs/screenshots/android-settings-dark.png" alt="Android: settings, dark theme" width="220" />
+  <img src="docs/images/android-playing.gif" alt="Android: playing in eighth notes" width="220" />
 </p>
 
+On a short screen the metronome sits beside the play button and the beat bar; in landscape the controls move to the right.
+
 <p align="center">
-  <img src="docs/screenshots/android-landscape-light.png" alt="Android: landscape, playing" width="680" />
+  <img src="docs/screenshots/android-compact-light.png" alt="Android: compact layout on a short screen, playing" width="220" />
+  <img src="docs/screenshots/android-landscape-light.png" alt="Android: landscape, playing" width="520" />
+</p>
+
+The metronome keeps playing in the background. Its notification shows the tempo, the time signature and, as its icon, the note value, with Stop and Resume; tapping it returns to the app.
+
+<p align="center">
+  <img src="docs/screenshots/android-notification-playing.png" alt="Android: notification while playing, with Stop" width="340" />
+  <img src="docs/screenshots/android-notification-paused.png" alt="Android: notification while paused, with Resume" width="340" />
 </p>
 
 <p align="center"><sub>More, including the time signature dialog, in <a href="docs/screenshots">docs/screenshots</a>.</sub></p>
@@ -40,6 +50,7 @@ A cross-platform metronome for desktop (Linux, Windows, macOS) and Android, buil
 - Audio output device selection
 - Automatic BPM increment at a configurable interval
 - Screen-lock inhibition while running
+- Android: keeps playing in the background, with a notification (tempo, time signature, note value icon, Stop/Resume)
 - Light / dark / system theme
 - Adaptive layout for portrait and landscape
 - Translations: English (source), Brazilian Portuguese, Spanish, French and Italian

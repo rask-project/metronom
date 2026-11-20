@@ -6,7 +6,7 @@ on every push to `main` that touches it.
 
 - Every page exists in the app's languages: English at the root and `pt-br/`, `es/`, `fr/`, `it/`
   (`_data/languages.yml`). Each page file (`index.html`, `features.html`, `guide.html` — How to use —,
-  `download.html`, `news.html`) is only front matter (`lang`, `ref`, `permalink`, the translated `title` and
+  `download.html`, `news.html`, `privacy.html` — the privacy policy linked from the Play Store and the footer —) is only front matter (`lang`, `ref`, `permalink`, the translated `title` and
   `description`) and includes its markup from `_includes/pages/`, shared by all languages.
 - The text is in `_data/i18n/<lang>.yml`, one file per language with the same keys; note names and
   settings follow the app's `translations/*.ts`. `%quarter%`, `%play%`, `%base%`… in a string are replaced
@@ -33,6 +33,9 @@ desktop, 40 points of wallpaper around it, so the blur shows. Record at 2× and
 convert a GIF to 460 px wide at 20 fps with one palette for the whole clip
 (`palettegen=stats_mode=full`, `paletteuse=dither=bayer`): that keeps the
 wallpaper from flickering and each GIF under 2 MB.
+
+The `android-*` ones are captures from a phone or the emulator, without the status and navigation
+bars (so no other app's notification shows) and with the app in English.
 
 ## Preview
 

@@ -1,0 +1,18 @@
+{%- include i18n.html -%}
+{%- assign p = t.privacy -%}
+<article class="page container container-narrow">
+  <header class="page-header">
+    <p class="eyebrow">{{ p.eyebrow }}</p>
+    <h1>{{ p.title }}</h1>
+    <p class="lead">{{ p.lead }}</p>
+    <p class="button-note">{{ p.updated }}</p>
+  </header>
+  <div class="prose glass-card post-body">
+    {%- for section in p.sections %}
+    <h2>{{ section[0] }}</h2>
+    {%- for paragraph in section offset: 1 %}
+    <p>{% include tr.html s=paragraph %}</p>
+    {%- endfor %}
+    {%- endfor %}
+  </div>
+</article>
